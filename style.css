@@ -1,3 +1,6 @@
+/* ==================================================
+   1. PANGKALAHATANG AYOS
+================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -5,69 +8,67 @@
     font-family: 'Roboto', sans-serif;
 }
 
-:root {
-    --netflix-red: #E50914;
-    --netflix-dark: #141414;
-    --netflix-light: #808080;
-    --text-white: #ffffff;
-    --card-hover: #222222;
-}
-
 body {
-    background-color: var(--netflix-dark);
-    color: var(--text-white);
-    min-height: 100vh;
+    background-color: #111;
+    color: #eee;
+    line-height: 1.6;
 }
 
-/* ==================== NAVBAR ==================== */
+/* ==================================================
+   2. NAVBAR
+================================================== */
 .navbar {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 50px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-    z-index: 100;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 999;
     transition: background 0.3s ease;
 }
 
 .navbar.scrolled {
-    background: var(--netflix-dark);
+    background-color: #000;
 }
 
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 30px;
 }
 
 .logo {
-    color: var(--netflix-red);
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
+    color: #e50914;
     letter-spacing: 1px;
 }
 
 .logo span {
-    color: var(--text-white);
+    color: #fff;
 }
 
 .nav-links {
-    display: flex;
     list-style: none;
-    gap: 25px;
+    display: flex;
+    gap: 20px;
 }
 
 .nav-item {
     cursor: pointer;
     font-weight: 400;
+    color: #ccc;
     transition: color 0.2s ease;
 }
 
-.nav-item:hover, .nav-item.active {
-    color: var(--netflix-red);
+.nav-item:hover,
+.nav-item.active {
+    color: #fff;
+    font-weight: 500;
 }
 
 .nav-right {
@@ -77,92 +78,87 @@ body {
 }
 
 .users-online {
-    color: #fff;
-    font-size: 0.9rem;
-    white-space: nowrap;
+    font-size: 14px;
+    color: #ccc;
 }
 
 .nav-btn {
-    padding: 6px 12px;
+    padding: 6px 14px;
     border: none;
-    border-radius: 4px;
-    background: var(--netflix-red);
-    color: white;
+    border-radius: 2px;
+    background-color: #e50914;
+    color: #fff;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 14px;
     transition: background 0.2s ease;
 }
 
 .nav-btn:hover {
-    background: #f40612;
+    background-color: #f40612;
 }
 
 .user-name {
-    color: #fff;
-    font-weight: bold;
-    white-space: nowrap;
+    font-size: 14px;
+    color: #46d369;
+    font-weight: 500;
 }
 
-.lang-select {
-    background: rgba(0,0,0,0.5);
-    color: var(--text-white);
-    border: 1px solid var(--netflix-light);
-    padding: 6px 12px;
-    border-radius: 4px;
+#langSelect {
+    padding: 5px 8px;
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 2px;
     cursor: pointer;
 }
 
+/* SEARCH BOX */
 .search-box {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .search-box input {
-    background: rgba(0,0,0,0.5);
-    border: 1px solid var(--netflix-light);
-    color: var(--text-white);
-    padding: 8px 35px 8px 12px;
-    border-radius: 4px;
+    padding: 6px 28px 6px 10px;
+    background-color: rgba(0,0,0,0.6);
+    border: 1px solid #444;
+    border-radius: 2px;
+    color: #fff;
     width: 220px;
-    font-size: 14px;
 }
 
 .search-box i {
     position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--netflix-light);
+    right: 8px;
+    color: #999;
 }
 
-/* ==================== HERO SECTION ==================== */
+/* ==================================================
+   3. HERO BANNER
+================================================== */
 .hero {
-    margin-top: 70px;
-    height: 60vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                url('https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    padding: 0 50px;
+    margin-top: 50px;
+    padding: 120px 40px;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Sword_Art_Online_light_novel_vol_1.jpg/1280px-Sword_Art_Online_light_novel_vol_1.jpg") center/cover no-repeat;
 }
 
 .hero-content h2 {
-    font-size: 55px;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    font-size: 42px;
+    margin-bottom: 12px;
+    color: #fff;
 }
 
 .hero-content p {
-    font-size: 20px;
-    max-width: 650px;
-    line-height: 1.5;
-    color: #e0e0e0;
+    font-size: 18px;
+    color: #ccc;
 }
 
-/* ==================== CONTENT & CARDS ==================== */
+/* ==================================================
+   4. CONTENT & CARDS
+================================================== */
 .container {
-    padding: 40px 50px;
+    padding: 30px 40px;
 }
 
 .section {
@@ -170,43 +166,45 @@ body {
 }
 
 .section-header h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #e5e5e5;
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #fff;
 }
 
 .card-row {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 18px;
 }
 
 .anime-card {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    border-radius: 6px;
+    background-color: #1a1a1a;
+    border-radius: 4px;
     overflow: hidden;
-    background-color: var(--card-hover);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
 }
 
 .anime-card:hover {
-    transform: scale(1.08);
-    z-index: 2;
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(229,9,20,0.4);
 }
 
 .anime-card img {
     width: 100%;
-    height: 270px;
+    height: 220px;
     object-fit: cover;
+    background-color: #222;
 }
 
 .card-info {
-    padding: 12px;
+    padding: 10px;
 }
 
 .card-info h3 {
-    font-size: 15px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -214,10 +212,26 @@ body {
 
 .card-info p {
     font-size: 12px;
-    color: var(--netflix-light);
+    color: #aaa;
+    margin-bottom: 6px;
 }
 
-/* ==================== MAIN INFO MODAL ==================== */
+.card-rating {
+    font-size: 12px;
+    color: #ffd700;
+}
+
+.star {
+    color: #333;
+}
+
+.star.active {
+    color: #ffd700;
+}
+
+/* ==================================================
+   5. MODALS (Sign In / Sign Up / Info)
+================================================== */
 .modal {
     display: none;
     position: fixed;
@@ -225,222 +239,172 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.9);
-    z-index: 200;
+    background-color: rgba(0,0,0,0.85);
+    z-index: 9999;
     overflow-y: auto;
 }
 
 .modal.active {
-    display: block;
-}
-
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    font-size: 40px;
-    cursor: pointer;
-    color: var(--text-white);
-    transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-    color: var(--netflix-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
-    max-width: 900px;
-    margin: 50px auto;
     background-color: #181818;
-    border-radius: 8px;
-    overflow: hidden;
+    border-radius: 6px;
+    width: 90%;
+    max-width: 700px;
+    padding: 25px;
+    position: relative;
+    margin: 20px auto;
+}
+
+.close-btn,
+.close-sign,
+.close-su {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover,
+.close-sign:hover,
+.close-su:hover {
+    color: #fff;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    background-color: #333;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 15px;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 10px;
+    background-color: #e50914;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.modal-content button:hover {
+    background-color: #f40612;
+}
+
+.modal-content p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.modal-content a {
+    color: #0099ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}
+
+/* INFO MODAL LAYOUT */
+#infoModal .modal-content {
+    max-width: 900px;
     display: flex;
-    flex-wrap: wrap;
+    gap: 25px;
+    align-items: flex-start;
 }
 
 .modal-left {
-    flex: 1 1 400px;
+    flex: 1 1 40%;
 }
 
 .modal-left img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     min-height: 400px;
+    object-fit: cover;
+    background-color: #222;
+    border-radius: 4px;
 }
 
 .modal-right {
-    flex: 1 1 400px;
-    padding: 30px;
-}
-
-.modal-right h2 {
-    font-size: 35px;
-    margin-bottom: 15px;
+    flex: 1 1 60%;
 }
 
 .meta {
-    color: var(--netflix-light);
-    margin-bottom: 20px;
-    font-size: 15px;
-}
-
-.modal-right p {
-    line-height: 1.7;
-    margin-bottom: 30px;
-    color: #cccccc;
-}
-
-.download-btn {
-    background-color: var(--netflix-red);
-    color: var(--text-white);
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
-
-.download-btn:hover {
-    background-color: #f40612;
-}
-
-.rating-area {
-    margin: 15px 0;
-}
-
-.star {
-    font-size: 22px;
-    color: #444;
-    cursor: pointer;
-    margin-right: 3px;
-    transition: color 0.2s;
-}
-
-.star.active {
-    color: #ffc107;
-}
-
-.vote-star {
-    font-size: 24px;
-    color: #555;
-    cursor: pointer;
-    margin: 0 2px;
-    transition: color 0.2s;
-}
-
-.vote-star:hover, .vote-star:hover ~ .vote-star {
-    color: #ffc107;
-}
-
-/* ==================== SIGN IN / SIGN UP MODAL ==================== */
-#signinModal, #signupModal {
-    z-index: 3000;
-}
-
-#signinModal .modal-content,
-#signupModal .modal-content {
-    background-color: #181818;
-    color: white;
-    margin-top: 80px;
-}
-
-#signinModal h2,
-#signupModal h2 {
-    color: var(--text-white);
+    font-size: 14px;
+    color: #aaa;
     margin-bottom: 15px;
 }
 
-#signinModal input,
-#signupModal input {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid #444;
-    color: white;
+.rating-area {
+    margin-bottom: 15px;
+    color: #ffd700;
 }
 
-#signinModal input::placeholder,
-#signupModal input::placeholder {
-    color: #999;
+#modalDesc {
+    margin-bottom: 15px;
+    color: #ddd;
+    line-height: 1.7;
 }
 
-#signinModal button,
-#signupModal button {
-    background-color: var(--netflix-red);
+.vote-area {
+    margin: 12px 0 20px;
 }
 
-#signinModal button:hover,
-#signupModal button:hover {
-    background-color: #f40612;
-}
-
-#signinModal p,
-#signupModal p {
-    margin-top: 15px;
-    text-align: center;
-    color: #ccc;
-}
-
-#signinModal a,
-#signupModal a {
-    color: var(--netflix-red);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.close-sign, .close-su {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 28px;
+.vote-star {
+    font-size: 22px;
+    color: #444;
     cursor: pointer;
-    color: #999;
-    transition: color 0.2s;
+    margin-right: 5px;
+    transition: color 0.2s ease;
 }
 
-.close-sign:hover, .close-su:hover {
-    color: var(--netflix-red);
+.vote-star:hover {
+    color: #ffd700;
 }
 
-/* ==================== RESPONSIVE DESIGN ==================== */
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    margin-right: 12px;
+    margin-bottom: 10px;
+}
+
+/* ==================================================
+   6. PARA SA MOBILE / MALIIT NA SCREEN
+================================================== */
 @media (max-width: 768px) {
-    .navbar {
-        padding: 15px 20px;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    .nav-links {
-        display: none;
-    }
-    .search-box input {
-        width: 150px;
-    }
-    .hero-content h2 {
-        font-size: 35px;
-    }
-    .container {
-        padding: 20px;
-    }
-    .card-row {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 15px;
-    }
-    .modal-left, .modal-right {
-        flex: 1 1 100%;
-    }
-    .close-btn {
-        right: 20px;
-    }
-    .nav-right {
-        gap: 8px;
-    }
-    .users-online {
-        display: none;
-    }
+    .nav-left { gap: 15px; }
+    .nav-links { display: none; }
+    .search-box input { width: 150px; }
+    .hero { padding: 80px 20px; }
+    .hero-content h2 { font-size: 28px; }
+    .container { padding: 20px; }
+    .card-row { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    #infoModal .modal-content { flex-direction: column; }
+    .modal-left img { min-height: 300px; }
 }
