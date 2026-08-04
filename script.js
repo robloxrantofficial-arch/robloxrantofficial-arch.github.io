@@ -60,12 +60,10 @@ const langText = {
     }
 };
 
-// TAMA NA ANG EMAIL VALIDATION
 function isValidEmail(email) {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 }
 
-// ABISO SA BAGONG UPLOAD
 function notifyAllUsersNewUpload(title, linkEn, linkTl) {
     console.log(`📢 BAGONG UPLOAD: ${title}\nEnglish: ${linkEn}\nTagalog: ${linkTl}`);
     alert(`✅ Naka-record na ang paalala!\nKapag naka-server na, awtomatiko itong ipapadala sa lahat ng rehistradong email.`);
@@ -118,7 +116,6 @@ function openModal(anime) {
     document.getElementById('downloadEn').innerText = langText[currentLang].downloadEn;
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
 
-    // PROTEKSYON SA DOWNLOAD
     document.getElementById('downloadEn').onclick = () => {
         if(!currentUser) return alert("🔒 Kailangan mag-Sign In muna!");
         window.open(anime.linkEn, '_blank');
@@ -128,7 +125,6 @@ function openModal(anime) {
         window.open(anime.linkTl, '_blank');
     };
 
-    // PROTEKSYON SA BOTO
     document.querySelectorAll('.vote-star').forEach(star => {
         star.onclick = () => {
             if(!currentUser) return alert("🔒 Kailangan mag-Sign In muna!");
@@ -157,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
     const provider = window.firebaseProvider;
 
-    // PAG-DETECT KUNG NAKA-LOGIN NA
     onAuthStateChanged(auth, user => {
         updateLoginUI(user);
     });
