@@ -59,14 +59,27 @@ const langText = {
     }
 };
 
-// SISTEMA NG NOTIPIKASYON SA BAGONG UPLOAD
-function notifyAllUsersNewUpload(animeName) {
+// ==================================================
+// ✅ TAMA NA ANG PAGSUSURI NG EMAIL
+// ==================================================
+function isValidEmail(email) {
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return pattern.test(email);
+}
+
+// ==================================================
+// ✅ SISTEMA NG ABISO SA BAGONG UPLOAD (KASAMA ANG LINK)
+// ==================================================
+function notifyAllUsersNewUpload(animeTitle, downloadLinkEn, downloadLinkTl) {
     const allUsers = JSON.parse(localStorage.getItem('animeUsers')) || [];
     if(allUsers.length === 0) return;
+
     const emailList = allUsers.map(u => u.email).join(', ');
-    console.log(`📧 MGA MAKAKATANGGAP: ${emailList}`);
-    console.log(`📌 BAGONG UPLOAD: "${animeName}"`);
-    alert(`✅ NAI-REKORD ANG PAALALA!\n\nKapag naka-server na ang site, awtomatiko na itong magpapadala sa:\n${emailList}\nTungkol sa: ${animeName}`);
+    const message = `📢 MAY BAGONG UPLOAD!\n\nPamagat: ${animeTitle}\nEnglish: ${downloadLinkEn}\nTagalog: ${downloadLinkTl}\n\nMakakatanggap ka nito sa iyong email kapag naka-server na ang website.`;
+    
+    console.log("📧 Mga tatanggap:", emailList);
+    console.log("📌 Mensahe:", message);
+    alert(message);
 }
 
 function updateLanguage() {
@@ -122,7 +135,8 @@ function openModal(anime) {
 
     // PROTEKSYON SA DOWNLOAD
     document.getElementById('downloadEn').onclick = () => {
-        if(!JSON.parse(localStorage.getItem('activeUser'))) {
+        const activeUser = JSON.parse(localStorage.getItem('activeUser'));
+        if(!activeUser) {
             alert("🔒 Kailangan mag-Sign In muna para makapag-download!");
             im.classList.remove('active'); document.body.style.overflow='auto';
             document.getElementById('signinModal').style.display='block'; return;
@@ -130,7 +144,8 @@ function openModal(anime) {
         window.open(anime.linkEn, '_blank');
     };
     document.getElementById('downloadTl').onclick = () => {
-        if(!JSON.parse(localStorage.getItem('activeUser'))) {
+        const activeUser = JSON.parse(localStorage.getItem('activeUser'));
+        if(!activeUser) {
             alert("🔒 Kailangan mag-Sign In muna para makapag-download!");
             im.classList.remove('active'); document.body.style.overflow='auto';
             document.getElementById('signinModal').style.display='block'; return;
@@ -141,7 +156,8 @@ function openModal(anime) {
     // PROTEKSYON SA BOTO
     document.querySelectorAll('.vote-star').forEach(star => {
         star.onclick = () => {
-            if(!JSON.parse(localStorage.getItem('activeUser'))) {
+            const activeUser = JSON.parse(localStorage.getItem('activeUser'));
+            if(!activeUser) {
                 alert("🔒 Kailangan mag-Sign In muna para makapag-boto!");
                 im.classList.remove('active'); document.body.style.overflow='auto';
                 document.getElementById('signinModal').style.display='block'; return;
@@ -163,7 +179,7 @@ function updateLoginUI() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.navbar').onscroll = () => document.querySelector('.navbar').classList.toggle('scrolled', scrollY>50);
+    window.addEventListener('scroll', () => document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY>50));
     document.getElementById('langSelect').onchange = e => { currentLang=e.target.value; updateLanguage(); renderCards(); };
     document.getElementById('searchInput').oninput = e => {
         const kw = e.target.value.toLowerCase().trim();
@@ -190,35 +206,60 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
-    // SIGN UP
+    // ==================================================
+    // ✅ SIGN UP - MAY TAMA NA ANG EMAIL CHECK
+    // ==================================================
     document.getElementById('doSignUp').onclick = () => {
         const us = document.getElementById('suUser').value.trim();
         const em = document.getElementById('suEmail').value.trim();
         const pw = document.getElementById('suPass').value;
         const cp = document.getElementById('suConfirmPass').value;
+
         if(!us||!em||!pw||!cp) return alert('⚠️ Punan lahat ng patlang!');
-        if(pw!==cp) return alert('❌ Hindi tugma ang password!');
-        if(allUsers.find(x=>x.username===us)) return alert('❌ May gumagamit na ng username!');
-        if(allUsers.find(x=>x.email===em)) return alert('❌ May gumagamit na ng email!');
+        if(!isValidEmail(em)) return alert('❌ Ilagay ang TAMA at TOTOONG format ng Email Address!\nHalimbawa: pangalan@example.com');
+        if(pw!==cp) return alert('❌ Hindi tugma ang Password at Confirm Password!');
+        if(allUsers.find(x=>x.username===us)) return alert('❌ May gumagamit na ng Username na ito!');
+        if(allUsers.find(x=>x.email===em)) return alert('❌ May gumagamit na ng Email na ito!');
+
         allUsers.push({username:us,email:em,password:pw});
         localStorage.setItem('animeUsers',JSON.stringify(allUsers));
-        alert(`✅ Naka-rehistro na, ${us}!\nMakakatanggap ka ng abiso sa email kapag may bagong upload (kapag naka-server na).`);
-        document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='block';
+        alert(`✅ Matagumpay na nakarehistro, ${us}!\nMakakatanggap ka ng abiso sa iyong email kapag may bagong upload.`);
+        document.getElementById('signupModal').style.display='none';
+        document.getElementById('signinModal').style.display='block';
     };
 
-    // SIGN IN
+    // ==================================================
+    // ✅ SIGN IN - AGAD DIDIRETSO SA HOMEPAGE AT MAKAKA-DOWNLOAD NA
+    // ==================================================
     document.getElementById('doSignIn').onclick = () => {
         const us = document.getElementById('siUser').value.trim();
         const pw = document.getElementById('siPass').value;
-        const f = allUsers.find(x=>(x.username===us||x.email===us)&&x.password===pw);
-        if(!f) return alert('❌ Maling username o password!');
+        const f = allUsers.find(x=>(x.username===us || x.email===us) && x.password===pw);
+
+        if(!f) return alert('❌ Maling Username, Email, o Password!');
+
         localStorage.setItem('activeUser',JSON.stringify(f));
-        updateLoginUI(); document.getElementById('signinModal').style.display='none';
-        alert(`✅ Kumusta, ${f.username}!`);
+        updateLoginUI();
+        document.getElementById('signinModal').style.display='none';
+        alert(`✅ Maligayang pagbabalik, ${f.username}!\nMaaari ka nang mag-download ng mga ebook.`);
+        window.scrollTo({top:0, behavior:'smooth'});
     };
+
+    // ==================================================
+    // ✅ SOCIAL BUTTONS - PAALALA LANG (KAILANGAN NG SERVER PARA GUMANA NG TOTOO)
+    // ==================================================
+    document.querySelectorAll('.auth-btn').forEach(btn => {
+        btn.onclick = () => alert("ℹ️ Ang Sign in gamit ang Google/Facebook/Apple ay kailangan ng server at opisyal na API keys para gumana nang buo.\n\nSa ngayon, gamitin muna ang Email at Password sa ibaba.");
+    });
 
     document.getElementById('logoutBtn').onclick = () => { localStorage.removeItem('activeUser'); updateLoginUI(); alert('👋 Naka-logout na.'); };
 
     updateLanguage(); updateLoginUI(); renderCards();
-    console.log("✅ LAHAT AY TAPOS NA!");
+    console.log("✅ LAHAT NG PAGBABAGO AY NAILAGAY NA!");
 });
+
+// ==================================================
+// ✅ PAANO GAMITIN ANG ABISO SA BAGONG UPLOAD?
+// ==================================================
+// Kapag nagdagdag ka ng bagong anime sa listahan, tawagin ito:
+// notifyAllUsersNewUpload("Pangalan ng Anime", "Link ng English", "Link ng Tagalog");
