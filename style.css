@@ -1,277 +1,295 @@
+/* ==== PANGKALAHATANG AYOS ==== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Tahoma, Geneva, Verdana, sans-serif;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Roboto', sans-serif;
 }
 
 :root {
-    --bg-main: #0a0a0a;
-    --bg-card: #181818;
-    --bg-modal: #121212;
-    --accent: #ff4757;
-    --accent-soft: rgba(255, 71, 87, 0.15);
-    --text-main: #ffffff;
-    --text-soft: #b0b0b0;
-    --success: #2ed573;
-    --warning: #ffa502;
-    --border: #2a2a2a;
+    --netflix-red: #E50914;
+    --netflix-dark: #141414;
+    --netflix-light: #e5e5e5;
+    --netflix-gray: #808080;
 }
 
 body {
-    background-color: var(--bg-main);
-    color: var(--text-main);
+    background-color: var(--netflix-dark);
+    color: white;
     line-height: 1.6;
-    overflow-x: hidden;
-    padding-top: 56px;
 }
 
-/* ===================== NAVIGATION ===================== */
-header {
+/* ==== NAVIGATION BAR ==== */
+.navbar {
     position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
-    background: rgba(10, 10, 10, 0.95);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 4%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 9999;
+    padding: 15px 40px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
+    z-index: 100;
+    transition: background 0.3s ease;
+}
+
+.navbar:hover {
+    background: rgba(20,20,20,0.9);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
 }
 
 .logo {
-    font-size: 1.3rem;
+    color: var(--netflix-red);
+    font-size: 28px;
     font-weight: 800;
-    color: var(--accent);
-    text-decoration: none;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
-nav {
+.logo span {
+    color: white;
+}
+
+.nav-links {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    list-style: none;
+    gap: 25px;
 }
 
-nav a {
-    color: var(--text-soft);
-    text-decoration: none;
-    padding: 6px 10px;
+.nav-item {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    transition: color 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--netflix-light);
     font-weight: 500;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-    border-radius: 4px;
-    position: relative;
-    z-index: 10;
-    pointer-events: auto;
-}
-
-nav a:hover, 
-nav a.active {
-    color: var(--accent);
-    background-color: var(--accent-soft);
 }
 
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 20px;
 }
 
-.online-count {
-    font-size: 0.85rem;
-    color: var(--success);
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.users-online {
+    font-size: 13px;
+    color: var(--netflix-light);
 }
 
-.online-count::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: var(--success);
-    border-radius: 50%;
-    animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-
-.btn {
-    padding: 8px 18px;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    display: inline-block;
+.search-box {
     position: relative;
-    z-index: 10;
-    pointer-events: auto;
 }
 
-.btn-primary {
-    background: var(--accent);
+.search-box input {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid white;
     color: white;
+    padding: 6px 10px 6px 35px;
+    border-radius: 2px;
+    font-size: 14px;
+    width: 220px;
 }
 
-.btn-primary:hover {
-    background: #ff6b81;
-    transform: translateY(-1px);
+.search-box i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--netflix-gray);
 }
 
-.btn-secondary {
-    background: transparent;
+.nav-btn {
+    background: var(--netflix-red);
     color: white;
-    border: 1px solid var(--accent);
-}
-
-.btn-secondary:hover {
-    background: var(--accent-soft);
-}
-
-.btn-success {
-    background: var(--success);
-    color: white;
-}
-
-.btn-success:hover {
-    background: #27ae60;
-}
-
-.lang-select {
-    background: var(--bg-card);
-    color: white;
-    border: 1px solid var(--border);
-    padding: 6px 10px;
-    border-radius: 4px;
+    border: none;
+    padding: 7px 17px;
+    border-radius: 3px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 0.9rem;
+    transition: background 0.2s ease;
 }
 
-/* ===================== HERO SECTION ===================== */
+.nav-btn:hover {
+    background: #f40612;
+}
+
+.user-name {
+    font-size: 14px;
+    color: var(--netflix-light);
+}
+
+#langSelect {
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: 1px solid var(--netflix-gray);
+    padding: 5px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* ==== HERO SECTION ==== */
 .hero {
-    min-height: 85vh;
-    padding: 60px 4%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
     background-size: cover;
     background-position: center center;
-    background-repeat: no-repeat;
-    transition: background-image 0.5s ease-in-out;
     position: relative;
-    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+    margin-top: -70px;
+    padding-top: 70px;
 }
 
-.hero h1 {
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+}
+
+.hero-title {
     font-size: 3.2rem;
-    max-width: 700px;
-    margin-bottom: 12px;
-    line-height: 1.2;
     font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.2;
 }
 
-.hero p {
-    font-size: 1.1rem;
-    color: var(--text-soft);
-    max-width: 550px;
-    margin-bottom: 30px;
+.hero-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+    color: var(--netflix-light);
 }
 
 .hero-buttons {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
 }
 
-/* ===================== CATEGORY SECTIONS ===================== */
-.section {
-    padding: 50px 4%;
+.hero-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.play-btn {
+    background: white;
+    color: black;
+}
+
+.play-btn:hover {
+    background: rgba(255,255,255,0.75);
+}
+
+.info-btn {
+    background: rgba(109,109,110,0.7);
+    color: white;
+}
+
+.info-btn:hover {
+    background: rgba(109,109,110,0.4);
+}
+
+/* ==== MGA SEKSYON NG KARD ==== */
+.container {
+    max-width: 100%;
+    padding: 40px 60px;
+    margin-top: -120px;
     position: relative;
-    z-index: 1;
+    z-index: 3;
 }
 
-.section-title {
-    font-size: 1.5rem;
-    margin-bottom: 25px;
-    color: var(--text-main);
+.section {
+    margin-bottom: 50px;
+}
+
+.section-header h2 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    color: var(--netflix-light);
+}
+
+.card-row {
     display: flex;
-    align-items: center;
     gap: 8px;
-    font-weight: 600;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    scrollbar-width: none;
 }
 
-.anime-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    width: 100%;
+.card-row::-webkit-scrollbar {
+    display: none;
 }
 
 .anime-card {
-    background: var(--bg-card);
-    border-radius: 6px;
+    min-width: 180px;
+    border-radius: 4px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    transition: all 0.25s ease;
     cursor: pointer;
+    transition: transform 0.3s ease, z-index 0.1s ease;
     position: relative;
-    z-index: 10;
-    pointer-events: auto;
-}
-
-.anime-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
-    box-shadow: 0 8px 20px rgba(255, 71, 87, 0.15);
 }
 
 .anime-card img {
     width: 100%;
-    height: 260px;
+    height: 270px;
     object-fit: cover;
-    background: #111;
     display: block;
 }
 
 .card-info {
-    padding: 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    padding: 35px 10px 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.anime-card:hover {
+    transform: scale(1.08);
+    z-index: 10;
+}
+
+.anime-card:hover .card-info {
+    opacity: 1;
 }
 
 .card-info h3 {
-    font-size: 0.95rem;
-    margin-bottom: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
 .card-info p {
-    font-size: 0.8rem;
-    color: var(--text-soft);
-    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--netflix-gray);
+    margin-bottom: 5px;
 }
 
 .card-rating {
-    font-size: 0.8rem;
-    color: var(--warning);
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-size: 12px;
+    color: #ffc107;
 }
 
 .star {
@@ -279,256 +297,209 @@ nav a.active {
 }
 
 .star.active {
-    color: var(--warning);
+    color: #ffc107;
 }
 
-/* ===================== MODAL — INAYOS ANG HARANG ===================== */
+/* ==== MODAL / DETALYE NG LIBRO ==== */
 .modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9998;
-    padding: 20px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: all 0.25s ease;
+    background: rgba(0,0,0,0.8);
+    z-index: 999;
+    overflow-y: auto;
 }
 
 .modal.active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
-    background: var(--bg-modal);
+    background: var(--netflix-dark);
+    width: 90%;
+    max-width: 800px;
     border-radius: 8px;
-    width: 100%;
-    max-width: 750px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border: 1px solid var(--border);
     position: relative;
+    overflow: hidden;
+    margin: 40px auto;
 }
 
 .close-btn {
     position: absolute;
-    top: 12px;
-    right: 15px;
-    font-size: 1.5rem;
-    color: var(--text-soft);
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: white;
     cursor: pointer;
-    transition: color 0.2s ease;
-    z-index: 20;
-    pointer-events: auto;
-    background: none;
-    border: none;
-    line-height: 1;
+    z-index: 10;
 }
 
-.close-btn:hover {
-    color: var(--accent);
-}
-
-.modal-body {
-    display: flex;
-    gap: 25px;
-    padding: 30px;
-}
-
-.modal-img {
-    width: 220px;
-    height: auto;
+.modal-left img {
+    width: 100%;
+    height: 350px;
     object-fit: cover;
-    border-radius: 4px;
-    flex-shrink: 0;
 }
 
-.modal-text h2 {
-    margin-bottom: 8px;
-    color: var(--accent);
-    font-weight: 700;
+.modal-right {
+    padding: 25px 30px;
 }
 
-.modal-meta {
-    font-size: 0.9rem;
-    color: var(--text-soft);
+.modal-right h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.meta {
+    color: var(--netflix-gray);
+    font-size: 14px;
     margin-bottom: 15px;
 }
 
-.modal-desc {
-    color: var(--text-soft);
+.rating-area {
     margin-bottom: 20px;
+    color: #ffc107;
+}
+
+.modal-right p {
+    color: var(--netflix-light);
+    margin-bottom: 15px;
     line-height: 1.7;
 }
 
-.modal-rating {
+.vote-area {
     margin-bottom: 20px;
-    color: var(--warning);
-}
-
-.vote-stars {
-    margin: 12px 0;
-    display: flex;
-    gap: 6px;
 }
 
 .vote-star {
-    font-size: 1.6rem;
+    font-size: 22px;
+    margin: 0 3px;
     cursor: pointer;
-    color: #444;
-    transition: color 0.15s ease;
-    pointer-events: auto;
+    transition: color 0.2s ease;
 }
 
-.vote-star:hover {
-    color: var(--warning);
-}
-
-.modal-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-}
-
-/* ===================== LOGIN / SIGNUP MODAL ===================== */
-.auth-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9997;
-    padding: 20px;
-}
-
-.auth-modal.active {
-    display: flex;
-}
-
-.auth-content {
-    background: var(--bg-modal);
-    padding: 30px;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 420px;
-    border: 1px solid var(--border);
-    position: relative;
-}
-
-.auth-content h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--accent);
-    font-weight: 700;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    position: relative;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-    color: var(--text-soft);
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px 35px 10px 12px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 4px;
+.download-btn {
+    background: var(--netflix-red);
     color: white;
-    font-size: 0.95rem;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--accent);
-}
-
-.eye-btn {
-    position: absolute;
-    right: 10px;
-    top: 32px;
-    background: none;
     border: none;
-    color: var(--text-soft);
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 3px;
+    font-size: 14px;
     cursor: pointer;
-    font-size: 1rem;
-    pointer-events: auto;
+    transition: background 0.2s ease;
 }
 
-.auth-divider {
-    text-align: center;
-    margin: 15px 0;
-    color: var(--text-soft);
-    font-size: 0.85rem;
+.download-btn:hover {
+    background: #f40612;
 }
 
-.auth-error {
-    color: var(--accent);
-    font-size: 0.85rem;
-    margin: 8px 0;
-    display: none;
+/* ==== LOGIN / SIGNUP MODAL ==== */
+.auth-modal {
+    max-width: 450px;
+    padding: 40px;
 }
 
-.auth-switch {
-    text-align: center;
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: var(--text-soft);
+.auth-modal h2 {
+    margin-bottom: 25px;
+    font-size: 1.8rem;
 }
 
-.auth-switch a {
-    color: var(--accent);
-    text-decoration: none;
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 3px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.google-btn {
+    background: white;
+    color: black;
     font-weight: 500;
 }
 
-.user-display {
-    color: var(--success);
-    font-size: 0.85rem;
+.divider-text {
+    text-align: center;
+    margin: 20px 0;
+    color: var(--netflix-gray);
 }
 
-/* ===================== RESPONSIVE ===================== */
+.auth-modal input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #333;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 15px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--netflix-red);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.switch-text {
+    margin-top: 20px;
+    color: var(--netflix-gray);
+    font-size: 14px;
+}
+
+.switch-text a {
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: var(--netflix-red);
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.close-sign, .close-su {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: white;
+    cursor: pointer;
+}
+
+/* ==== PARA SA MGA MOBILE ==== */
 @media (max-width: 768px) {
-    .hero h1 { 
-        font-size: 2rem; 
+    .navbar {
+        padding: 15px 20px;
     }
-    .modal-body { 
-        flex-direction: column; 
-        align-items: center; 
-        text-align: center; 
+    .nav-links {
+        display: none;
     }
-    .modal-img { 
-        width: 180px; 
+    .hero-title {
+        font-size: 2rem;
     }
-    .anime-grid { 
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-        gap: 16px;
+    .container {
+        padding: 20px 15px;
     }
-    nav a { 
-        margin: 0 4px; 
-        font-size: 0.85rem; 
-        padding: 5px 8px;
+    .card-row {
+        gap: 5px;
     }
-    header {
-        padding: 10px 3%;
+    .anime-card {
+        min-width: 140px;
     }
 }
