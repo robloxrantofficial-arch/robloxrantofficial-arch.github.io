@@ -433,7 +433,8 @@ nav {
     .nav-links { gap: 12px; font-size: 14px; }
     .nav-right { gap: 8px; }
     .search-box input { width: 150px; }
-    .users-online { display: none; }
+    /* ✅ FIXED: Show online count on mobile, smaller size */
+    .users-online { display: inline-block; font-size: 11px; }
 
     .hero { padding: 25px 15px; min-height: 45vh; margin-top: 50px; }
     .hero-title { font-size: 28px; }
@@ -458,6 +459,8 @@ nav {
     .search-box input { width: 120px; }
     .nav-btn { padding: 6px 12px; font-size: 13px; }
     #langSelect { padding: 5px 8px; font-size: 12px; }
+    /* ✅ Still visible on very small screens */
+    .users-online { font-size: 10px; }
     .anime-card { min-width: 120px; max-width: 120px; }
     .anime-card img { height: 170px; }
 }
