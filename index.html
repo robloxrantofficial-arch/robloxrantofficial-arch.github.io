@@ -43,25 +43,28 @@
             <h1 class="hero-title">Your Favorite Anime Light Novels & Ebooks</h1>
             <p class="hero-subtitle">Download thousands of anime light novels and ebooks for free</p>
             <div class="hero-buttons">
-                <button class="hero-btn play-btn" onclick="document.querySelector('.container').scrollIntoView({behavior:'smooth'})">📖 Browse Now</button>
+                <button class="hero-btn play-btn" onclick="document.querySelector('.main-wrapper').scrollIntoView({behavior:'smooth'})">📖 Browse Now</button>
                 <button id="learnMoreBtn" class="hero-btn info-btn">ℹ️ Learn More</button>
             </div>
         </div>
     </section>
 
-    <div class="container">
-        <section class="section">
-            <div class="section-header"><h2 id="trendingTitle">🔥 Trending Now</h2></div>
-            <div class="card-row" id="trendingRow"></div>
-        </section>
-        <section class="section">
-            <div class="section-header"><h2 id="newTitle">✨ New Released</h2></div>
-            <div class="card-row" id="newRow"></div>
-        </section>
-        <section class="section">
-            <div class="section-header"><h2 id="allTitle">📚 All Anime Ebooks</h2></div>
-            <div class="card-row" id="allRow"></div>
-        </section>
+    <!-- ✅ DAGDAG: MAIN WRAPPER — PANTAY NA ANG GILID -->
+    <div class="main-wrapper">
+        <div class="container">
+            <section class="section">
+                <div class="section-header"><h2 id="trendingTitle">🔥 Trending Now</h2></div>
+                <div class="card-row" id="trendingRow"></div>
+            </section>
+            <section class="section">
+                <div class="section-header"><h2 id="newTitle">✨ New Released</h2></div>
+                <div class="card-row" id="newRow"></div>
+            </section>
+            <section class="section">
+                <div class="section-header"><h2 id="allTitle">📚 All Anime Ebooks</h2></div>
+                <div class="card-row" id="allRow"></div>
+            </section>
+        </div>
     </div>
 
     <div id="infoModal" class="modal">
@@ -135,10 +138,10 @@
         </div>
     </div>
 
-    <!-- FIREBASE CONFIG -->
+    <!-- FIREBASE CONFIG — DAGDAG ANG sendPasswordResetEmail -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
@@ -156,7 +159,7 @@
 
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
-        window.firebaseMethods = { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut };
+        window.firebaseMethods = { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail };
     </script>
 
     <script src="script.js"></script>
