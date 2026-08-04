@@ -42,14 +42,107 @@ body { background-color: #111; color: #eee; line-height: 1.6; }
 .modal-content { background: #181818; border-radius: 6px; width: 90%; max-width: 700px; padding: 25px; position: relative; margin: 20px auto; }
 .close-btn, .close-sign, .close-su { position: absolute; top: 15px; right: 20px; font-size: 28px; color: #aaa; cursor: pointer; transition: color 0.2s; }
 .close-btn:hover, .close-sign:hover, .close-su:hover { color: #fff; }
-.modal-content h2 { margin-bottom: 20px; }
-.modal-content label { display: block; margin-bottom: 4px; font-size: 14px; color: #ccc; }
 .modal-content input { width: 100%; padding: 10px; margin-bottom: 12px; background: #333; border: none; border-radius: 3px; color: #fff; font-size: 15px; }
-.modal-content button { width: 100%; padding: 10px; background: #e50914; border: none; border-radius: 3px; color: #fff; font-weight: 500; font-size: 15px; cursor: pointer; transition: background 0.2s; }
-.modal-content button:hover { background: #f40612; }
-.modal-content p { margin-top: 12px; font-size: 14px; color: #ccc; }
 .modal-content a { color: #0099ff; text-decoration: none; font-weight: 500; }
 .modal-content a:hover { text-decoration: underline; }
+
+/* BAGONG ANYO NG SIGN IN / SIGN UP */
+.auth-modal {
+    max-width: 420px;
+    padding: 35px 30px;
+    background-color: rgba(0,0,0,0.9);
+    border: 1px solid #333;
+}
+.auth-modal h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #fff;
+    font-weight: 600;
+}
+.auth-btn {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+.auth-btn:hover { opacity: 0.9; }
+.google-btn { background: #fff; color: #333; }
+.fb-btn { background: #1877f2; color: #fff; }
+.apple-btn { background: #000; color: #fff; border: 1px solid #444; }
+.auth-icon { font-weight: bold; font-size: 16px; }
+.divider-text {
+    text-align: center;
+    margin: 18px 0;
+    color: #777;
+    font-size: 13px;
+    position: relative;
+}
+.divider-text::before, .divider-text::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: #444;
+}
+.divider-text::before { left: 0; }
+.divider-text::after { right: 0; }
+.pass-wrapper {
+    position: relative;
+    margin-bottom: 12px;
+}
+.pass-wrapper input {
+    width: 100%;
+    padding-right: 35px;
+    margin-bottom: 0;
+}
+.eye-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 16px;
+}
+.submit-btn {
+    width: 100%;
+    padding: 11px;
+    background-color: #e50914;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: background 0.2s;
+}
+.submit-btn:hover { background-color: #f40612; }
+.forgot-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+}
+.forgot-link a { color: #aaa; }
+.forgot-link a:hover { text-decoration: underline; }
+.switch-text {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+    color: #999;
+}
+.switch-text a { color: #fff; font-weight: 500; }
+.switch-text a:hover { text-decoration: underline; }
 
 #infoModal .modal-content { max-width: 900px; display: flex; gap: 25px; align-items: flex-start; }
 .modal-left { flex: 1 1 40%; }
@@ -68,4 +161,5 @@ body { background-color: #111; color: #eee; line-height: 1.6; }
     .hero { padding: 80px 20px; } .hero-content h2 { font-size: 28px; }
     .container { padding: 20px; } .card-row { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
     #infoModal .modal-content { flex-direction: column; } .modal-left img { min-height: 300px; }
+    .auth-modal { max-width: 95%; padding: 25px 20px; }
 }
