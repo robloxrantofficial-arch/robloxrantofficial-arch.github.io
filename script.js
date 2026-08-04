@@ -670,3 +670,4 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
     });
 
 });
+});
