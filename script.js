@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
 
-    // ✅ FIX: SIGN IN & SIGN UP BUTTONS — NAKAKABIT NA NGAYON
+    // ✅ SIGN IN & SIGN UP BUTTONS — SIGURADONG GAGANA
     document.getElementById('signinBtn').onclick = () => {
         document.getElementById('signinModal').style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
-    // Sign In ↔ Sign Up
+    // Sign In ↔ Sign Up Switch
     document.getElementById('goSignup').onclick = () => {
         document.getElementById('signinModal').style.display = 'none';
         document.getElementById('signupModal').style.display = 'block';
@@ -466,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('signinModal').style.display = 'block';
     };
 
-    // Learn More — Modal style
+    // Learn More Button
     document.getElementById('learnMoreBtn').onclick = () => {
         document.getElementById('infoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -526,7 +526,7 @@ Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — wala
         document.body.style.overflow='auto';
     };
 
-    // Logout
+    // Logout Button
     document.getElementById('logoutBtn').onclick = () => {
         signOut(auth).then(() => {
             updateLoginUI(null);
