@@ -250,11 +250,91 @@ const animeData = [
 ];
 
 // ==================================================
-// MULA RITO: ANG BUONG SCRIPT (NA AYOS NA)
+// 1. MGA PANGUNAHING VARIABLE
 // ==================================================
 let currentLang = 'en';
 let selectedAnime = null;
 
+// ==================================================
+// 2. BAGONG DAGDAG: SIGN IN / SIGN UP / USERS ONLINE
+// ==================================================
+const signinModal = document.getElementById('signinModal');
+const signupModal = document.getElementById('signupModal');
+const signinBtn = document.getElementById('signinBtn');
+const signupBtn = document.getElementById('signupBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+const userDisplay = document.getElementById('userDisplay');
+const onlineCountEl = document.getElementById('onlineCount');
+
+let allUsers = JSON.parse(localStorage.getItem('animeUsers')) || [];
+let activeUser = JSON.parse(localStorage.getItem('activeUser')) || null;
+let onlineUsers = 1;
+
+function updateOnlineCount() {
+    onlineCountEl.textContent = onlineUsers;
+}
+
+signinBtn.onclick = () => signinModal.style.display = 'block';
+signupBtn.onclick = () => signupModal.style.display = 'block';
+document.querySelector('.close-sign').onclick = () => signinModal.style.display = 'none';
+document.querySelector('.close-su').onclick = () => signupModal.style.display = 'none';
+document.getElementById('goSignup').onclick = () => { signinModal.style.display='none'; signupModal.style.display='block'; };
+document.getElementById('goSignin').onclick = () => { signupModal.style.display='none'; signinModal.style.display='block'; };
+
+document.getElementById('doSignUp').onclick = () => {
+    const u = document.getElementById('suUser').value.trim();
+    const p = document.getElementById('suPass').value;
+    if(!u || !p) return alert('Punan ang lahat!');
+    if(allUsers.find(x=>x.username===u)) return alert('Ginagamit na ang username!');
+    allUsers.push({username:u, password:p});
+    localStorage.setItem('animeUsers', JSON.stringify(allUsers));
+    alert('Matagumpay na nakarehistro! Mag-Sign In na.');
+    signupModal.style.display='none';
+    signinModal.style.display='block';
+    document.getElementById('suUser').value='';
+    document.getElementById('suPass').value='';
+};
+
+document.getElementById('doSignIn').onclick = () => {
+    const u = document.getElementById('siUser').value.trim();
+    const p = document.getElementById('siPass').value;
+    const found = allUsers.find(x=>x.username===u && x.password===p);
+    if(!found) return alert('Maling username o password!');
+    activeUser = found;
+    localStorage.setItem('activeUser', JSON.stringify(activeUser));
+    updateLoginUI();
+    signinModal.style.display='none';
+    alert(`Maligayang pagbabalik, ${u}!`);
+};
+
+logoutBtn.onclick = () => {
+    activeUser = null;
+    localStorage.removeItem('activeUser');
+    updateLoginUI();
+    alert('Naka-logout na.');
+};
+
+function updateLoginUI() {
+    if(activeUser) {
+        signinBtn.style.display='none';
+        signupBtn.style.display='none';
+        logoutBtn.style.display='inline-block';
+        userDisplay.style.display='inline-block';
+        userDisplay.textContent = `👤 ${activeUser.username}`;
+        onlineUsers = 2;
+    } else {
+        signinBtn.style.display='inline-block';
+        signupBtn.style.display='inline-block';
+        logoutBtn.style.display='none';
+        userDisplay.style.display='none';
+        onlineUsers = 1;
+    }
+    updateOnlineCount();
+}
+
+// ==================================================
+// 3. WIKA AT IBA PANG SETTINGS
+// ==================================================
 const langText = {
     en: {
         heroTitle:"Your Favorite Anime Light Novels & Ebooks",
@@ -288,17 +368,9 @@ const searchInput = document.getElementById('searchInput');
 const infoModal = document.getElementById('infoModal');
 const closeBtn = document.querySelector('.close-btn');
 
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-langSelect.addEventListener('change', e => {
-    currentLang = e.target.value;
-    updateLanguage();
-    renderCards();
-    if(selectedAnime) openModal(selectedAnime);
-});
-
+// ==================================================
+// 4. MGA TULONG NA FUNCTION
+// ==================================================
 function updateLanguage() {
     document.getElementById('heroTitle').innerText = langText[currentLang].heroTitle;
     document.getElementById('heroDesc').innerText = langText[currentLang].heroDesc;
@@ -382,6 +454,20 @@ function openModal(anime) {
     document.body.style.overflow = 'hidden';
 }
 
+// ==================================================
+// 5. MGA EVENT LISTENER
+// ==================================================
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+langSelect.addEventListener('change', e => {
+    currentLang = e.target.value;
+    updateLanguage();
+    renderCards();
+    if(selectedAnime) openModal(selectedAnime);
+});
+
 closeBtn.addEventListener('click', () => {
     infoModal.classList.remove('active');
     document.body.style.overflow='auto';
@@ -402,9 +488,12 @@ searchInput.addEventListener('input', e => {
 });
 
 // ==================================================
-// HULING BAHAGI: SIGURADONG HINDI MAGKAKAMALI
+// 6. HULING SIMULA (ISA LANG NA LANG!)
 // ==================================================
 document.addEventListener('DOMContentLoaded', () => {
+    updateLoginUI();
+    updateOnlineCount();
+    
     if (typeof animeData !== 'undefined' && animeData.length > 0) {
         updateLanguage();
         renderCards();
