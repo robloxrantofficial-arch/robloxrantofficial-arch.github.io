@@ -12,7 +12,7 @@ body {
     line-height: 1.6;
 }
 
-/* ===== NAVIGATION BAR ===== */
+/* ===== NAVIGATION BAR — PANTAY NA ANG PADDING ===== */
 nav {
     display: flex;
     align-items: center;
@@ -21,6 +21,7 @@ nav {
     background-color: rgba(0, 0, 0, 0.9);
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     z-index: 99999;
 }
@@ -117,7 +118,7 @@ nav {
 .users-online { font-size: 14px; color: #aaa; }
 .user-name { color: #aaa; font-size: 14px; }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO SECTION — PANTAY NA ANG GILID ===== */
 .hero {
     margin-top: 55px;
     min-height: 50vh;
@@ -128,6 +129,8 @@ nav {
     background-size: cover;
     background-position: center;
     position: relative;
+    left: 0;
+    width: 100%;
 }
 .hero-overlay {
     position: absolute;
@@ -153,8 +156,8 @@ nav {
 .info-btn { background-color: #333; color: white; }
 .info-btn:hover { background-color: #444; }
 
-.container { max-width: 1400px; margin: 0 auto; }
-.section { padding: 30px; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 30px; }
+.section { padding: 30px 0; }
 .section-header { margin-bottom: 15px; }
 .section-header h2 { font-size: 22px; color: #fff; }
 
@@ -204,7 +207,6 @@ nav {
     background-color: rgba(0,0,0,0.85);
     z-index: 999999;
     overflow-y: auto;
-    /* ✅ PARA NASA GITNA */
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -264,7 +266,6 @@ nav {
     height: 100%;
     background-color: rgba(0,0,0,0.85);
     z-index: 999999;
-    /* ✅ SIGURADONG NASA GITNA */
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -377,25 +378,34 @@ nav {
     text-align: center;
 }
 
+/* ===== INAYOS: NACLICK NA ANG FORGOT PASSWORD ===== */
 .forgot-link, .switch-text {
     text-align: center;
     font-size: 14px;
     color: #aaa;
     margin-top: 8px;
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
 .forgot-link a, .switch-text a {
     color: #ff1a1a;
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer !important;
     text-decoration: none;
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
 }
 .forgot-link a:hover, .switch-text a:hover { text-decoration: underline; }
 
-/* ===== SIGURADONG WALANG NAKAHARANG SA MGA BUTTON ===== */
+/* ===== SIGURADONG WALANG NAKAHARANG ===== */
 button,
 .nav-item,
 .anime-card,
 .switch-text a,
+.forgot-link a,
 #langSelect {
     position: relative !important;
     z-index: 99999 !important;
