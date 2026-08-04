@@ -177,7 +177,7 @@ const animeData = [
 ];
 
 // ==============================================
-// 🟢 DITO NA MAGSISIMULA ANG CODE MO — TAMA NA ANG PAGKAKASUNOD
+// 🟢 DITO NA MAGSISIMULA ANG CODE — TAMA NA ANG PAGKAKASUNOD
 // ==============================================
 let currentLang = 'en';
 let selectedAnime = null;
