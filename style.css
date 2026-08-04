@@ -1,4 +1,4 @@
-/* ===== PANGKALAHATANG ===== */
+/* ===== GENERAL ===== */
 * {
     margin: 0;
     padding: 0;
@@ -11,10 +11,10 @@ html, body {
     color: #ffffff;
     line-height: 1.6;
     width: 100%;
-    overflow-x: hidden; /* ✅ SIGURADONG WALANG LUMABAS SA GILID */
+    overflow-x: hidden;
 }
 
-/* ===== NAVIGATION BAR — PANTAY NA ===== */
+/* ===== NAVIGATION BAR ===== */
 nav {
     display: flex;
     align-items: center;
@@ -51,15 +51,11 @@ nav {
 .nav-item:hover, .nav-item.active { color: #ff1a1a; }
 
 .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    display: flex; align-items: center; gap: 15px;
 }
 
 .search-box {
-    position: relative;
-    display: flex;
-    align-items: center;
+    position: relative; display: flex; align-items: center;
 }
 .search-box input {
     padding: 6px 30px 6px 12px;
@@ -70,9 +66,7 @@ nav {
     width: 220px;
 }
 .search-box i {
-    position: absolute;
-    right: 8px;
-    color: #888;
+    position: absolute; right: 8px; color: #888;
 }
 
 /* ===== BUTTONS ===== */
@@ -120,7 +114,7 @@ nav {
 .users-online { font-size: 14px; color: #aaa; }
 .user-name { color: #aaa; font-size: 14px; }
 
-/* ===== HERO SECTION — PANTAY NA ===== */
+/* ===== HERO SECTION ===== */
 .hero {
     margin-top: 55px;
     min-height: 50vh;
@@ -157,10 +151,10 @@ nav {
 .info-btn { background-color: #333; color: white; }
 .info-btn:hover { background-color: #444; }
 
-/* ===== ITO ANG SUSI: LAHAT NG LAMAN NASA PAREHONG PADDING ===== */
+/* ===== MAIN WRAPPER — ALIGN ALL CONTENT ===== */
 .main-wrapper {
     width: 100%;
-    padding: 0 30px; /* ✅ PAREHONG 30px SA LAHAT NG BAHAGI */
+    padding: 0 30px;
 }
 .container { 
     max-width: 100%; 
@@ -168,7 +162,7 @@ nav {
     padding: 0; 
 }
 .section { 
-    padding: 30px 0; /* ✅ TAAS AT BABA LANG, WALANG GILID */
+    padding: 30px 0;
 }
 .section-header { margin-bottom: 15px; }
 .section-header h2 { font-size: 22px; color: #fff; }
@@ -269,7 +263,7 @@ nav {
 .download-btn:hover { background-color: #e60000; }
 
 /* ===== SIGN IN / SIGN UP MODAL ===== */
-#signinModal, #signupModal {
+#signinModal, #signupModal, #forgotPassModal {
     display: none;
     position: fixed;
     top: 0;
@@ -284,7 +278,8 @@ nav {
 }
 
 #signinModal .modal-content.auth-modal,
-#signupModal .modal-content.auth-modal {
+#signupModal .modal-content.auth-modal,
+#forgotPassModal .modal-content.auth-modal {
     background-color: #1a1a1a;
     border-radius: 8px;
     width: 100%;
@@ -410,6 +405,18 @@ nav {
     pointer-events: auto !important;
 }
 .forgot-link a:hover, .switch-text a:hover { text-decoration: underline; }
+
+/* ===== FORGOT PASSWORD MODAL ===== */
+.close-fp {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 26px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.close-fp:hover { color: #fff; }
 
 button,
 .nav-item,
