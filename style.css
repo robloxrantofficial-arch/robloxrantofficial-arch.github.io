@@ -25,7 +25,7 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 99999;
+    z-index: 999999 !important; /* PINATAAS PARA UNANG MAKITA */
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -46,9 +46,10 @@ nav {
     font-weight: 500;
     cursor: pointer !important;
     position: relative !important;
-    z-index: 99999 !important;
+    z-index: 9999999 !important; /* PINAKAMATAAS NA ANTAS */
     pointer-events: auto !important;
     transition: color 0.2s ease;
+    user-select: none;
 }
 .nav-item:hover, .nav-item.active { color: #ff1a1a; }
 
@@ -58,6 +59,7 @@ nav {
 
 .search-box {
     position: relative; display: flex; align-items: center;
+    z-index: 999999 !important;
 }
 .search-box input {
     padding: 6px 30px 6px 12px;
@@ -80,10 +82,11 @@ nav {
     font-weight: 600;
     cursor: pointer !important;
     position: relative !important;
-    z-index: 99999 !important;
+    z-index: 9999999 !important;
     pointer-events: auto !important;
     transition: all 0.2s ease;
     font-size: 14px;
+    user-select: none;
 }
 
 #signinBtn {
@@ -112,7 +115,10 @@ nav {
     background-color: #1a1a1a;
     color: white;
     border: 1px solid #333;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     font-size: 14px;
 }
 
@@ -148,10 +154,14 @@ nav {
     border-radius: 4px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
     transition: background-color 0.2s ease;
     flex: 1 1 auto;
     min-width: 140px;
+    user-select: none;
 }
 .play-btn { background-color: #ff1a1a; color: white; }
 .play-btn:hover { background-color: #e60000; }
@@ -162,6 +172,8 @@ nav {
 .main-wrapper {
     width: 100%;
     padding: 0 30px;
+    position: relative;
+    z-index: 1;
 }
 .container { 
     max-width: 100%; 
@@ -187,9 +199,13 @@ nav {
 .anime-card {
     min-width: 160px;
     max-width: 160px;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 999 !important;
+    pointer-events: auto !important;
     transition: transform 0.2s ease;
     flex-shrink: 0;
+    user-select: none;
 }
 .anime-card:hover { transform: scale(1.05); }
 .anime-card img {
@@ -220,13 +236,13 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.85);
-    z-index: 999999;
+    z-index: 999998 !important; /* MAS MABABA KONTI SA MGA BUTTON */
     overflow-y: auto;
     align-items: center;
     justify-content: center;
     padding: 20px 15px;
 }
-.modal.active { display: flex; }
+.modal.active { display: flex; z-index: 9999999 !important; }
 
 .modal-content {
     background-color: #1a1a1a;
@@ -237,6 +253,7 @@ nav {
     overflow-y: auto;
     padding: 25px;
     position: relative;
+    z-index: 1;
 }
 
 .close-btn {
@@ -245,8 +262,12 @@ nav {
     right: 20px;
     font-size: 28px;
     color: #888;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     transition: color 0.2s ease;
+    user-select: none;
 }
 .close-btn:hover { color: white; }
 
@@ -259,7 +280,17 @@ nav {
 .rating-area { margin-bottom: 12px; color: #ffcc00; }
 .modal-right p { color: #ddd; margin-bottom: 12px; line-height: 1.7; }
 .vote-area { margin-bottom: 18px; }
-.vote-star { font-size: 28px; cursor: pointer; margin-right: 5px; transition: color 0.15s ease; padding: 5px; }
+.vote-star { 
+    font-size: 28px; 
+    cursor: pointer !important; 
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
+    margin-right: 5px; 
+    transition: color 0.15s ease; 
+    padding: 5px; 
+    user-select: none;
+}
 .download-btn {
     padding: 10px 15px;
     border: none;
@@ -267,11 +298,15 @@ nav {
     background-color: #ff1a1a;
     color: white;
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     margin-right: 10px;
     margin-bottom: 8px;
     transition: background-color 0.2s ease;
     font-size: 15px;
+    user-select: none;
 }
 .download-btn:hover { background-color: #e60000; }
 
@@ -284,7 +319,7 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.85);
-    z-index: 999999;
+    z-index: 999998 !important;
     align-items: center;
     justify-content: center;
     padding: 15px;
@@ -312,9 +347,13 @@ nav {
     right: 15px;
     font-size: 28px;
     color: #888;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     transition: color 0.2s;
     padding: 5px;
+    user-select: none;
 }
 .close-sign:hover, .close-su:hover, .close-fp:hover { color: #fff; }
 
@@ -326,13 +365,17 @@ nav {
     border: none;
     border-radius: 4px;
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     transition: background-color 0.2s ease;
     font-size: 15px;
+    user-select: none;
 }
 .google-btn { background-color: #4285f4; color: white; }
 .google-btn:hover { background-color: #3367d6; }
@@ -374,10 +417,14 @@ nav {
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     color: #888;
     font-size: 18px;
     padding: 5px;
+    user-select: none;
 }
 
 .submit-btn {
@@ -389,9 +436,13 @@ nav {
     color: white;
     font-weight: 600;
     font-size: 16px;
-    cursor: pointer;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
     transition: background-color 0.2s ease;
     margin-top: 5px;
+    user-select: none;
 }
 .submit-btn:hover { background-color: #e60000; }
 
@@ -409,19 +460,15 @@ nav {
     font-size: 14px;
     color: #aaa;
     margin-top: 8px;
-    position: relative !important;
-    z-index: 999999 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
 }
 .forgot-link a, .switch-text a {
     color: #ff1a1a;
     font-weight: 600;
     cursor: pointer !important;
-    text-decoration: none;
     position: relative !important;
-    z-index: 999999 !important;
+    z-index: 9999999 !important;
     pointer-events: auto !important;
+    text-decoration: none;
 }
 .forgot-link a:hover, .switch-text a:hover { text-decoration: underline; }
 
@@ -433,7 +480,6 @@ nav {
     .nav-links { gap: 12px; font-size: 14px; }
     .nav-right { gap: 8px; }
     .search-box input { width: 150px; }
-    /* ✅ FIXED: Show online count on mobile, smaller size */
     .users-online { display: inline-block; font-size: 11px; }
 
     .hero { padding: 25px 15px; min-height: 45vh; margin-top: 50px; }
@@ -459,20 +505,34 @@ nav {
     .search-box input { width: 120px; }
     .nav-btn { padding: 6px 12px; font-size: 13px; }
     #langSelect { padding: 5px 8px; font-size: 12px; }
-    /* ✅ Still visible on very small screens */
     .users-online { font-size: 10px; }
     .anime-card { min-width: 120px; max-width: 120px; }
     .anime-card img { height: 170px; }
 }
 
+/* ===== PINAKA-HULING SIGURADO: LAHAT NG PWEDENG PINDUTIN ===== */
 button,
 .nav-item,
 .anime-card,
 .switch-text a,
 .forgot-link a,
-#langSelect {
+#langSelect,
+.close-btn,
+.close-sign,
+.close-su,
+.close-fp,
+.vote-star,
+.download-btn,
+.auth-btn,
+.submit-btn,
+.eye-btn,
+#goSignin,
+#goSignup,
+#forgotPassLink,
+#backToSignin {
     position: relative !important;
-    z-index: 99999 !important;
+    z-index: 9999999 !important;
     pointer-events: auto !important;
     cursor: pointer !important;
+    user-select: none;
 }
