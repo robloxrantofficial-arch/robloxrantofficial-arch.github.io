@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Firebase setup
     const auth = window.firebaseAuth;
-    const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
+    const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } = window.firebaseMethods;
     const provider = window.firebaseProvider;
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
@@ -442,10 +442,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => showError("Invalid email or password!"));
     };
 
-    // ✅ FORGOT PASSWORD LINK — NAKAKABIT NA
-    document.getElementById('forgotPassLink').onclick = (e) => {
+    // ✅ TOTOONG GUMAGANANG FORGOT PASSWORD
+    document.getElementById('forgotPassLink').onclick = async (e) => {
         e.preventDefault();
-        alert("Paumanhin, ang pag-reset ng password ay hindi pa aktibo. Gumamit muna ng ibang account o mag-sign up.");
+        const userEmail = prompt("Ipasok ang email na ginamit mo sa pag-sign up:");
+        if (!userEmail) return;
+
+        if (!isValidEmail(userEmail)) {
+            return alert("❌ Mali ang format ng email address!");
+        }
+
+        try {
+            await sendPasswordResetEmail(auth, userEmail);
+            alert(`✅ Matagumpay na naipadala ang link sa:\n${userEmail}\n\nTingnan mo ang iyong inbox o Spam folder.`);
+        } catch (err) {
+            console.error(err);
+            switch(err.code) {
+                case 'auth/user-not-found':
+                    alert("❌ Walang nakarehistrong account sa email na ito.");
+                    break;
+                case 'auth/invalid-email':
+                    alert("❌ Hindi wasto ang email address.");
+                    break;
+                default:
+                    alert(`❌ May naganap na mali: ${err.message}`);
+            }
+        }
     };
 
     // Navigation (Home / Trending / New Released / All Anime)
