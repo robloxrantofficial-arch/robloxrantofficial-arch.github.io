@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
 
-    // ✅ NASA GITNA NA ANG MODAL
+    // Open Sign In / Sign Up
     document.getElementById('signinBtn').onclick = () => {
         document.getElementById('signinModal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -442,30 +442,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => showError("Invalid email or password!"));
     };
 
-    // ✅ TOTOONG GUMAGANANG FORGOT PASSWORD
-    document.getElementById('forgotPassLink').onclick = async (e) => {
+    // ✅ CLEAN FORGOT PASSWORD MODAL — NO MORE POPUP
+    document.getElementById('forgotPassLink').onclick = (e) => {
         e.preventDefault();
-        const userEmail = prompt("Ipasok ang email na ginamit mo sa pag-sign up:");
-        if (!userEmail) return;
+        document.getElementById('signinModal').style.display = 'none';
+        document.getElementById('forgotPassModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
 
-        if (!isValidEmail(userEmail)) {
-            return alert("❌ Mali ang format ng email address!");
+    // Close Forgot Password modal
+    document.querySelector('.close-fp').onclick = () => {
+        document.getElementById('forgotPassModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    };
+
+    // Back to Sign In link
+    document.getElementById('backToSignin').onclick = (e) => {
+        e.preventDefault();
+        document.getElementById('forgotPassModal').style.display = 'none';
+        document.getElementById('signinModal').style.display = 'flex';
+    };
+
+    // Send reset email
+    document.getElementById('doSendReset').onclick = async () => {
+        const email = document.getElementById('fpEmail').value.trim();
+        const errBox = document.getElementById('fpError');
+
+        if (!email) {
+            errBox.style.display = 'block';
+            errBox.textContent = "Please enter your email address.";
+            return;
+        }
+        if (!isValidEmail(email)) {
+            errBox.style.display = 'block';
+            errBox.textContent = "Please enter a valid email address.";
+            return;
         }
 
         try {
-            await sendPasswordResetEmail(auth, userEmail);
-            alert(`✅ Matagumpay na naipadala ang link sa:\n${userEmail}\n\nTingnan mo ang iyong inbox o Spam folder.`);
+            await sendPasswordResetEmail(auth, email);
+            alert(`✅ Reset link sent to:\n${email}\n\nCheck your inbox or Spam folder.`);
+            document.getElementById('fpEmail').value = '';
+            document.getElementById('forgotPassModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
         } catch (err) {
-            console.error(err);
+            errBox.style.display = 'block';
             switch(err.code) {
                 case 'auth/user-not-found':
-                    alert("❌ Walang nakarehistrong account sa email na ito.");
+                    errBox.textContent = "No account found with this email.";
                     break;
                 case 'auth/invalid-email':
-                    alert("❌ Hindi wasto ang email address.");
+                    errBox.textContent = "Invalid email address.";
                     break;
                 default:
-                    alert(`❌ May naganap na mali: ${err.message}`);
+                    errBox.textContent = err.message;
             }
         }
     };
@@ -499,17 +529,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('infoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
         document.getElementById('modalImg').src = 'https://images3.alphacoders.com/130/thumb-1920-1302159.jpg';
-        document.getElementById('modalTitle').innerText = 'Tungkol sa Anime Ebooks Hub';
+        document.getElementById('modalTitle').innerText = 'About Anime Ebooks Hub';
         document.getElementById('modalYear').innerText = '';
         document.getElementById('modalType').innerText = '';
         document.getElementById('modalLang').innerText = '';
-        document.getElementById('modalDesc').innerText = `✅ Libre mag-download ng lahat ng nobela at ebook
-✅ May Tagalog at English na bersyon
-✅ Maaaring magbigay ng marka at magboto
-✅ Ligtas, mabilis, at madaling gamitin
-✅ Palaging may bagong dagdag na kwento
+        document.getElementById('modalDesc').innerText = `✅ Download all light novels and ebooks for free
+✅ Available in English and Tagalog
+✅ You can rate and vote for your favorites
+✅ Safe, fast, and easy to use
+✅ New titles added regularly
 
-Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — walang bayad, walang abala!`;
+Everything is made for anime and story lovers — completely free, no hassle!`;
         document.getElementById('modalRatingStars').innerHTML = '';
         document.getElementById('modalRatingPercent').innerText = '';
         document.getElementById('modalVotes').innerText = '';
@@ -541,6 +571,10 @@ Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — wala
         }
         if(e.target === document.getElementById('signupModal')) {
             document.getElementById('signupModal').style.display = 'none';
+            document.body.style.overflow='auto';
+        }
+        if(e.target === document.getElementById('forgotPassModal')) {
+            document.getElementById('forgotPassModal').style.display = 'none';
             document.body.style.overflow='auto';
         }
     };
