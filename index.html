@@ -45,12 +45,13 @@
                 <span class="auth-icon">G</span> Sign in with Google
             </button>
             <div class="divider-text">or</div>
-            <input type="text" id="siUser" placeholder="Email o Username" required>
+            <input type="text" id="siUser" placeholder="Email Address" required>
             <div class="pass-wrapper">
                 <input type="password" id="siPass" placeholder="Password" required>
                 <span class="eye-btn">👁</span>
             </div>
             <button id="doSignIn" class="submit-btn">Sign In</button>
+            <div id="siError" class="error-msg" style="display:none;"></div>
             <p class="forgot-link"><a id="forgotPassLink">Forgot password?</a></p>
             <p class="switch-text">New to AnimeBooks? <a id="goSignup">Sign up now</a></p>
         </div>
@@ -75,6 +76,7 @@
                 <span class="eye-btn">👁</span>
             </div>
             <button id="doSignUp" class="submit-btn">Sign Up</button>
+            <div id="suError" class="error-msg" style="display:none;"></div>
             <p class="switch-text">Already have an account? <a id="goSignin">Sign in</a></p>
         </div>
     </div>
@@ -127,21 +129,21 @@
         </div>
     </div>
 
-    <!-- TAMANG FIREBASE CONFIG -->
+    <!-- TAMANG FIREBASE CONFIG - GAMITIN ANG IBINIGAY NG FIREBASE MO -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
-  authDomain: "nime-ebooks-hub.firebaseapp.com",
-  projectId: "nime-ebooks-hub",
-  storageBucket: "nime-ebooks-hub.firebasestorage.app",
-  messagingSenderId: "1012318695931",
-  appId: "1:1012318695931:web:e6d2c4a0094cdb57e51b5e",
-  measurementId: "G-24D3NDFMW3"
-};
+        // KOPYAHIN MO DITO ANG EKSACTONG CONFIG MULA SA FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
+            authDomain: "nime-ebooks-hub.firebaseapp.com",
+            projectId: "nime-ebooks-hub",
+            storageBucket: "nime-ebooks-hub.firebasestorage.app",
+            messagingSenderId: "1012318695931",
+            appId: "1:1012318695931:web:e6d2c4a0094cdb57e51b5e",
+            measurementId: "G-24D3NDFMW3"
+        };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
