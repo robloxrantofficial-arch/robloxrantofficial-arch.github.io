@@ -255,7 +255,7 @@ function openModal(anime) {
     document.getElementById('downloadEn').innerText = langText[currentLang].downloadEn;
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
 
-    // ✅ UPDATED: DOWNLOAD BUTTONS — WORKS IN MESSENGER / ALL APPS
+    // ✅ DOWNLOAD BUTTONS — WORKS IN MESSENGER / ALL BROWSERS
     document.getElementById('downloadEn').onclick = (e) => {
         e.preventDefault();
         if(!currentUser) {
@@ -352,21 +352,38 @@ function showError(message) {
     setTimeout(() => { if(suErr) suErr.style.display = 'none'; if(siErr) siErr.style.display = 'none'; }, 5000);
 }
 
-// RANDOM ONLINE USERS SYSTEM
-let baseOnline = parseInt(localStorage.getItem('baseOnlineUsers') || 0);
+// ==================================
+// ✅ FIXED: ONLINE USERS — WORKS ON MOBILE + MESSENGER
+// ==================================
+let baseOnline = 0;
+
+// Safe localStorage helpers — Messenger blocks it sometimes
+function getSavedBase() {
+    try { const v = localStorage.getItem('baseOnlineUsers'); return v ? parseInt(v) : 0; } catch { return 0; }
+}
+function getSavedTime() {
+    try { const v = localStorage.getItem('lastOnlineUpdate'); return v ? parseInt(v) : 0; } catch { return 0; }
+}
+function saveBase(v) { try { localStorage.setItem('baseOnlineUsers', v); } catch {} }
+function saveTime(v) { try { localStorage.setItem('lastOnlineUpdate', v); } catch {} }
+
 function getNewRandomOnline() { return Math.floor(Math.random() * 501) + 300; }
 
 function updateOnlineCount() {
-    const lastUpdate = parseInt(localStorage.getItem('lastOnlineUpdate') || 0);
+    const lastUpdate = getSavedTime();
     const now = Date.now();
     const tenMinutes = 10 * 60 * 1000;
+
     if (!baseOnline || (now - lastUpdate) > tenMinutes) {
         baseOnline = getNewRandomOnline();
-        localStorage.setItem('baseOnlineUsers', baseOnline);
-        localStorage.setItem('lastOnlineUpdate', now);
+        saveBase(baseOnline);
+        saveTime(now);
     }
+
     const total = currentUser ? baseOnline + 1 : baseOnline;
-    document.getElementById('onlineCount').innerText = total;
+    const el = document.getElementById('onlineCount');
+    if (el) el.innerText = total;
+    else setTimeout(updateOnlineCount, 100); // retry if element not ready
 }
 
 const originalUpdateUI = updateLoginUI;
@@ -391,8 +408,10 @@ function setRandomHeroBackground() {
 document.addEventListener('DOMContentLoaded', () => {
     loadSavedStats();
     setRandomHeroBackground();
-    updateOnlineCount();
     renderCards();
+    
+    // ✅ DELAYED START — ensures element exists first
+    setTimeout(updateOnlineCount, 250);
     setInterval(updateOnlineCount, 600000);
 
     // Firebase setup
@@ -458,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => showError("Invalid email or password!"));
     };
 
-    // ✅ CLEAN FORGOT PASSWORD MODAL — NO MORE POPUP
+    // ✅ FORGOT PASSWORD MODAL
     document.getElementById('forgotPassLink').onclick = (e) => {
         e.preventDefault();
         document.getElementById('signinModal').style.display = 'none';
@@ -466,26 +485,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     };
 
-    // Close Forgot Password modal
     document.querySelector('.close-fp').onclick = () => {
         document.getElementById('forgotPassModal').style.display = 'none';
         document.body.style.overflow = 'auto';
     };
 
-    // Back to Sign In link
     document.getElementById('backToSignin').onclick = (e) => {
         e.preventDefault();
         document.getElementById('forgotPassModal').style.display = 'none';
         document.getElementById('signinModal').style.display = 'flex';
     };
 
-    // Send reset email
     document.getElementById('doSendReset').onclick = async () => {
         const email = document.getElementById('fpEmail').value.trim();
         const errBox = document.getElementById('fpError');
 
         if (!email) {
-            errBox.style.display = 'block';
+            errBox.style.display = 'block;
             errBox.textContent = "Please enter your email address.";
             return;
         }
@@ -516,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Navigation (Home / Trending / New Released / All Anime)
+    // Navigation
     document.querySelectorAll('.nav-item').forEach(item => {
         item.onclick = () => {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -618,9 +634,7 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         renderCards();
     };
 
-    // ==================================
-    // ✅ FIXED: SEARCH BAR FUNCTIONALITY
-    // ==================================
+    // ✅ SEARCH BAR — FULLY WORKING
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
         
