@@ -386,11 +386,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
 
+    // ✅ FIX: SIGN IN & SIGN UP BUTTONS — NAKAKABIT NA NGAYON
+    document.getElementById('signinBtn').onclick = () => {
+        document.getElementById('signinModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    };
+    document.getElementById('signupBtn').onclick = () => {
+        document.getElementById('signupModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    };
+
     // Google Sign In
     document.getElementById('googleSignInBtn').onclick = () => {
         signInWithPopup(auth, provider).then(res => { 
             updateLoginUI(res.user); 
             document.getElementById('signinModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
         }).catch(err => showError(err.message));
     };
 
@@ -399,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         signInWithPopup(auth, provider).then(res => { 
             updateLoginUI(res.user); 
             document.getElementById('signupModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
         }).catch(err => showError(err.message));
     };
 
@@ -413,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createUserWithEmailAndPassword(auth, email, pass).then(res => { 
             updateLoginUI(res.user); 
             document.getElementById('signupModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
         }).catch(err => showError(err.message));
     };
 
@@ -425,10 +438,11 @@ document.addEventListener('DOMContentLoaded', () => {
         signInWithEmailAndPassword(auth, email, pass).then(res => { 
             updateLoginUI(res.user); 
             document.getElementById('signinModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
         }).catch(err => showError("Invalid email or password!"));
     };
 
-    // ✅ FIX: Navigation (Home / Trending / New Released / All Anime) — MA-CLICK NA
+    // Navigation (Home / Trending / New Released / All Anime)
     document.querySelectorAll('.nav-item').forEach(item => {
         item.onclick = () => {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -442,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
-    // ✅ FIX: Sign In ↔ Sign Up
+    // Sign In ↔ Sign Up
     document.getElementById('goSignup').onclick = () => {
         document.getElementById('signinModal').style.display = 'none';
         document.getElementById('signupModal').style.display = 'block';
@@ -452,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('signinModal').style.display = 'block';
     };
 
-    // ✅ FIX: Learn More — GINAWANG MODAL HINDI ALERT
+    // Learn More — Modal style
     document.getElementById('learnMoreBtn').onclick = () => {
         document.getElementById('infoModal').classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -476,7 +490,7 @@ Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — wala
         document.querySelector('.vote-area').style.display = 'none';
     };
 
-    // ✅ FIX: Pagsara ng lahat ng Modal
+    // Close Modals
     document.querySelector('.close-btn').onclick = () => { 
         document.getElementById('infoModal').classList.remove('active'); 
         document.body.style.overflow='auto'; 
@@ -493,6 +507,14 @@ Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — wala
             document.getElementById('downloadTl').style.display = 'inline-block';
             document.querySelector('.vote-area').style.display = 'block';
         }
+        if(e.target === document.getElementById('signinModal')) {
+            document.getElementById('signinModal').style.display = 'none';
+            document.body.style.overflow='auto';
+        }
+        if(e.target === document.getElementById('signupModal')) {
+            document.getElementById('signupModal').style.display = 'none';
+            document.body.style.overflow='auto';
+        }
     };
 
     document.querySelector('.close-sign').onclick = () => {
@@ -504,14 +526,14 @@ Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — wala
         document.body.style.overflow='auto';
     };
 
-    // ✅ FIX: Logout Button
+    // Logout
     document.getElementById('logoutBtn').onclick = () => {
         signOut(auth).then(() => {
             updateLoginUI(null);
         }).catch(err => showError(err.message));
     };
 
-    // ✅ FIX: Language Switch
+    // Language Switch
     document.getElementById('langSelect').onchange = e => {
         currentLang = e.target.value;
         updateLanguage();
