@@ -76,7 +76,7 @@ function renderStars(rating) {
     return Array.from({length:5}, (_,i) => `<span class="star ${i < Math.round(rating) ? 'active' : ''}">★</span>`).join('');
 }
 
-// ✅ PAG BUKAS NG PAHINA, I-LOAD ANG NA-SAVE NA BILANG NG BOTO AT RATING
+// I-LOAD ANG NA-SAVE NA BILANG NG BOTO AT RATING PAG BUKAS NG PAHINA
 function loadSavedStats() {
     const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
     animeData.forEach(anime => {
@@ -141,14 +141,13 @@ function openModal(anime) {
         window.open(anime.linkTl, '_blank');
     };
 
-    // --- SISTEMA NG BOTO: ISANG USER = ISANG BOTO LANG + PERMANENT SAVE ---
+    // SISTEMA NG BOTO: ISANG USER = ISANG BOTO LANG + PERMANENT SAVE
     const userId = currentUser ? currentUser.uid : null;
     const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
     const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
     const userVote = userId && savedVotes[userId] ? savedVotes[userId][anime.id] : null;
 
     document.querySelectorAll('.vote-star').forEach((star, idx) => {
-        // Ipakita na ang boto ng user kung meron na
         if(userVote) {
             star.style.pointerEvents = 'none';
             star.style.color = idx < userVote ? '#ffc107' : '#444';
@@ -165,23 +164,19 @@ function openModal(anime) {
                 return;
             }
 
-            // Kung nakaboto na, bawal na
             if(savedVotes[userId] && savedVotes[userId][anime.id]) {
                 showError("You have already voted for this ebook!");
                 return;
             }
 
-            // I-UPDATE ANG BILANG AT MARKA
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes++;
             anime.rating = parseFloat(((anime.rating*(anime.totalVotes-1)+vote)/anime.totalVotes).toFixed(1));
 
-            // I-SAVE ANG BOTO NG USER
             if(!savedVotes[userId]) savedVotes[userId] = {};
             savedVotes[userId][anime.id] = vote;
             localStorage.setItem('userVotes', JSON.stringify(savedVotes));
 
-            // I-SAVE PATI ANG BAGONG BILANG NG BOTO AT RATING
             savedStats[anime.id] = {
                 totalVotes: anime.totalVotes,
                 rating: anime.rating
@@ -205,7 +200,6 @@ function updateLoginUI(user) {
     document.getElementById('userDisplay').innerText = user ? `👤 ${user.email}` : '';
 }
 
-// IPAPAKITA ANG ERROR SA ILALIM NG BUTTON
 function showError(message) {
     const suErr = document.getElementById('suError');
     if(suErr) { suErr.innerText = message; suErr.style.display = 'block'; }
@@ -217,9 +211,40 @@ function showError(message) {
     }, 5000);
 }
 
+// RANDOM ONLINE USERS SYSTEM
+let baseOnline = parseInt(localStorage.getItem('baseOnlineUsers') || 0);
+
+function getNewRandomOnline() {
+    return Math.floor(Math.random() * 501) + 300; // Saklaw: 300 hanggang 800
+}
+
+function updateOnlineCount() {
+    const lastUpdate = parseInt(localStorage.getItem('lastOnlineUpdate') || 0);
+    const now = Date.now();
+    const tenMinutes = 10 * 60 * 1000;
+
+    if (!baseOnline || (now - lastUpdate) > tenMinutes) {
+        baseOnline = getNewRandomOnline();
+        localStorage.setItem('baseOnlineUsers', baseOnline);
+        localStorage.setItem('lastOnlineUpdate', now);
+    }
+
+    const total = currentUser ? baseOnline + 1 : baseOnline;
+    document.getElementById('onlineCount').innerText = total;
+}
+
+// I-UPDATE ANG BILANG KAPAG NAGBAGO ANG LOGIN STATUS
+const originalUpdateUI = updateLoginUI;
+updateLoginUI = function(user) {
+    originalUpdateUI(user);
+    updateOnlineCount();
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    // ✅ I-LOAD AGAD ANG NA-SAVE NA BILANG NG BOTO
     loadSavedStats();
+    updateOnlineCount();
+    // BAWAT 10 MINUTO (palitan ng 60000 para 1 minuto habang nagte-test)
+    setInterval(updateOnlineCount, 600000);
 
     const auth = window.firebaseAuth;
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
@@ -229,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLoginUI(user);
     });
 
-    // GOOGLE SIGN IN
     document.getElementById('googleSignInBtn').onclick = () => {
         signInWithPopup(auth, provider)
             .then(res => {
@@ -239,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => showError(err.message));
     };
 
-    // GOOGLE SIGN UP
     document.getElementById('googleSignUpBtn').onclick = () => {
         signInWithPopup(auth, provider)
             .then(res => {
@@ -249,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => showError(err.message));
     };
 
-    // EMAIL SIGN UP
     document.getElementById('doSignUp').onclick = () => {
         const email = document.getElementById('suEmail').value.trim();
         const pass = document.getElementById('suPass').value;
@@ -267,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => showError(err.message));
     };
 
-    // EMAIL SIGN IN
     document.getElementById('doSignIn').onclick = () => {
         const email = document.getElementById('siUser').value.trim();
         const pass = document.getElementById('siPass').value;
@@ -283,14 +304,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => showError("Invalid email or password!"));
     };
 
-    // LOGOUT
     document.getElementById('logoutBtn').onclick = () => {
         signOut(auth).then(() => {
             updateLoginUI(null);
         });
     };
 
-    // IPakita/Itago Password
     document.querySelectorAll('.eye-btn').forEach(btn => {
         btn.onclick = () => {
             const inp = btn.previousElementSibling;
@@ -299,7 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
-    // MODAL CONTROLS
     document.getElementById('signinBtn').onclick = () => document.getElementById('signinModal').style.display='block';
     document.getElementById('signupBtn').onclick = () => document.getElementById('signupModal').style.display='block';
     document.querySelector('.close-sign').onclick = () => document.getElementById('signinModal').style.display='none';
@@ -309,7 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.close-btn').onclick = () => { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; };
     window.onclick = e => { if(e.target === document.getElementById('infoModal')) { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; }};
 
-    // IBA PANG FUNCTIONS
     document.getElementById('langSelect').onchange = e => { currentLang = e.target.value; updateLanguage(); renderCards(); };
     document.getElementById('searchInput').oninput = e => {
         const kw = e.target.value.toLowerCase().trim();
