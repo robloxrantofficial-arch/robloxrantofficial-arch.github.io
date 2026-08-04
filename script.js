@@ -376,8 +376,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSavedStats();
     setRandomHeroBackground();
     updateOnlineCount();
-    renderCards(); // ✅ Ipinapakita lahat ng kard
-    setInterval(updateOnlineCount, 600000); // Bawat 10 minuto
+    renderCards();
+    setInterval(updateOnlineCount, 600000);
 
     // Firebase setup
     const auth = window.firebaseAuth;
@@ -428,7 +428,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(err => showError("Invalid email or password!"));
     };
 
-    // ✅ DAGDAG DITO — Paglipat ng Sign In ↔ Sign Up
+    // ✅ FIX: Navigation (Home / Trending / New Released / All Anime) — MA-CLICK NA
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.onclick = () => {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            const section = item.dataset.section;
+            if(section === 'home') {
+                window.scrollTo({top:0, behavior:'smooth'});
+            } else {
+                document.getElementById(`${section}Row`).parentElement.scrollIntoView({behavior:'smooth'});
+            }
+        };
+    });
+
+    // ✅ FIX: Sign In ↔ Sign Up
     document.getElementById('goSignup').onclick = () => {
         document.getElementById('signinModal').style.display = 'none';
         document.getElementById('signupModal').style.display = 'block';
@@ -438,21 +452,46 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('signinModal').style.display = 'block';
     };
 
-    // ✅ DAGDAG DITO — Learn More Button
+    // ✅ FIX: Learn More — GINAWANG MODAL HINDI ALERT
     document.getElementById('learnMoreBtn').onclick = () => {
-        alert("Dito mo ilalagay ang detalye tungkol sa Anime Ebooks Hub:\n\n✅ Libre mag-download\n✅ Tagalog at English ang mga kwento\n✅ Maaaring magbigay ng marka at boto\n✅ Ligtas at mabilis gamitin!");
+        document.getElementById('infoModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('modalImg').src = 'https://images3.alphacoders.com/130/thumb-1920-1302159.jpg';
+        document.getElementById('modalTitle').innerText = 'Tungkol sa Anime Ebooks Hub';
+        document.getElementById('modalYear').innerText = '';
+        document.getElementById('modalType').innerText = '';
+        document.getElementById('modalLang').innerText = '';
+        document.getElementById('modalDesc').innerText = `✅ Libre mag-download ng lahat ng nobela at ebook
+✅ May Tagalog at English na bersyon
+✅ Maaaring magbigay ng marka at magboto
+✅ Ligtas, mabilis, at madaling gamitin
+✅ Palaging may bagong dagdag na kwento
+
+Lahat ng ito ay ginawa para sa mga mahilig sa anime at magandang kwento — walang bayad, walang abala!`;
+        document.getElementById('modalRatingStars').innerHTML = '';
+        document.getElementById('modalRatingPercent').innerText = '';
+        document.getElementById('modalVotes').innerText = '';
+        document.getElementById('downloadEn').style.display = 'none';
+        document.getElementById('downloadTl').style.display = 'none';
+        document.querySelector('.vote-area').style.display = 'none';
     };
 
-    // ✅ DAGDAG DITO — Pagsara ng mga Modal
+    // ✅ FIX: Pagsara ng lahat ng Modal
     document.querySelector('.close-btn').onclick = () => { 
         document.getElementById('infoModal').classList.remove('active'); 
         document.body.style.overflow='auto'; 
+        document.getElementById('downloadEn').style.display = 'inline-block';
+        document.getElementById('downloadTl').style.display = 'inline-block';
+        document.querySelector('.vote-area').style.display = 'block';
     };
 
     window.onclick = e => { 
         if(e.target === document.getElementById('infoModal')) { 
             document.getElementById('infoModal').classList.remove('active'); 
-            document.body.style.overflow='auto'; 
+            document.body.style.overflow='auto';
+            document.getElementById('downloadEn').style.display = 'inline-block';
+            document.getElementById('downloadTl').style.display = 'inline-block';
+            document.querySelector('.vote-area').style.display = 'block';
         }
     };
 
@@ -465,4 +504,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow='auto';
     };
 
-}); // ✅ DITO NAGTATAPOS ANG DOMContentLoaded — WALA NG DAGDAG SA LABAS!
+    // ✅ FIX: Logout Button
+    document.getElementById('logoutBtn').onclick = () => {
+        signOut(auth).then(() => {
+            updateLoginUI(null);
+        }).catch(err => showError(err.message));
+    };
+
+    // ✅ FIX: Language Switch
+    document.getElementById('langSelect').onchange = e => {
+        currentLang = e.target.value;
+        updateLanguage();
+        renderCards();
+    };
+
+});
