@@ -399,24 +399,33 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSavedStats();
     setRandomHeroBackground();
     updateOnlineCount();
-    renderCards(); // ✅ DAGDAGAN ITO — ITO ANG MAGPAPAKITA SA LAHAT NG KARD
-    setInterval(updateOnlineCount, 600000); // 10 minutes
+    renderCards(); // ✅ Ipinapakita lahat ng kard
+    setInterval(updateOnlineCount, 600000); // Bawat 10 minuto
 
-    // ... ang natitirang code ay mananatili
+    // Firebase setup
     const auth = window.firebaseAuth;
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
     const provider = window.firebaseProvider;
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
 
+    // Google Sign In
     document.getElementById('googleSignInBtn').onclick = () => {
-        signInWithPopup(auth, provider).then(res => { updateLoginUI(res.user); document.getElementById('signinModal').style.display = 'none'; }).catch(err => showError(err.message));
+        signInWithPopup(auth, provider).then(res => { 
+            updateLoginUI(res.user); 
+            document.getElementById('signinModal').style.display = 'none'; 
+        }).catch(err => showError(err.message));
     };
 
+    // Google Sign Up
     document.getElementById('googleSignUpBtn').onclick = () => {
-        signInWithPopup(auth, provider).then(res => { updateLoginUI(res.user); document.getElementById('signupModal').style.display = 'none'; }).catch(err => showError(err.message));
+        signInWithPopup(auth, provider).then(res => { 
+            updateLoginUI(res.user); 
+            document.getElementById('signupModal').style.display = 'none'; 
+        }).catch(err => showError(err.message));
     };
 
+    // Email Sign Up
     document.getElementById('doSignUp').onclick = () => {
         const email = document.getElementById('suEmail').value.trim();
         const pass = document.getElementById('suPass').value;
@@ -424,17 +433,62 @@ document.addEventListener('DOMContentLoaded', () => {
         if(!email || !pass || !confirm) return showError("Please fill in all fields!");
         if(!isValidEmail(email)) return showError("Please enter a valid email address!");
         if(pass !== confirm) return showError("Passwords do not match!");
-        createUserWithEmailAndPassword(auth, email, pass).then(res => { updateLoginUI(res.user); document.getElementById('signupModal').style.display = 'none'; }).catch(err => showError(err.message));
+        createUserWithEmailAndPassword(auth, email, pass).then(res => { 
+            updateLoginUI(res.user); 
+            document.getElementById('signupModal').style.display = 'none'; 
+        }).catch(err => showError(err.message));
     };
 
+    // Email Sign In
     document.getElementById('doSignIn').onclick = () => {
         const email = document.getElementById('siUser').value.trim();
         const pass = document.getElementById('siPass').value;
         if(!email || !pass) return showError("Please enter your email and password!");
         if(!isValidEmail(email)) return showError("Please enter a valid email address!");
-        signInWithEmailAndPassword(auth, email, pass).then(res => { updateLoginUI(res.user); document.getElementById('signinModal').style.display = 'none'; }).catch(err => showError("Invalid email or password!"));
+        signInWithEmailAndPassword(auth, email, pass).then(res => { 
+            updateLoginUI(res.user); 
+            document.getElementById('signinModal').style.display = 'none'; 
+        }).catch(err => showError("Invalid email or password!"));
     };
 
+    // ✅ DAGDAG DITO — Paglipat ng Sign In ↔ Sign Up
+    document.getElementById('goSignup').onclick = () => {
+        document.getElementById('signinModal').style.display = 'none';
+        document.getElementById('signupModal').style.display = 'block';
+    };
+    document.getElementById('goSignin').onclick = () => {
+        document.getElementById('signupModal').style.display = 'none';
+        document.getElementById('signinModal').style.display = 'block';
+    };
+
+    // ✅ DAGDAG DITO — Learn More Button
+    document.getElementById('learnMoreBtn').onclick = () => {
+        alert("Dito mo ilalagay ang detalye tungkol sa Anime Ebooks Hub:\n\n✅ Libre mag-download\n✅ Tagalog at English ang mga kwento\n✅ Maaaring magbigay ng marka at boto\n✅ Ligtas at mabilis gamitin!");
+    };
+
+    // ✅ DAGDAG DITO — Pagsara ng mga Modal
+    document.querySelector('.close-btn').onclick = () => { 
+        document.getElementById('infoModal').classList.remove('active'); 
+        document.body.style.overflow='auto'; 
+    };
+
+    window.onclick = e => { 
+        if(e.target === document.getElementById('infoModal')) { 
+            document.getElementById('infoModal').classList.remove('active'); 
+            document.body.style.overflow='auto'; 
+        }
+    };
+
+    document.querySelector('.close-sign').onclick = () => {
+        document.getElementById('signinModal').style.display='none';
+        document.body.style.overflow='auto';
+    };
+    document.querySelector('.close-su').onclick = () => {
+        document.getElementById('signupModal').style.display='none';
+        document.body.style.overflow='auto';
+    };
+
+}); // ✅ DITO NAGTATAPOS ANG DOMContentLoaded — WALA NG DAGDAG SA LABAS!
     // ✅ PARA SA "Learn More" BUTTON
 document.getElementById('learnMoreBtn').onclick = () => {
     // Pwede mong baguhin kung saan mo gustong dalhin
