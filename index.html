@@ -1,372 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AnimeFlix - Premium eBook Streaming Layout</title>
-  <style>
-    /* DESIGN SYSTEM & GLOBAL VARIABLES */
-    :root {
-      --bg-primary: #141414;
-      --bg-card: #181818;
-      --accent-red: #e50914;
-      --accent-red-hover: #b80710;
-      --text-main: #ffffff;
-      --text-muted: #aaaaaa;
-      --text-body: #e5e5e5;
-      --font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    /* GLOBAL RESET & BASE STYLES */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-primary);
-      color: var(--text-main);
-      font-family: var(--font-stack);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* SEMANTIC NAVIGATION BAR */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 4%;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-    }
-
-    .navbar-logo {
-      color: var(--accent-red);
-      font-size: 1.8rem;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      text-decoration: none;
-    }
-
-    /* PREMIUM HERO BILLBOARD */
-    .billboard {
-      position: relative;
-      height: 70vh;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      padding: 0 4%;
-      /* Premium dark background fallback gradient */
-      background: linear-gradient(to right, rgba(0,0,0,0.9) 30%, rgba(20,20,20,0.4) 100%), #000000;
-      margin-bottom: 20px;
-    }
-
-    .billboard::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(to top, var(--bg-primary), rgba(20,20,20,0));
-    }
-
-    .billboard-content {
-      max-width: 600px;
-      z-index: 2;
-    }
-
-    .billboard-tag {
-      color: var(--accent-red);
-      font-size: 0.9rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    .billboard-title {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 15px;
-      line-height: 1.1;
-    }
-
-    .billboard-logline {
-      font-size: 1.1rem;
-      color: var(--text-body);
-      line-height: 1.4;
-      margin-bottom: 20px;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      background-color: var(--accent-red);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: var(--transition-smooth);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--accent-red-hover);
-    }
-
-    /* HORIZONTAL ROW LAYOUT ENGINE */
-    .row-container {
-      margin-top: 20px;
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .row-heading {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text-main);
-      padding-left: 4%;
-      margin-bottom: 15px;
-    }
-
-    .ebook-slider {
-      display: flex;
-      overflow-x: auto;
-      gap: 15px;
-      padding: 10px 4% 30px 4%;
-      scroll-behavior: smooth;
-    }
-
-    /* Clean custom horizontal scrollbar configuration */
-    .ebook-slider::-webkit-scrollbar {
-      height: 6px;
-    }
-    .ebook-slider::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 10px;
-    }
-
-    /* FLEXBOX CARD INTERFACE WITH FAILSAFE STYLES */
-    .ebook-card {
-      position: relative;
-      flex: 0 0 auto;
-      width: 210px;
-      height: 315px;
-      border-radius: 6px;
-      overflow: hidden;
-      cursor: pointer;
-      background-color: var(--bg-card);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      transition: var(--transition-smooth);
-    }
-
-    .ebook-card:hover {
-      transform: scale(1.06);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-      z-index: 10;
-    }
-
-    .cover-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Professional text placeholder displayed behind/instead of missing images */
-    .img-placeholder-text {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #666;
-      background-color: #222;
-      z-index: 1;
-    }
-
-    /* PREMIUM NETFLIX INFORMATION HOVER OVERLAY */
-    .info-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(24, 24, 24, 0.98);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 20px;
-      z-index: 2; /* Sits completely over placeholder graphics */
-    }
-
-    .ebook-card:hover .info-overlay {
-      opacity: 1;
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .card-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-    }
-
-    .badge-wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 12px;
-    }
-
-    .badge-pill {
-      background: #2a2a2a;
-      color: var(--text-main);
-      font-size: 0.7rem;
-      font-weight: bold;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-
-    .card-summary {
-      font-size: 0.8rem;
-      color: var(--text-body);
-      line-height: 1.4;
-      margin-bottom: 15px;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-action-read {
-      background-color: var(--accent-red);
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.8rem;
-      font-weight: bold;
-      text-align: center;
-      flex: 1;
-      transition: var(--transition-smooth);
-    }
-
-    .btn-action-read:hover {
-      background-color: var(--accent-red-hover);
-    }
-
-    .btn-action-list {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-action-list:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Ebooks Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <h1 class="logo">ANIME<span>BOOKS</span></h1>
+            <ul class="nav-links">
+                <li class="nav-item active" data-section="home">Home</li>
+                <li class="nav-item" data-section="trending">Trending</li>
+                <li class="nav-item" data-section="new">New Released</li>
+                <li class="nav-item" data-section="all">All Anime</li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <select id="langSelect" class="lang-select">
+                <option value="en">English</option>
+                <option value="tl">Tagalog</option>
+            </select>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search anime ebooks...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+    </nav>
 
-  <!-- NAVIGATION COMPONENT -->
-  <nav class="navbar">
-    <a href="#" class="navbar-logo">AnimeFlix</a>
-  </nav>
+    <!-- HERO BANNER -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 id="heroTitle">Your Favorite Anime Novels & Manga</h2>
+            <p id="heroDesc">Download thousands of anime light novels, manga, and ebooks for free</p>
+        </div>
+    </section>
 
-  <!-- HERO BILLBOARD COMPONENT -->
-  <section class="billboard">
-    <div class="billboard-content">
-      <div class="billboard-tag">Featured Original Series</div>
-      <h2 class="billboard-title">Shonen Spirit Chronicles</h2>
-      <p class="billboard-logline">In a universe governed by strict spiritual energy tiers, a completely powerless boy uncovers a forbidden cursed relic containing an untamed celestial warrior's soul.</p>
-      <a href="shonen-vol1.pdf" class="btn-primary">▶ Read Volume 1</a>
+    <!-- CONTENT SECTIONS -->
+    <div class="container">
+        <!-- TRENDING -->
+        <section class="section">
+            <div class="section-header">
+                <h2 id="trendingTitle">🔥 Trending Now</h2>
+            </div>
+            <div class="card-row" id="trendingRow"></div>
+        </section>
+
+        <!-- NEW RELEASED -->
+        <section class="section">
+            <div class="section-header">
+                <h2 id="newTitle">✨ New Released</h2>
+            </div>
+            <div class="card-row" id="newRow"></div>
+        </section>
+
+        <!-- ALL ANIME -->
+        <section class="section">
+            <div class="section-header">
+                <h2 id="allTitle">📚 All Anime Ebooks</h2>
+            </div>
+            <div class="card-row" id="allRow"></div>
+        </section>
     </div>
-  </section>
 
-  <!-- ROW ARCHITECTURE: TRENDING CATEGORY -->
-  <main class="row-container">
-    <h3 class="row-heading">Trending Anime Releases</h3>
-    <div class="ebook-slider">
-
-      <!-- Card 1: Shonen -->
-      <div class="ebook-card">
-        <div class="img-placeholder-text">SHONEN SPIRIT</div>
-        <img src="https://abc-zone.com" alt="Shonen Spirit Cover" class="cover-img" onerror="this.style.display='none'">
-        <div class="info-overlay">
-          <h4 class="card-title">Shonen Spirit</h4>
-          <div class="card-meta">Vol. 1 &bull; 240 Pages</div>
-          <div class="badge-wrapper">
-            <span class="badge-pill">Action</span>
-            <span class="badge-pill">Fantasy</span>
-          </div>
-          <p class="card-summary">A powerless boy inherits an ancient, cursed combat style to protect his breaking homeland from rising demons.</p>
-          <div class="card-actions">
-            <a href="shonen-vol1.pdf" class="btn-action-read">▶ Read</a>
-            <button class="btn-action-list" title="Add to My List">+</button>
-          </div>
+    <!-- INFO MODAL -->
+    <div id="infoModal" class="modal">
+        <span class="close-btn">&times;</span>
+        <div class="modal-content">
+            <div class="modal-left">
+                <img id="modalImg" src="" alt="">
+            </div>
+            <div class="modal-right">
+                <h2 id="modalTitle"></h2>
+                <div class="meta">
+                    <span id="modalYear"></span> • 
+                    <span id="modalType"></span> • 
+                    <span id="modalLang"></span>
+                </div>
+                <p id="modalDesc"></p>
+                <button id="downloadBtn" class="download-btn">
+                    <i class="fas fa-download"></i> Download Ebook
+                </button>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <!-- Card 2: Isekai -->
-      <div class="ebook-card">
-        <div class="img-placeholder-text">RE:BOOTED GUILD</div>
-        <img src="https://abc-zone.com" alt="Re:Booted Guild Cover" class="cover-img" onerror="this.style.display='none'">
-        <div class="info-overlay">
-          <h4 class="card-title">Re:Booted Guild</h4>
-          <div class="card-meta">Vol. 1 &bull; 198 Pages</div>
-          <div class="badge-wrapper">
-            <span class="badge-pill">Isekai</span>
-            <span class="badge-pill">Gaming</span>
-          </div>
-          <p class="card-summary">Trapped inside a collapsing retro MMO, a legendary speedrunner abuses broken game patches to save thousands of players from permadeath.</p>
-          <div class="card-actions">
-            <a href="isekai-vol1.pdf" class="btn-action-read">▶ Read</a>
-            <button class="btn-action-list" title="Add to My List">+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3: Romance/Drama -->
-      <div class="ebook-card">
-        <div class="img-placeholder-text">CHERRY ECHOES</div>
-        <img src="https://abc-zone.com" alt="Cherry Echoes Cover" class="cover-img" onerror="this.style.display='none'">
-        <div class="info-overlay">
+    <script src="script.js"></script>
+</body>
+</html>
