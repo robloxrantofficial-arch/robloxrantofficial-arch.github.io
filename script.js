@@ -403,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateOnlineCount, 600000); // 10 minutes
 
     // ... ang natitirang code ay mananatili
-});
     const auth = window.firebaseAuth;
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
     const provider = window.firebaseProvider;
@@ -467,14 +466,3 @@ document.querySelector('.close-su').onclick = () => {
     document.body.style.overflow='auto';
 };
     });
-
-    document.getElementById('signinBtn').onclick = () => document.getElementById('signinModal').style.display='block';
-    document.getElementById('signupBtn').onclick = () => document.getElementById('signupModal').style.display='block';
-    document.querySelector('.close-sign').onclick = () => document.getElementById('signinModal').style.display='none';
-    document.querySelector('.close-su').onclick = () => document.getElementById('signupModal').style.display='none';
-    document.getElementById('goSignup').onclick = () => { document.getElementById('signinModal').style.display='none'; document.getElementById('signupModal').style.display='block'; };
-    document.getElementById('goSignin').onclick = () => { document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='block'; };
-    document.querySelector('.close-btn').onclick = () => { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; };
-    window.onclick = e => { if(e.target === document.getElementById('infoModal')) { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; }};
-
-   
