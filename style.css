@@ -11,9 +11,7 @@ body {
     line-height: 1.6;
 }
 
-/* ==============================
-   NAVBAR
-============================== */
+/* NAVBAR */
 .navbar {
     background: #1a1a1a;
     padding: 12px 20px;
@@ -130,14 +128,11 @@ body {
     font-size: 13px;
 }
 
-/* ==============================
-   HERO SECTION - NETFLIX STYLE + ANIME BACKGROUND
-============================== */
+/* HERO SECTION - RANDOM BACKGROUND READY */
 .hero {
     width: 100%;
     min-height: 85vh;
-    background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.15) 100%),
-                url('https://images.unsplash.com/photo-1559981421-3e0c0d72913d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.15) 100%);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -218,9 +213,7 @@ body {
     transform: scale(1.05);
 }
 
-/* ==============================
-   CONTAINER & SECTIONS
-============================== */
+/* CONTAINER & SECTIONS */
 .container {
     max-width: 1200px;
     margin: 30px auto;
@@ -293,9 +286,7 @@ body {
     color: #ffc107;
 }
 
-/* ==============================
-   MODAL GENERAL - NAKA-CENTER NA
-============================== */
+/* MODAL - NAKA-CENTER NA */
 .modal {
     display: none;
     position: fixed;
@@ -339,9 +330,7 @@ body {
     color: #fff;
 }
 
-/* ==============================
-   AUTH MODAL - NASA GITNA NA
-============================== */
+/* AUTH MODAL */
 .auth-modal {
     max-width: 400px;
     padding: 30px 25px;
@@ -469,9 +458,7 @@ body {
     text-align: center;
 }
 
-/* ==============================
-   INFO MODAL
-============================== */
+/* INFO MODAL */
 .modal-content {
     display: flex;
     flex-wrap: wrap;
@@ -549,9 +536,7 @@ body {
     background: #218838;
 }
 
-/* ==============================
-   RESPONSIVE DESIGN
-============================== */
+/* RESPONSIVE */
 @media (max-width: 768px) {
     .nav-left { gap: 15px; }
     .nav-links { display: none; }
