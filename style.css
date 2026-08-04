@@ -204,8 +204,12 @@ nav {
     background-color: rgba(0,0,0,0.85);
     z-index: 999999;
     overflow-y: auto;
+    /* ✅ PARA NASA GITNA */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
-.modal.active { display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal.active { display: flex; }
 
 .modal-content {
     background-color: #1a1a1a;
@@ -250,12 +254,35 @@ nav {
 }
 .download-btn:hover { background-color: #e60000; }
 
-/* ===== SIGN IN / SIGN UP MODAL — TUGMA NA SA HTML MO ===== */
-.auth-modal {
-    max-width: 420px;
+/* ===== SIGN IN / SIGN UP MODAL — NASA GITNA NA ===== */
+#signinModal, #signupModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.85);
+    z-index: 999999;
+    /* ✅ SIGURADONG NASA GITNA */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#signinModal .modal-content.auth-modal,
+#signupModal .modal-content.auth-modal {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    padding: 30px 25px;
+    position: relative;
+    border: 1px solid #333;
     flex-direction: column;
     gap: 15px;
 }
+
 .close-sign, .close-su {
     position: absolute;
     top: 12px;
@@ -300,7 +327,7 @@ nav {
 .divider-text {
     text-align: center;
     color: #888;
-    margin: 5px 0;
+    margin: 8px 0;
     font-size: 14px;
 }
 
@@ -316,7 +343,7 @@ nav {
 .auth-modal input:focus { outline: none; border-color: #ff1a1a; }
 
 .pass-wrapper { position: relative; width: 100%; }
-.pass-wrapper input { padding-right: 35px; }
+.pass-wrapper input { padding-right: 35px; margin-bottom: 0; }
 .eye-btn {
     position: absolute;
     right: 10px;
@@ -337,13 +364,15 @@ nav {
     font-size: 15px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    margin-top: 5px;
 }
 .submit-btn:hover { background-color: #e60000; }
 
 .error-msg {
     color: #ff4d4d;
     font-size: 13px;
-    margin-top: -8px;
+    margin-top: -5px;
+    margin-bottom: 8px;
     display: none;
     text-align: center;
 }
@@ -352,6 +381,7 @@ nav {
     text-align: center;
     font-size: 14px;
     color: #aaa;
+    margin-top: 8px;
 }
 .forgot-link a, .switch-text a {
     color: #ff1a1a;
