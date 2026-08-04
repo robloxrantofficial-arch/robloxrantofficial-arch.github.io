@@ -17,7 +17,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 30px;
+    padding: 12px 30px; /* ✅ PAREHONG 30px SA GILID */
     background-color: rgba(0, 0, 0, 0.9);
     position: fixed;
     top: 0;
@@ -125,7 +125,7 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 40px 30px;
+    padding: 40px 30px; /* ✅ PAREHONG 30px SA GILID */
     background-size: cover;
     background-position: center;
     position: relative;
@@ -156,8 +156,15 @@ nav {
 .info-btn { background-color: #333; color: white; }
 .info-btn:hover { background-color: #444; }
 
-.container { max-width: 1400px; margin: 0 auto; padding: 0 30px; }
-.section { padding: 30px 0; }
+/* ===== AYUSIN ANG DOBLE NA PADDING — SIGURADONG PANTAY ===== */
+.container { 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 0; /* ✅ TANGGAL ANG PADDING DITO */
+}
+.section { 
+    padding: 30px; /* ✅ PAREHONG 30px SA LAHAT NG GILID — TUGMA SA NAV AT HERO */
+}
 .section-header { margin-bottom: 15px; }
 .section-header h2 { font-size: 22px; color: #fff; }
 
