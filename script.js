@@ -352,38 +352,21 @@ function showError(message) {
     setTimeout(() => { if(suErr) suErr.style.display = 'none'; if(siErr) siErr.style.display = 'none'; }, 5000);
 }
 
-// ==================================
-// ✅ FIXED: ONLINE USERS — WORKS ON MOBILE + MESSENGER
-// ==================================
-let baseOnline = 0;
-
-// Safe localStorage helpers — Messenger blocks it sometimes
-function getSavedBase() {
-    try { const v = localStorage.getItem('baseOnlineUsers'); return v ? parseInt(v) : 0; } catch { return 0; }
-}
-function getSavedTime() {
-    try { const v = localStorage.getItem('lastOnlineUpdate'); return v ? parseInt(v) : 0; } catch { return 0; }
-}
-function saveBase(v) { try { localStorage.setItem('baseOnlineUsers', v); } catch {} }
-function saveTime(v) { try { localStorage.setItem('lastOnlineUpdate', v); } catch {} }
-
+// RANDOM ONLINE USERS SYSTEM
+let baseOnline = parseInt(localStorage.getItem('baseOnlineUsers') || 0);
 function getNewRandomOnline() { return Math.floor(Math.random() * 501) + 300; }
 
 function updateOnlineCount() {
-    const lastUpdate = getSavedTime();
+    const lastUpdate = parseInt(localStorage.getItem('lastOnlineUpdate') || 0);
     const now = Date.now();
     const tenMinutes = 10 * 60 * 1000;
-
     if (!baseOnline || (now - lastUpdate) > tenMinutes) {
         baseOnline = getNewRandomOnline();
-        saveBase(baseOnline);
-        saveTime(now);
+        localStorage.setItem('baseOnlineUsers', baseOnline);
+        localStorage.setItem('lastOnlineUpdate', now);
     }
-
     const total = currentUser ? baseOnline + 1 : baseOnline;
-    const el = document.getElementById('onlineCount');
-    if (el) el.innerText = total;
-    else setTimeout(updateOnlineCount, 100); // retry if element not ready
+    document.getElementById('onlineCount').innerText = total;
 }
 
 const originalUpdateUI = updateLoginUI;
@@ -408,10 +391,8 @@ function setRandomHeroBackground() {
 document.addEventListener('DOMContentLoaded', () => {
     loadSavedStats();
     setRandomHeroBackground();
+    updateOnlineCount();
     renderCards();
-    
-    // ✅ DELAYED START — ensures element exists first
-    setTimeout(updateOnlineCount, 250);
     setInterval(updateOnlineCount, 600000);
 
     // Firebase setup
@@ -634,7 +615,7 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         renderCards();
     };
 
-    // ✅ SEARCH BAR — FULLY WORKING
+    // ✅ SEARCH BAR — NOW FULLY WORKING
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
         
