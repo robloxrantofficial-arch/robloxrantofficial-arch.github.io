@@ -255,23 +255,39 @@ function openModal(anime) {
     document.getElementById('downloadEn').innerText = langText[currentLang].downloadEn;
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
 
-    document.getElementById('downloadEn').onclick = () => {
+    // ✅ UPDATED: DOWNLOAD BUTTONS — WORKS IN MESSENGER / ALL APPS
+    document.getElementById('downloadEn').onclick = (e) => {
+        e.preventDefault();
         if(!currentUser) {
             document.getElementById('infoModal').classList.remove('active');
             document.getElementById('signinModal').style.display = 'flex';
             document.body.style.overflow = 'auto';
             return;
         }
-        window.open(anime.linkEn, '_blank');
+        const link = document.createElement('a');
+        link.href = anime.linkEn;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
-    document.getElementById('downloadTl').onclick = () => {
+
+    document.getElementById('downloadTl').onclick = (e) => {
+        e.preventDefault();
         if(!currentUser) {
             document.getElementById('infoModal').classList.remove('active');
             document.getElementById('signinModal').style.display = 'flex';
             document.body.style.overflow = 'auto';
             return;
         }
-        window.open(anime.linkTl, '_blank');
+        const link = document.createElement('a');
+        link.href = anime.linkTl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     // VOTING SYSTEM
@@ -601,5 +617,42 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         updateLanguage();
         renderCards();
     };
+
+    // ==================================
+    // ✅ FIXED: SEARCH BAR FUNCTIONALITY
+    // ==================================
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        if (!query) {
+            renderCards();
+            return;
+        }
+
+        const filtered = animeData.filter(anime => {
+            const matchEn = anime.title.toLowerCase().includes(query);
+            const matchTl = anime.titleTl?.toLowerCase().includes(query) || false;
+            return matchEn || matchTl;
+        });
+
+        ['trending','new','all'].forEach(cat => {
+            const row = document.getElementById(`${cat}Row`);
+            row.innerHTML = '';
+            filtered.filter(a => a.category.includes(cat)).forEach(anime => {
+                const card = document.createElement('div');
+                card.className = 'anime-card';
+                card.innerHTML = `
+                    <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
+                    <div class="card-info">
+                        <h3>${currentLang==='en'?anime.title:anime.titleTl}</h3>
+                        <p>${anime.year} • ${anime.type}</p>
+                        <div class="card-rating">${renderStars(anime.rating)} ${getRatingPercent(anime.rating)}% (${anime.totalVotes})</div>
+                    </div>
+                `;
+                card.onclick = () => { selectedAnime = anime; openModal(anime); };
+                row.appendChild(card);
+            });
+        });
+    });
 
 });
