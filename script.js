@@ -258,7 +258,7 @@ function openModal(anime) {
     document.getElementById('downloadEn').onclick = () => {
         if(!currentUser) {
             document.getElementById('infoModal').classList.remove('active');
-            document.getElementById('signinModal').style.display = 'block';
+            document.getElementById('signinModal').style.display = 'flex';
             document.body.style.overflow = 'auto';
             return;
         }
@@ -267,7 +267,7 @@ function openModal(anime) {
     document.getElementById('downloadTl').onclick = () => {
         if(!currentUser) {
             document.getElementById('infoModal').classList.remove('active');
-            document.getElementById('signinModal').style.display = 'block';
+            document.getElementById('signinModal').style.display = 'flex';
             document.body.style.overflow = 'auto';
             return;
         }
@@ -292,7 +292,7 @@ function openModal(anime) {
         star.onclick = () => {
             if(!currentUser) {
                 document.getElementById('infoModal').classList.remove('active');
-                document.getElementById('signinModal').style.display = 'block';
+                document.getElementById('signinModal').style.display = 'flex';
                 document.body.style.overflow = 'auto';
                 return;
             }
@@ -386,13 +386,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
 
-    // ✅ SIGN IN & SIGN UP BUTTONS — SIGURADONG GAGANA
+    // ✅ BINAGO: display: flex na para NASA GITNA
     document.getElementById('signinBtn').onclick = () => {
-        document.getElementById('signinModal').style.display = 'block';
+        document.getElementById('signinModal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
     document.getElementById('signupBtn').onclick = () => {
-        document.getElementById('signupModal').style.display = 'block';
+        document.getElementById('signupModal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
 
@@ -459,11 +459,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sign In ↔ Sign Up Switch
     document.getElementById('goSignup').onclick = () => {
         document.getElementById('signinModal').style.display = 'none';
-        document.getElementById('signupModal').style.display = 'block';
+        document.getElementById('signupModal').style.display = 'flex';
     };
     document.getElementById('goSignin').onclick = () => {
         document.getElementById('signupModal').style.display = 'none';
-        document.getElementById('signinModal').style.display = 'block';
+        document.getElementById('signinModal').style.display = 'flex';
     };
 
     // Learn More Button
