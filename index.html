@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- NAVBAR -->
+    <!-- ==================== NAVBAR ==================== -->
     <nav class="navbar">
         <div class="nav-left">
             <h1 class="logo">ANIME<span>BOOKS</span></h1>
@@ -21,54 +21,51 @@
             </ul>
         </div>
         <div class="nav-right">
-    <!-- Bago: Users Online -->
-    <span class="users-online">🟢 Users Online: <strong id="onlineCount">1</strong></span>
-    <!-- Bago: Mga Button -->
-    <button id="signinBtn" class="nav-btn">Sign In</button>
-    <button id="signupBtn" class="nav-btn">Sign Up</button>
-    <span id="userDisplay" class="user-name" style="display:none;"></span>
-    <button id="logoutBtn" class="nav-btn" style="display:none;">Logout</button>
-    <!-- Ang dating langSelect mo -->
-    <select id="langSelect">
-        <option value="en">English</option>
-        <option value="tl">Tagalog</option>
-    </select>
-</div>
-
-<!-- DAGDAG: Sign In Modal -->
-<div id="signinModal" class="modal">
-    <div class="modal-content">
-        <span class="close-sign">&times;</span>
-        <h2>Sign In</h2>
-        <input type="text" id="siUser" placeholder="Username" required>
-        <input type="password" id="siPass" placeholder="Password" required>
-        <button id="doSignIn">Login</button>
-        <p>Wala pang account? <a id="goSignup">Mag-Sign Up dito</a></p>
-    </div>
-</div>
-
-<!-- DAGDAG: Sign Up Modal -->
-<div id="signupModal" class="modal">
-    <div class="modal-content">
-        <span class="close-su">&times;</span>
-        <h2>Sign Up</h2>
-        <input type="text" id="suUser" placeholder="Gumawa ng Username" required>
-        <input type="password" id="suPass" placeholder="Gumawa ng Password" required>
-        <button id="doSignUp">Magrehistro</button>
-        <p>May account na? <a id="goSignin">Mag-Sign In dito</a></p>
-    </div>
-</div>
+            <span class="users-online">🟢 Users Online: <strong id="onlineCount">1</strong></span>
+            <button id="signinBtn" class="nav-btn">Sign In</button>
+            <button id="signupBtn" class="nav-btn">Sign Up</button>
+            <span id="userDisplay" class="user-name" style="display:none;"></span>
+            <button id="logoutBtn" class="nav-btn" style="display:none;">Logout</button>
+            <select id="langSelect">
+                <option value="en">English</option>
+                <option value="tl">Tagalog</option>
+            </select>
+        </div>
     </nav>
 
-    <!-- HERO BANNER -->
+    <!-- ==================== SIGN IN MODAL (NASA LABAS NG NAV!) ==================== -->
+    <div id="signinModal" class="modal">
+        <div class="modal-content">
+            <span class="close-sign">&times;</span>
+            <h2>Sign In</h2>
+            <input type="text" id="siUser" placeholder="Username" required>
+            <input type="password" id="siPass" placeholder="Password" required>
+            <button id="doSignIn">Login</button>
+            <p>Wala pang account? <a id="goSignup">Mag-Sign Up dito</a></p>
+        </div>
+    </div>
+
+    <!-- ==================== SIGN UP MODAL ==================== -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close-su">&times;</span>
+            <h2>Sign Up</h2>
+            <input type="text" id="suUser" placeholder="Gumawa ng Username" required>
+            <input type="password" id="suPass" placeholder="Gumawa ng Password" required>
+            <button id="doSignUp">Magrehistro</button>
+            <p>May account na? <a id="goSignin">Mag-Sign In dito</a></p>
+        </div>
+    </div>
+
+    <!-- ==================== HERO BANNER ==================== -->
     <section class="hero">
         <div class="hero-content">
-            <h2 id="heroTitle">Your Favorite Anime Novels & Manga</h2>
+            <h2 id="heroTitle">Your Favorite Anime Light Novels & Ebooks</h2>
             <p id="heroDesc">Download thousands of anime light novels and ebooks for free</p>
         </div>
     </section>
 
-    <!-- CONTENT SECTIONS -->
+    <!-- ==================== CONTENT SECTIONS ==================== -->
     <div class="container">
         <section class="section">
             <div class="section-header">
@@ -92,7 +89,7 @@
         </section>
     </div>
 
-    <!-- INFO MODAL -->
+    <!-- ==================== INFO MODAL (KUMPLETO NA) ==================== -->
     <div id="infoModal" class="modal">
         <span class="close-btn">&times;</span>
         <div class="modal-content">
@@ -106,10 +103,29 @@
                     <span id="modalType"></span> • 
                     <span id="modalLang"></span>
                 </div>
+                <div class="rating-area">
+                    <span id="modalRatingStars"></span>
+                    <span id="modalRatingPercent"></span>
+                    <span id="modalVotes"></span>
+                </div>
                 <p id="modalDesc"></p>
-                <button id="downloadBtn" class="download-btn">
-                    <i class="fas fa-download"></i> Download Ebook
-                </button>
+                <p id="ratingLabel">Rating:</p>
+                <div class="vote-area">
+                    <p id="voteLabel">Vote this ebook:</p>
+                    <span class="vote-star" data-vote="1">★</span>
+                    <span class="vote-star" data-vote="2">★</span>
+                    <span class="vote-star" data-vote="3">★</span>
+                    <span class="vote-star" data-vote="4">★</span>
+                    <span class="vote-star" data-vote="5">★</span>
+                </div>
+                <div style="margin-top:20px;">
+                    <button id="downloadEn" class="download-btn">
+                        <i class="fas fa-download"></i> Download English
+                    </button>
+                    <button id="downloadTl" class="download-btn">
+                        <i class="fas fa-download"></i> Download Tagalog
+                    </button>
+                </div>
             </div>
         </div>
     </div>
