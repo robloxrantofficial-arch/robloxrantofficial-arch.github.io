@@ -489,34 +489,3 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 }); // ✅ DITO NAGTATAPOS ANG DOMContentLoaded — WALA NG DAGDAG SA LABAS!
-    // ✅ PARA SA "Learn More" BUTTON
-document.getElementById('learnMoreBtn').onclick = () => {
-    // Pwede mong baguhin kung saan mo gustong dalhin
-    alert("Dito mo ilalagay ang detalye tungkol sa Anime Ebooks Hub:\n\n✅ Libre mag-download\n✅ Tagalog at English ang mga kwento\n✅ Maaaring magbigay ng marka at boto\n✅ Ligtas at mabilis gamitin!");
-    // O kaya ay idiretso sa listahan:
-    // document.getElementById('trendingRow').scrollIntoView({behavior:'smooth'});
-};
-
-    // ✅ TAMA AT SIGURADONG GUMAGANA NA
-document.querySelector('.close-btn').onclick = () => { 
-    document.getElementById('infoModal').classList.remove('active'); 
-    document.body.style.overflow='auto'; 
-};
-
-window.onclick = e => { 
-    if(e.target === document.getElementById('infoModal')) { 
-        document.getElementById('infoModal').classList.remove('active'); 
-        document.body.style.overflow='auto'; 
-    }
-};
-
-// ✅ ITAMA RIN ANG PAGSARA NG SIGN IN/SIGN UP MODAL
-document.querySelector('.close-sign').onclick = () => {
-    document.getElementById('signinModal').style.display='none';
-    document.body.style.overflow='auto'; // Siguraduhing ibalik ang scroll
-};
-document.querySelector('.close-su').onclick = () => {
-    document.getElementById('signupModal').style.display='none';
-    document.body.style.overflow='auto';
-};
-    });
