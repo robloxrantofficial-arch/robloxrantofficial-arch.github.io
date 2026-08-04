@@ -19,7 +19,7 @@ body {
     min-height: 100vh;
 }
 
-/* NAVBAR */
+/* ==================== NAVBAR ==================== */
 .navbar {
     position: fixed;
     top: 0;
@@ -73,7 +73,34 @@ body {
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
+}
+
+.users-online {
+    color: #fff;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.nav-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background: var(--netflix-red);
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.nav-btn:hover {
+    background: #f40612;
+}
+
+.user-name {
+    color: #fff;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
 .lang-select {
@@ -107,11 +134,12 @@ body {
     color: var(--netflix-light);
 }
 
-/* HERO */
+/* ==================== HERO SECTION ==================== */
 .hero {
     margin-top: 70px;
     height: 60vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                url('https://images.unsplash.com/photo-1578632767115-351597cf2477?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -132,7 +160,7 @@ body {
     color: #e0e0e0;
 }
 
-/* CONTENT */
+/* ==================== CONTENT & CARDS ==================== */
 .container {
     padding: 40px 50px;
 }
@@ -189,7 +217,7 @@ body {
     color: var(--netflix-light);
 }
 
-/* MODAL */
+/* ==================== MAIN INFO MODAL ==================== */
 .modal {
     display: none;
     position: fixed;
@@ -276,16 +304,116 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .download-btn:hover {
     background-color: #f40612;
 }
 
-/* RESPONSIVE */
+.rating-area {
+    margin: 15px 0;
+}
+
+.star {
+    font-size: 22px;
+    color: #444;
+    cursor: pointer;
+    margin-right: 3px;
+    transition: color 0.2s;
+}
+
+.star.active {
+    color: #ffc107;
+}
+
+.vote-star {
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+    margin: 0 2px;
+    transition: color 0.2s;
+}
+
+.vote-star:hover, .vote-star:hover ~ .vote-star {
+    color: #ffc107;
+}
+
+/* ==================== SIGN IN / SIGN UP MODAL ==================== */
+#signinModal, #signupModal {
+    z-index: 3000;
+}
+
+#signinModal .modal-content,
+#signupModal .modal-content {
+    background-color: #181818;
+    color: white;
+    margin-top: 80px;
+}
+
+#signinModal h2,
+#signupModal h2 {
+    color: var(--text-white);
+    margin-bottom: 15px;
+}
+
+#signinModal input,
+#signupModal input {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid #444;
+    color: white;
+}
+
+#signinModal input::placeholder,
+#signupModal input::placeholder {
+    color: #999;
+}
+
+#signinModal button,
+#signupModal button {
+    background-color: var(--netflix-red);
+}
+
+#signinModal button:hover,
+#signupModal button:hover {
+    background-color: #f40612;
+}
+
+#signinModal p,
+#signupModal p {
+    margin-top: 15px;
+    text-align: center;
+    color: #ccc;
+}
+
+#signinModal a,
+#signupModal a {
+    color: var(--netflix-red);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.close-sign, .close-su {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.close-sign:hover, .close-su:hover {
+    color: var(--netflix-red);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
 @media (max-width: 768px) {
     .navbar {
         padding: 15px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
     .nav-links {
         display: none;
@@ -308,5 +436,11 @@ body {
     }
     .close-btn {
         right: 20px;
+    }
+    .nav-right {
+        gap: 8px;
+    }
+    .users-online {
+        display: none;
     }
 }
