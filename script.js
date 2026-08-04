@@ -502,3 +502,5 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("❌ WALANG animeData! Siguraduhing kumpleto ang listahan bago ang script.");
     }
 });
+renderCards();
+updateLanguage();
