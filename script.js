@@ -1,6 +1,3 @@
-// ==================================================
-// 1. LISTAHAN NG ANIME
-// ==================================================
 const animeData = [
     {id:1,title:"Sword Art Online",titleTl:"Sword Art Online",year:"2009",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.8,totalVotes:2156,
     desc:"In the year 2022, gamers rejoice as Sword Art Online—a VRMMORPG—debuts. But soon they learn that they cannot log out. To escape, they must reach the 100th floor of the floating castle Aincrad.",
@@ -44,42 +41,24 @@ const animeData = [
     img:"https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Horimiya_manga_volume_1.jpg/250px-Horimiya_manga_volume_1.jpg",linkEn:"#",linkTl:"#"}
 ];
 
-// ==================================================
-// 2. MGA SETTINGS
-// ==================================================
 let currentLang = 'en';
 let selectedAnime = null;
 
 const langText = {
     en: {
-        heroTitle:"Your Favorite Anime Light Novels & Ebooks",
-        heroDesc:"Download thousands of anime light novels and ebooks for free",
-        trendingTitle:"🔥 Trending Now",
-        newTitle:"✨ New Released",
-        allTitle:"📚 All Anime Ebooks",
-        searchPlaceholder:"Search anime ebooks...",
-        downloadEn:"Download English",
-        downloadTl:"Download Tagalog",
-        ratingLabel:"Rating:",
-        voteLabel:"Vote this ebook:"
+        heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
+        trendingTitle:"🔥 Trending Now", newTitle:"✨ New Released", allTitle:"📚 All Anime Ebooks",
+        searchPlaceholder:"Search anime ebooks...", downloadEn:"Download English", downloadTl:"Download Tagalog",
+        ratingLabel:"Rating:", voteLabel:"Vote this ebook:"
     },
     tl: {
-        heroTitle:"Ang Iyong Mga Paboritong Nobela at Ebook",
-        heroDesc:"Mag-download ng libo-libong anime nobela at ebook nang libre",
-        trendingTitle:"🔥 Pinakasikat Ngayon",
-        newTitle:"✨ Mga Bagong Labas",
-        allTitle:"📚 Lahat ng Anime Ebook",
-        searchPlaceholder:"Maghanap ng anime ebook...",
-        downloadEn:"I-download sa Ingles",
-        downloadTl:"I-download sa Tagalog",
-        ratingLabel:"Marka:",
-        voteLabel:"Bigyan ng marka ang nobelang ito:"
+        heroTitle:"Ang Iyong Mga Paboritong Nobela at Ebook", heroDesc:"Mag-download ng libo-libong anime nobela at ebook nang libre",
+        trendingTitle:"🔥 Pinakasikat Ngayon", newTitle:"✨ Mga Bagong Labas", allTitle:"📚 Lahat ng Anime Ebook",
+        searchPlaceholder:"Maghanap ng anime ebook...", downloadEn:"I-download sa Ingles", downloadTl:"I-download sa Tagalog",
+        ratingLabel:"Marka:", voteLabel:"Bigyan ng marka ang nobelang ito:"
     }
 };
 
-// ==================================================
-// 3. MGA TULONG NA FUNCTION
-// ==================================================
 function updateLanguage() {
     const ht = document.getElementById('heroTitle'); if(ht) ht.innerText = langText[currentLang].heroTitle;
     const hd = document.getElementById('heroDesc'); if(hd) hd.innerText = langText[currentLang].heroDesc;
@@ -91,25 +70,16 @@ function updateLanguage() {
 }
 
 function getRatingPercent(rating) { return Math.round((rating / 5) * 100); }
-
 function renderStars(rating) {
     let stars = '';
     for(let i=1; i<=5; i++) stars += `<span class="star ${i <= Math.round(rating) ? 'active' : ''}">★</span>`;
     return stars;
 }
 
-// ==================================================
-// ✅ INAYOS NA PAGPAPAKITA NG CARD (GUMAGANA NA ANG LAHAT NG KLIK)
-// ==================================================
 function renderCards(data = animeData) {
-    const tr = document.getElementById('trendingRow');
-    const nr = document.getElementById('newRow');
-    const ar = document.getElementById('allRow');
+    const tr = document.getElementById('trendingRow'); const nr = document.getElementById('newRow'); const ar = document.getElementById('allRow');
     if(!tr || !nr || !ar) return console.error("❌ Kulang ng row sa HTML!");
-    
-    tr.innerHTML = '';
-    nr.innerHTML = '';
-    ar.innerHTML = '';
+    tr.innerHTML = ''; nr.innerHTML = ''; ar.innerHTML = '';
 
     data.forEach(anime => {
         const p = getRatingPercent(anime.rating);
@@ -121,21 +91,10 @@ function renderCards(data = animeData) {
                     <p>${anime.year} • ${anime.type}</p>
                     <div class="card-rating">${renderStars(anime.rating)} ${p}% (${anime.totalVotes})</div>
                 </div>
-            </div>
-        `;
-
-        if(anime.category.includes('trending')) {
-            tr.insertAdjacentHTML('beforeend', cardHTML);
-            tr.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); };
-        }
-        if(anime.category.includes('new')) {
-            nr.insertAdjacentHTML('beforeend', cardHTML);
-            nr.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); };
-        }
-        if(anime.category.includes('all')) {
-            ar.insertAdjacentHTML('beforeend', cardHTML);
-            ar.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); };
-        }
+            </div>`;
+        if(anime.category.includes('trending')) { tr.insertAdjacentHTML('beforeend', cardHTML); tr.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); }; }
+        if(anime.category.includes('new')) { nr.insertAdjacentHTML('beforeend', cardHTML); nr.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); }; }
+        if(anime.category.includes('all')) { ar.insertAdjacentHTML('beforeend', cardHTML); ar.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); }; }
     });
 }
 
@@ -154,20 +113,16 @@ function openModal(anime) {
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
     document.getElementById('ratingLabel').innerText = langText[currentLang].ratingLabel;
     document.getElementById('voteLabel').innerText = langText[currentLang].voteLabel;
-
     document.getElementById('downloadEn').onclick = () => window.open(anime.linkEn, '_blank');
     document.getElementById('downloadTl').onclick = () => window.open(anime.linkTl, '_blank');
-
     document.querySelectorAll('.vote-star').forEach(star => {
         star.onclick = () => {
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes += 1;
             anime.rating = parseFloat(((anime.rating * (anime.totalVotes - 1) + vote) / anime.totalVotes).toFixed(1));
-            openModal(anime);
-            renderCards();
+            openModal(anime); renderCards();
         };
     });
-
     im.classList.add('active'); document.body.style.overflow='hidden';
 }
 
@@ -179,31 +134,21 @@ function updateLoginUI() {
     else{sb.style.display='inline-block';su.style.display='inline-block';lo.style.display='none';ud.style.display='none';oc.innerText='1';}
 }
 
-// ==================================================
-// 4. PAGSIMULA
-// ==================================================
 document.addEventListener('DOMContentLoaded', () => {
     console.log("✅ Nagsisimula na ang pag-load...");
-
-    // Scroll sa Navbar
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 50));
-
-    // Palitan Wika
+    const navbar = document.querySelector('.navbar'); window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 50));
     document.getElementById('langSelect')?.addEventListener('change', e => { currentLang = e.target.value; updateLanguage(); renderCards(); });
-
-    // Paghahanap
     document.getElementById('searchInput')?.addEventListener('input', e => {
         const kw = e.target.value.toLowerCase().trim();
         renderCards(kw ? animeData.filter(a => a.title.toLowerCase().includes(kw) || a.titleTl.toLowerCase().includes(kw)) : animeData);
     });
-
-    // Isara Info Modal
     document.querySelector('.close-btn')?.addEventListener('click', () => { document.getElementById('infoModal')?.classList.remove('active'); document.body.style.overflow='auto'; selectedAnime=null; });
     window.addEventListener('click', e => { if(e.target===document.getElementById('infoModal')){ document.getElementById('infoModal')?.classList.remove('active'); document.body.style.overflow='auto'; selectedAnime=null; }});
 
-    // Login/Signup
     const allUsers = JSON.parse(localStorage.getItem('animeUsers')) || [];
+    document.getElementById('forgotPassLink')?.addEventListener('click', () => {
+        alert("📧 Para sa Forgot Password:\n\nMag-email sa: support@animebookshub.com\nIsama ang iyong Username at Email Address.\nPaalala: Sa ngayon ay manual pa ito; magkakaroon ng awtomatiko kapag naka-server na.");
+    });
     document.getElementById('signinBtn')?.addEventListener('click', () => document.getElementById('signinModal').style.display='block');
     document.getElementById('signupBtn')?.addEventListener('click', () => document.getElementById('signupModal').style.display='block');
     document.querySelector('.close-sign')?.addEventListener('click', () => document.getElementById('signinModal').style.display='none');
@@ -212,24 +157,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('goSignin')?.addEventListener('click', () => { document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='block'; });
 
     document.getElementById('doSignUp')?.addEventListener('click', () => {
-        const u = document.getElementById('suUser').value.trim(); const p = document.getElementById('suPass').value;
-        if(!u||!p) return alert('Punan ang lahat!'); if(allUsers.find(x=>x.username===u)) return alert('Ginagamit na ang username!');
-        allUsers.push({username:u,password:p}); localStorage.setItem('animeUsers',JSON.stringify(allUsers)); alert('Matagumpay na nakarehistro! Mag-Sign In na.');
+        const u = document.getElementById('suUser').value.trim(); const p = document.getElementById('suPass').value; const cp = document.getElementById('suConfirmPass').value; const e = document.getElementById('suEmail').value.trim();
+        if(!u||!p||!cp||!e) return alert('⚠️ Punan muna ang lahat ng patlang!');
+        if(p !== cp) return alert('❌ Hindi tugma ang Password at Confirm Password!');
+        if(allUsers.find(x=>x.username===u)) return alert('❌ Ginagamit na ang Username!');
+        if(allUsers.find(x=>x.email===e)) return alert('❌ Ginagamit na ang Email!');
+        allUsers.push({username:u, password:p, email:e}); localStorage.setItem('animeUsers',JSON.stringify(allUsers));
+        alert(`✅ Matagumpay na nakarehistro!\nUsername: ${u}\nEmail: ${e}\n\n📌 Paalala: Sa GitHub Pages ay hindi pa awtomatikong nakakapagpadala ng email. Kapag naka-full hosting na, maipapadala na ang kumpirmasyon sa iyong email.`);
         document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='block';
     });
 
     document.getElementById('doSignIn')?.addEventListener('click', () => {
         const u = document.getElementById('siUser').value.trim(); const p = document.getElementById('siPass').value;
         const found = allUsers.find(x=>x.username===u && x.password===p);
-        if(!found) return alert('Maling username o password!');
-        localStorage.setItem('activeUser',JSON.stringify(found)); updateLoginUI(); document.getElementById('signinModal').style.display='none'; alert(`Maligayang pagbabalik, ${u}!`);
+        if(!found) return alert('❌ Maling Username o Password!');
+        localStorage.setItem('activeUser',JSON.stringify(found)); updateLoginUI(); document.getElementById('signinModal').style.display='none'; alert(`✅ Maligayang pagbabalik, ${u}!`);
     });
 
-    document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.removeItem('activeUser'); updateLoginUI(); alert('Naka-logout na.'); });
+    document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.removeItem('activeUser'); updateLoginUI(); alert('👋 Naka-logout na.'); });
 
-    // IPASOK ANG LAHAT
-    updateLanguage();
-    updateLoginUI();
-    renderCards();
-    console.log("✅ TAPOS NA! Lahat ng kategorya ay nakiki-click na.");
+    updateLanguage(); updateLoginUI(); renderCards();
+    console.log("✅ TAPOS NA ANG LAHAT!");
 });
