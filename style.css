@@ -20,7 +20,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ==== NAVIGATION BAR (NAKASIGURONG HINDI NAKAHARANG AT MAAYOS ANG CLICK) ==== */
+/* ==== NAVIGATION BAR (Siguradong ma-click lahat) ==== */
 .navbar {
     position: fixed;
     top: 0;
@@ -30,7 +30,7 @@ body {
     align-items: center;
     padding: 15px 40px;
     background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
-    z-index: 9999; /* PINAKAMATAAS PARA UNANG MAKLIK */
+    z-index: 9999;
     transition: background 0.3s ease;
 }
 
@@ -50,7 +50,6 @@ body {
     font-weight: 800;
     letter-spacing: 1px;
     cursor: pointer;
-    user-select: none;
 }
 
 .logo span {
@@ -69,9 +68,8 @@ body {
     font-weight: 400;
     transition: color 0.2s ease;
     color: var(--netflix-light);
-    user-select: none;
     position: relative;
-    z-index: 10000; /* SIGURADONG MAAYOS ANG CLICK */
+    z-index: 10000;
 }
 
 .nav-item:hover, .nav-item.active {
@@ -90,12 +88,10 @@ body {
 .users-online {
     font-size: 13px;
     color: var(--netflix-light);
-    user-select: none;
 }
 
 .search-box {
     position: relative;
-    z-index: 10000;
 }
 
 .search-box input {
@@ -114,7 +110,6 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: var(--netflix-gray);
-    z-index: 10000;
 }
 
 .nav-btn {
@@ -127,8 +122,7 @@ body {
     cursor: pointer;
     transition: background 0.2s ease;
     position: relative;
-    z-index: 10000; /* SIGURADONG MAAYOS ANG CLICK */
-    user-select: none;
+    z-index: 10000;
 }
 
 .nav-btn:hover {
@@ -138,7 +132,6 @@ body {
 .user-name {
     font-size: 14px;
     color: var(--netflix-light);
-    user-select: none;
 }
 
 #langSelect {
@@ -148,11 +141,9 @@ body {
     padding: 5px 8px;
     border-radius: 2px;
     cursor: pointer;
-    position: relative;
-    z-index: 10000;
 }
 
-/* ==== HERO SECTION (INAYOS ANG PAGKAKAPOSISYON PARA HINDI MAHARANG ANG MGA PINDUTAN) ==== */
+/* ==== HERO SECTION ==== */
 .hero {
     width: 100%;
     min-height: 100vh;
@@ -162,7 +153,6 @@ body {
     display: flex;
     align-items: center;
     padding: 70px 60px 0;
-    margin-top: 0;
     z-index: 1;
 }
 
@@ -211,7 +201,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    z-index: 10000; /* SIGURADONG MAAYOS ANG CLICK */
+    z-index: 10000;
 }
 
 .play-btn {
@@ -232,11 +222,10 @@ body {
     background: rgba(109,109,110,0.4);
 }
 
-/* ==== MGA SEKSYON NG KARD (INAYOS ANG PAG-SCROLL AT PAGKAKITA) ==== */
+/* ==== MGA SEKSYON NG KARD (Makikita lahat at makakapag-scroll) ==== */
 .container {
     max-width: 100%;
     padding: 20px 60px 60px;
-    margin-top: 0;
     position: relative;
     z-index: 5;
     background: linear-gradient(to top, var(--netflix-dark) 0%, transparent 100%);
@@ -275,7 +264,7 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease, z-index 0.1s ease;
     position: relative;
-    flex-shrink: 0; /* SIGURADONG HINDI MABABAWAS ANG LAKI NG KARD */
+    flex-shrink: 0;
     z-index: 10;
 }
 
@@ -322,15 +311,10 @@ body {
     color: #ffc107;
 }
 
-.star {
-    color: #333;
-}
+.star { color: #333; }
+.star.active { color: #ffc107; }
 
-.star.active {
-    color: #ffc107;
-}
-
-/* ==== MODAL / DETALYE NG LIBRO (INAYOS ANG X BUTTON AT PAGBUBUKAS) ==== */
+/* ==== MODAL (Siguradong ma-click ang X button) ==== */
 .modal {
     display: none;
     position: fixed;
@@ -339,7 +323,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.85);
-    z-index: 99999; /* PINAKAMATAAS NA ANTAS */
+    z-index: 99999;
     overflow-y: auto;
     align-items: flex-start;
     justify-content: center;
@@ -368,8 +352,7 @@ body {
     font-size: 32px;
     color: white;
     cursor: pointer;
-    z-index: 100001; /* SIGURADONG PINAKAMATAAS ANG X BUTTON */
-    user-select: none;
+    z-index: 100001;
     transition: color 0.2s ease;
 }
 
@@ -419,8 +402,6 @@ body {
     cursor: pointer;
     transition: color 0.2s ease;
     user-select: none;
-    position: relative;
-    z-index: 10;
 }
 
 .download-btn {
@@ -433,15 +414,13 @@ body {
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s ease;
-    position: relative;
-    z-index: 10;
 }
 
 .download-btn:hover {
     background: #f40612;
 }
 
-/* ==== LOGIN / SIGNUP MODAL ==== */
+/* ==== LOGIN / SIGNUP ==== */
 .auth-modal {
     max-width: 450px;
     padding: 40px;
@@ -461,8 +440,6 @@ body {
     border-radius: 3px;
     font-size: 15px;
     cursor: pointer;
-    position: relative;
-    z-index: 10;
 }
 
 .google-btn {
@@ -486,43 +463,6 @@ body {
     border-radius: 3px;
     color: white;
     font-size: 15px;
-    position: relative;
-    z-index: 10;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: var(--netflix-red);
-    color: white;
-    border: none;
-    border-radius: 3px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 10px;
-    position: relative;
-    z-index: 10;
-}
-
-.switch-text {
-    margin-top: 20px;
-    color: var(--netflix-gray);
-    font-size: 14px;
-}
-
-.switch-text a {
-    color: white;
-    font-weight: 500;
-    cursor: pointer;
-    position: relative;
-    z-index: 10;
-}
-
-.error-msg {
-    color: var(--netflix-red);
-    margin: 10px 0;
-    font-size: 14px;
 }
 
 .pass-wrapper {
@@ -542,30 +482,46 @@ body {
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--netflix-gray);
-    z-index: 10;
 }
 
-/* ==== PARA SA MGA MOBILE ==== */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--netflix-red);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.switch-text {
+    margin-top: 20px;
+    color: var(--netflix-gray);
+    font-size: 14px;
+}
+
+.switch-text a {
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: var(--netflix-red);
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* ==== PARA SA MOBILE ==== */
 @media (max-width: 768px) {
-    .navbar {
-        padding: 15px 20px;
-    }
-    .nav-links {
-        display: none;
-    }
-    .hero-title {
-        font-size: 2rem;
-    }
-    .hero {
-        padding: 90px 20px 30px;
-    }
-    .container {
-        padding: 20px 15px;
-    }
-    .card-row {
-        gap: 8px;
-    }
-    .anime-card {
-        min-width: 140px;
-    }
+    .navbar { padding: 15px 20px; }
+    .nav-links { display: none; }
+    .hero-title { font-size: 2rem; }
+    .hero { padding: 90px 20px 30px; }
+    .container { padding: 20px 15px; }
+    .card-row { gap: 8px; }
+    .anime-card { min-width: 140px; }
 }
