@@ -152,11 +152,11 @@
         </div>
     </div>
 
-    <!-- FIREBASE CONFIG -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
+    <!-- ✅ FIXED FIREBASE — GAMITIN ANG REGULAR NA SCRIPT HINDI MODULE -->
+    <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js"></script>
 
+    <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
             authDomain: "nime-ebooks-hub.firebaseapp.com",
@@ -167,13 +167,22 @@
             measurementId: "G-24D3NDFMW3"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
 
+        // ILAGAY SA GLOBAL PARA MAKITA NG script.js
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
-        window.firebaseMethods = { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail };
+        window.firebaseMethods = {
+            signInWithPopup: firebase.auth.signInWithPopup,
+            GoogleAuthProvider: firebase.auth.GoogleAuthProvider,
+            createUserWithEmailAndPassword: firebase.auth.createUserWithEmailAndPassword,
+            signInWithEmailAndPassword: firebase.auth.signInWithEmailAndPassword,
+            onAuthStateChanged: firebase.auth.onAuthStateChanged,
+            signOut: firebase.auth.signOut,
+            sendPasswordResetEmail: firebase.auth.sendPasswordResetEmail
+        };
     </script>
 
     <script src="script.js"></script>
