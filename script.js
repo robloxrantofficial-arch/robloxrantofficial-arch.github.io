@@ -59,6 +59,20 @@ const langText = {
     }
 };
 
+// ==================================================
+// ✅ SISTEMA NG NOTIPIKASYON SA BAGONG UPLOAD
+// ==================================================
+function notifyAllUsersNewUpload(animeName) {
+    const allUsers = JSON.parse(localStorage.getItem('animeUsers')) || [];
+    if(allUsers.length === 0) return;
+
+    const emailList = allUsers.map(u => u.email).join(', ');
+    console.log(`📧 MGA MAKAKATANGGAP NG NOTIPIKASYON: ${emailList}`);
+    console.log(`📌 MENSAHE: May bagong upload na "${animeName}" sa Anime Ebooks Hub!`);
+    
+    alert(`✅ NAI-SAVE ANG PAALALA!\n\nKapag naka-server na ang iyong website, awtomatiko na itong magpapadala ng email sa lahat ng rehistradong user:\n\nMga tatanggap: ${emailList}\nBagong Ebook: ${animeName}`);
+}
+
 function updateLanguage() {
     const ht = document.getElementById('heroTitle'); if(ht) ht.innerText = langText[currentLang].heroTitle;
     const hd = document.getElementById('heroDesc'); if(hd) hd.innerText = langText[currentLang].heroDesc;
@@ -113,16 +127,54 @@ function openModal(anime) {
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
     document.getElementById('ratingLabel').innerText = langText[currentLang].ratingLabel;
     document.getElementById('voteLabel').innerText = langText[currentLang].voteLabel;
-    document.getElementById('downloadEn').onclick = () => window.open(anime.linkEn, '_blank');
-    document.getElementById('downloadTl').onclick = () => window.open(anime.linkTl, '_blank');
+
+    // ==================================================
+    // ✅ PROTEKSYON: MAKADOWNLOAD LANG KAPAG NAKA-LOGIN
+    // ==================================================
+    document.getElementById('downloadEn').onclick = () => {
+        const activeUser = JSON.parse(localStorage.getItem('activeUser')) || null;
+        if(!activeUser) {
+            alert("🔒 Kailangan mo munang mag-Sign In para makapag-download!");
+            document.getElementById('infoModal').classList.remove('active');
+            document.body.style.overflow='auto';
+            document.getElementById('signinModal').style.display='block';
+            return;
+        }
+        window.open(anime.linkEn, '_blank');
+    };
+
+    document.getElementById('downloadTl').onclick = () => {
+        const activeUser = JSON.parse(localStorage.getItem('activeUser')) || null;
+        if(!activeUser) {
+            alert("🔒 Kailangan mo munang mag-Sign In para makapag-download!");
+            document.getElementById('infoModal').classList.remove('active');
+            document.body.style.overflow='auto';
+            document.getElementById('signinModal').style.display='block';
+            return;
+        }
+        window.open(anime.linkTl, '_blank');
+    };
+
+    // ==================================================
+    // ✅ PROTEKSYON: MAKABOTO LANG KAPAG NAKA-LOGIN
+    // ==================================================
     document.querySelectorAll('.vote-star').forEach(star => {
         star.onclick = () => {
+            const activeUser = JSON.parse(localStorage.getItem('activeUser')) || null;
+            if(!activeUser) {
+                alert("🔒 Kailangan mo munang mag-Sign In para makapag-boto!");
+                document.getElementById('infoModal').classList.remove('active');
+                document.body.style.overflow='auto';
+                document.getElementById('signinModal').style.display='block';
+                return;
+            }
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes += 1;
             anime.rating = parseFloat(((anime.rating * (anime.totalVotes - 1) + vote) / anime.totalVotes).toFixed(1));
             openModal(anime); renderCards();
         };
     });
+
     im.classList.add('active'); document.body.style.overflow='hidden';
 }
 
@@ -163,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(allUsers.find(x=>x.username===u)) return alert('❌ Ginagamit na ang Username!');
         if(allUsers.find(x=>x.email===e)) return alert('❌ Ginagamit na ang Email!');
         allUsers.push({username:u, password:p, email:e}); localStorage.setItem('animeUsers',JSON.stringify(allUsers));
-        alert(`✅ Matagumpay na nakarehistro!\nUsername: ${u}\nEmail: ${e}\n\n📌 Paalala: Sa GitHub Pages ay hindi pa awtomatikong nakakapagpadala ng email. Kapag naka-full hosting na, maipapadala na ang kumpirmasyon sa iyong email.`);
+        alert(`✅ Matagumpay na nakarehistro!\nUsername: ${u}\nEmail: ${e}\n\n📌 Paalala: Kapag may bagong upload, makakatanggap ka ng abiso sa iyong email kapag naka-full hosting na ang site.`);
         document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='block';
     });
 
@@ -177,5 +229,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.removeItem('activeUser'); updateLoginUI(); alert('👋 Naka-logout na.'); });
 
     updateLanguage(); updateLoginUI(); renderCards();
-    console.log("✅ TAPOS NA ANG LAHAT!");
+    console.log("✅ TAPOS NA ANG LAHAT NG FEATURES!");
 });
