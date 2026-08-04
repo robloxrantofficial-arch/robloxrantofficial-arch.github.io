@@ -49,7 +49,7 @@
         </div>
     </section>
 
-    <!-- ✅ DAGDAG: MAIN WRAPPER — PANTAY NA ANG GILID -->
+    <!-- MAIN WRAPPER -->
     <div class="main-wrapper">
         <div class="container">
             <section class="section">
@@ -67,6 +67,7 @@
         </div>
     </div>
 
+    <!-- INFO MODAL -->
     <div id="infoModal" class="modal">
         <span class="close-btn">&times;</span>
         <div class="modal-content">
@@ -138,7 +139,20 @@
         </div>
     </div>
 
-    <!-- FIREBASE CONFIG — DAGDAG ANG sendPasswordResetEmail -->
+    <!-- ✅ NEW FORGOT PASSWORD MODAL -->
+    <div id="forgotPassModal" class="modal">
+        <div class="modal-content auth-modal">
+            <span class="close-fp">&times;</span>
+            <h2>Reset Password</h2>
+            <p style="color:#aaa; font-size:14px; text-align:center; margin-bottom:15px;">Enter the email address you used to sign up. We will send you a link to create a new password.</p>
+            <input type="email" id="fpEmail" placeholder="Email Address" required>
+            <button id="doSendReset" class="submit-btn">Send Reset Link</button>
+            <div id="fpError" class="error-msg" style="display:none;"></div>
+            <p class="switch-text">Back to <a id="backToSignin">Sign In</a></p>
+        </div>
+    </div>
+
+    <!-- FIREBASE CONFIG -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
