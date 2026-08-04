@@ -2,7 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Roboto, Tahoma, Geneva, Verdana, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 :root {
@@ -23,12 +27,14 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
+    padding-top: 56px;
 }
 
 /* ===================== NAVIGATION ===================== */
 header {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     background: rgba(10, 10, 10, 0.95);
     backdrop-filter: blur(8px);
@@ -37,7 +43,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 9999; /* PINAKAMATAAS — HINDI NA HAHARANGIN NG KAHIT ANO */
+    z-index: 9999;
 }
 
 .logo {
@@ -45,18 +51,32 @@ header {
     font-weight: 800;
     color: var(--accent);
     text-decoration: none;
+    letter-spacing: 0.5px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 nav a {
     color: var(--text-soft);
     text-decoration: none;
-    margin: 0 12px;
+    padding: 6px 10px;
     font-weight: 500;
+    font-size: 0.95rem;
     transition: all 0.2s ease;
+    border-radius: 4px;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
 }
 
-nav a:hover, nav a.active {
+nav a:hover, 
+nav a.active {
     color: var(--accent);
+    background-color: var(--accent-soft);
 }
 
 .nav-right {
@@ -83,7 +103,7 @@ nav a:hover, nav a.active {
 }
 
 @keyframes blink {
-    0%,100% { opacity: 1; }
+    0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
 }
 
@@ -92,10 +112,14 @@ nav a:hover, nav a.active {
     border: none;
     border-radius: 4px;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s ease;
     text-decoration: none;
     display: inline-block;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
 }
 
 .btn-primary {
@@ -134,11 +158,11 @@ nav a:hover, nav a.active {
     padding: 6px 10px;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
 /* ===================== HERO SECTION ===================== */
 .hero {
-    margin-top: 55px;
     min-height: 85vh;
     padding: 60px 4%;
     display: flex;
@@ -148,6 +172,8 @@ nav a:hover, nav a.active {
     background-position: center center;
     background-repeat: no-repeat;
     transition: background-image 0.5s ease-in-out;
+    position: relative;
+    z-index: 1;
 }
 
 .hero h1 {
@@ -155,6 +181,7 @@ nav a:hover, nav a.active {
     max-width: 700px;
     margin-bottom: 12px;
     line-height: 1.2;
+    font-weight: 700;
 }
 
 .hero p {
@@ -167,11 +194,14 @@ nav a:hover, nav a.active {
 .hero-buttons {
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 /* ===================== CATEGORY SECTIONS ===================== */
 .section {
     padding: 50px 4%;
+    position: relative;
+    z-index: 1;
 }
 
 .section-title {
@@ -181,12 +211,14 @@ nav a:hover, nav a.active {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-weight: 600;
 }
 
 .anime-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 20px;
+    width: 100%;
 }
 
 .anime-card {
@@ -197,7 +229,8 @@ nav a:hover, nav a.active {
     transition: all 0.25s ease;
     cursor: pointer;
     position: relative;
-    z-index: 10; /* Siguradong napipindot ang mga kard */
+    z-index: 10;
+    pointer-events: auto;
 }
 
 .anime-card:hover {
@@ -211,6 +244,7 @@ nav a:hover, nav a.active {
     height: 260px;
     object-fit: cover;
     background: #111;
+    display: block;
 }
 
 .card-info {
@@ -223,6 +257,7 @@ nav a:hover, nav a.active {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 600;
 }
 
 .card-info p {
@@ -247,29 +282,29 @@ nav a:hover, nav a.active {
     color: var(--warning);
 }
 
-/* ===================== MODAL — ITINAMA NA ANG HARANG ===================== */
+/* ===================== MODAL — INAYOS ANG HARANG ===================== */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9998; /* MAS MABABA SA NAV — HINDI HAHARANG SA MENU */
+    z-index: 9998;
     padding: 20px;
     opacity: 0;
     visibility: hidden;
-    pointer-events: none; /* ✅ HINDI HAHARANG KAPAG HINDI ACTIVE */
+    pointer-events: none;
     transition: all 0.25s ease;
 }
 
 .modal.active {
     opacity: 1;
     visibility: visible;
-    pointer-events: auto; /* ✅ GAGANA LAMANG KAPAG BUKSAN */
+    pointer-events: auto;
 }
 
 .modal-content {
@@ -291,7 +326,11 @@ nav a:hover, nav a.active {
     color: var(--text-soft);
     cursor: pointer;
     transition: color 0.2s ease;
-    z-index: 10;
+    z-index: 20;
+    pointer-events: auto;
+    background: none;
+    border: none;
+    line-height: 1;
 }
 
 .close-btn:hover {
@@ -315,6 +354,7 @@ nav a:hover, nav a.active {
 .modal-text h2 {
     margin-bottom: 8px;
     color: var(--accent);
+    font-weight: 700;
 }
 
 .modal-meta {
@@ -345,6 +385,7 @@ nav a:hover, nav a.active {
     cursor: pointer;
     color: #444;
     transition: color 0.15s ease;
+    pointer-events: auto;
 }
 
 .vote-star:hover {
@@ -355,6 +396,7 @@ nav a:hover, nav a.active {
     display: flex;
     gap: 12px;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
 /* ===================== LOGIN / SIGNUP MODAL ===================== */
@@ -364,12 +406,16 @@ nav a:hover, nav a.active {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 9997;
     padding: 20px;
+}
+
+.auth-modal.active {
+    display: flex;
 }
 
 .auth-content {
@@ -386,6 +432,7 @@ nav a:hover, nav a.active {
     text-align: center;
     margin-bottom: 20px;
     color: var(--accent);
+    font-weight: 700;
 }
 
 .form-group {
@@ -424,6 +471,7 @@ nav a:hover, nav a.active {
     color: var(--text-soft);
     cursor: pointer;
     font-size: 1rem;
+    pointer-events: auto;
 }
 
 .auth-divider {
@@ -460,9 +508,27 @@ nav a:hover, nav a.active {
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px) {
-    .hero h1 { font-size: 2rem; }
-    .modal-body { flex-direction: column; align-items: center; text-align: center; }
-    .modal-img { width: 180px; }
-    .anime-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-    nav a { margin: 0 6px; font-size: 0.9rem; }
+    .hero h1 { 
+        font-size: 2rem; 
+    }
+    .modal-body { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center; 
+    }
+    .modal-img { 
+        width: 180px; 
+    }
+    .anime-grid { 
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+        gap: 16px;
+    }
+    nav a { 
+        margin: 0 4px; 
+        font-size: 0.85rem; 
+        padding: 5px 8px;
+    }
+    header {
+        padding: 10px 3%;
+    }
 }
