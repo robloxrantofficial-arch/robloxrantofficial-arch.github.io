@@ -17,9 +17,10 @@ body {
     background-color: var(--netflix-dark);
     color: white;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* ==== NAVIGATION BAR ==== */
+/* ==== NAVIGATION BAR (NAKASIGURONG HINDI NAKAHARANG AT MAAYOS ANG CLICK) ==== */
 .navbar {
     position: fixed;
     top: 0;
@@ -28,13 +29,13 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-    z-index: 100;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+    z-index: 9999; /* PINAKAMATAAS PARA UNANG MAKLIK */
     transition: background 0.3s ease;
 }
 
 .navbar:hover {
-    background: rgba(20,20,20,0.9);
+    background: rgba(20,20,20,0.95);
 }
 
 .nav-left {
@@ -48,6 +49,8 @@ body {
     font-size: 28px;
     font-weight: 800;
     letter-spacing: 1px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .logo span {
@@ -65,10 +68,14 @@ body {
     font-size: 14px;
     font-weight: 400;
     transition: color 0.2s ease;
+    color: var(--netflix-light);
+    user-select: none;
+    position: relative;
+    z-index: 10000; /* SIGURADONG MAAYOS ANG CLICK */
 }
 
 .nav-item:hover, .nav-item.active {
-    color: var(--netflix-light);
+    color: white;
     font-weight: 500;
 }
 
@@ -76,19 +83,23 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
+    position: relative;
+    z-index: 10000;
 }
 
 .users-online {
     font-size: 13px;
     color: var(--netflix-light);
+    user-select: none;
 }
 
 .search-box {
     position: relative;
+    z-index: 10000;
 }
 
 .search-box input {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     border: 1px solid white;
     color: white;
     padding: 6px 10px 6px 35px;
@@ -103,6 +114,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     color: var(--netflix-gray);
+    z-index: 10000;
 }
 
 .nav-btn {
@@ -114,6 +126,9 @@ body {
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s ease;
+    position: relative;
+    z-index: 10000; /* SIGURADONG MAAYOS ANG CLICK */
+    user-select: none;
 }
 
 .nav-btn:hover {
@@ -123,18 +138,21 @@ body {
 .user-name {
     font-size: 14px;
     color: var(--netflix-light);
+    user-select: none;
 }
 
 #langSelect {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     color: white;
     border: 1px solid var(--netflix-gray);
     padding: 5px 8px;
     border-radius: 2px;
     cursor: pointer;
+    position: relative;
+    z-index: 10000;
 }
 
-/* ==== HERO SECTION ==== */
+/* ==== HERO SECTION (INAYOS ANG PAGKAKAPOSISYON PARA HINDI MAHARANG ANG MGA PINDUTAN) ==== */
 .hero {
     width: 100%;
     min-height: 100vh;
@@ -143,9 +161,9 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 60px;
-    margin-top: -70px;
-    padding-top: 70px;
+    padding: 70px 60px 0;
+    margin-top: 0;
+    z-index: 1;
 }
 
 .hero-overlay {
@@ -155,6 +173,7 @@ body {
     width: 100%;
     height: 100%;
     background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+    z-index: 1;
 }
 
 .hero-content {
@@ -179,6 +198,8 @@ body {
 .hero-buttons {
     display: flex;
     gap: 15px;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-btn {
@@ -189,6 +210,8 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
+    z-index: 10000; /* SIGURADONG MAAYOS ANG CLICK */
 }
 
 .play-btn {
@@ -209,13 +232,14 @@ body {
     background: rgba(109,109,110,0.4);
 }
 
-/* ==== MGA SEKSYON NG KARD ==== */
+/* ==== MGA SEKSYON NG KARD (INAYOS ANG PAG-SCROLL AT PAGKAKITA) ==== */
 .container {
     max-width: 100%;
-    padding: 40px 60px;
-    margin-top: -120px;
+    padding: 20px 60px 60px;
+    margin-top: 0;
     position: relative;
-    z-index: 3;
+    z-index: 5;
+    background: linear-gradient(to top, var(--netflix-dark) 0%, transparent 100%);
 }
 
 .section {
@@ -226,14 +250,17 @@ body {
     font-size: 1.4rem;
     margin-bottom: 12px;
     color: var(--netflix-light);
+    padding-left: 5px;
 }
 
 .card-row {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     overflow-x: auto;
-    padding-bottom: 15px;
+    overflow-y: hidden;
+    padding: 10px 5px 20px;
     scrollbar-width: none;
+    width: 100%;
 }
 
 .card-row::-webkit-scrollbar {
@@ -242,11 +269,14 @@ body {
 
 .anime-card {
     min-width: 180px;
+    max-width: 180px;
     border-radius: 4px;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease, z-index 0.1s ease;
     position: relative;
+    flex-shrink: 0; /* SIGURADONG HINDI MABABAWAS ANG LAKI NG KARD */
+    z-index: 10;
 }
 
 .anime-card img {
@@ -261,7 +291,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
     padding: 35px 10px 10px;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -269,7 +299,7 @@ body {
 
 .anime-card:hover {
     transform: scale(1.08);
-    z-index: 10;
+    z-index: 100;
 }
 
 .anime-card:hover .card-info {
@@ -300,7 +330,7 @@ body {
     color: #ffc107;
 }
 
-/* ==== MODAL / DETALYE NG LIBRO ==== */
+/* ==== MODAL / DETALYE NG LIBRO (INAYOS ANG X BUTTON AT PAGBUBUKAS) ==== */
 .modal {
     display: none;
     position: fixed;
@@ -308,45 +338,53 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
-    z-index: 999;
+    background: rgba(0,0,0,0.85);
+    z-index: 99999; /* PINAKAMATAAS NA ANTAS */
     overflow-y: auto;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 50px 20px;
 }
 
 .modal.active {
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .modal-content {
     background: var(--netflix-dark);
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 850px;
     border-radius: 8px;
     position: relative;
     overflow: hidden;
-    margin: 40px auto;
+    margin: auto;
+    z-index: 100000;
 }
 
-.close-btn {
+.close-btn, .close-sign, .close-su {
     position: absolute;
     top: 15px;
     right: 20px;
-    font-size: 30px;
+    font-size: 32px;
     color: white;
     cursor: pointer;
-    z-index: 10;
+    z-index: 100001; /* SIGURADONG PINAKAMATAAS ANG X BUTTON */
+    user-select: none;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover, .close-sign:hover, .close-su:hover {
+    color: var(--netflix-red);
 }
 
 .modal-left img {
     width: 100%;
-    height: 350px;
+    height: 380px;
     object-fit: cover;
 }
 
 .modal-right {
-    padding: 25px 30px;
+    padding: 25px 30px 35px;
 }
 
 .modal-right h2 {
@@ -376,10 +414,13 @@ body {
 }
 
 .vote-star {
-    font-size: 22px;
-    margin: 0 3px;
+    font-size: 24px;
+    margin: 0 4px;
     cursor: pointer;
     transition: color 0.2s ease;
+    user-select: none;
+    position: relative;
+    z-index: 10;
 }
 
 .download-btn {
@@ -392,6 +433,8 @@ body {
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s ease;
+    position: relative;
+    z-index: 10;
 }
 
 .download-btn:hover {
@@ -402,6 +445,7 @@ body {
 .auth-modal {
     max-width: 450px;
     padding: 40px;
+    margin: auto;
 }
 
 .auth-modal h2 {
@@ -417,6 +461,8 @@ body {
     border-radius: 3px;
     font-size: 15px;
     cursor: pointer;
+    position: relative;
+    z-index: 10;
 }
 
 .google-btn {
@@ -440,6 +486,8 @@ body {
     border-radius: 3px;
     color: white;
     font-size: 15px;
+    position: relative;
+    z-index: 10;
 }
 
 .submit-btn {
@@ -453,6 +501,8 @@ body {
     font-weight: 500;
     cursor: pointer;
     margin-top: 10px;
+    position: relative;
+    z-index: 10;
 }
 
 .switch-text {
@@ -465,6 +515,8 @@ body {
     color: white;
     font-weight: 500;
     cursor: pointer;
+    position: relative;
+    z-index: 10;
 }
 
 .error-msg {
@@ -473,13 +525,24 @@ body {
     font-size: 14px;
 }
 
-.close-sign, .close-su {
+.pass-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.pass-wrapper input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.eye-btn {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    color: white;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     cursor: pointer;
+    color: var(--netflix-gray);
+    z-index: 10;
 }
 
 /* ==== PARA SA MGA MOBILE ==== */
@@ -493,11 +556,14 @@ body {
     .hero-title {
         font-size: 2rem;
     }
+    .hero {
+        padding: 90px 20px 30px;
+    }
     .container {
         padding: 20px 15px;
     }
     .card-row {
-        gap: 5px;
+        gap: 8px;
     }
     .anime-card {
         min-width: 140px;
