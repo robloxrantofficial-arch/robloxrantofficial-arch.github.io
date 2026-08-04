@@ -127,7 +127,7 @@
         </div>
     </div>
 
-    <!-- FIREBASE CONFIG - ILAGAY ANG KOPYA MULA SA IYO -->
+    <!-- TAMANG FIREBASE CONFIG -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
@@ -145,10 +145,9 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // ILAGAY ANG LAHAT NG ITO SA GLOBAL PARA MAKITA NG SCRIPT.JS
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
-        window.firebaseMethods = { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut };
+        window.firebaseMethods = { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut };
     </script>
 
     <script src="script.js"></script>
