@@ -18,7 +18,27 @@ const animeData = [
     desc:"When a popular MMORPG is scheduled to be shut down, the main character decides to stay logged in.",
     descTl:"Nang ipatigil ang isang sikat na laro, nagpasyang manatili ang bida.",
     img:"https://upload.wikimedia.org/wikipedia/en/thumb/7/72/Overlord_light_novel_vol_1.jpg/250px-Overlord_light_novel_vol_1.jpg",linkEn:"#",linkTl:"#"},
-    {id:5,title:"Horimiya",titleTl:"Horimiya",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:1543,
+    {id:5,title:"No Game No Life",titleTl:"No Game No Life",year:"2012",type:"Light Novel",lang:"EN / TL",category:["new","all"],rating:4.8,totalVotes:1521,
+    desc:"Siblings Sora and Shiro are unbeatable gamers. They are summoned to a world where everything is decided by games.",
+    descTl:"Magkapatid na Sora at Shiro ay walang tatalo sa paglalaro. Dinala sila sa mundong kung saan sa laro napagdedesisyunan ang lahat.",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/8/89/No_Game_No_Life_light_novel_vol_1.jpg/250px-No_Game_No_Life_light_novel_vol_1.jpg",linkEn:"#",linkTl:"#"},
+    {id:6,title:"That Time I Got Reincarnated as a Slime",titleTl:"Yung Naging Slime Ako",year:"2014",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.8,totalVotes:1789,
+    desc:"An ordinary man is reborn as a slime with unique powers in a fantasy world, building his own nation of monsters.",
+    descTl:"Isang karaniwang lalaki ang muling isinilang bilang isang slime na may kakaibang kapangyarihan, at itinatag ang sariling kaharian ng mga halimaw.",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/That_Time_I_Got_Reincarnated_as_a_Slime_light_novel_vol_1.jpg/250px-That_Time_I_Got_Reincarnated_as_a_Slime_light_novel_vol_1.jpg",linkEn:"#",linkTl:"#"},
+    {id:7,title:"The Rising of the Shield Hero",titleTl:"Ang Pagbangon ng Bayaning Kalasag",year:"2013",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.7,totalVotes:1698,
+    desc:"Naofumi Iwatani is summoned as one of four legendary heroes. Betrayed and alone, he must survive and protect the world with only a shield.",
+    descTl:"Si Naofumi ay isa sa apat na bayani. Ipinagkanulo at nag-iisa, kailangan niyang mabuhay at ipagtanggol ang mundo gamit lamang ang kalasag.",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/The_Rising_of_the_Shield_Hero_light_novel_vol_1.jpg/250px-The_Rising_of_the_Shield_Hero_light_novel_vol_1.jpg",linkEn:"#",linkTl:"#"},
+    {id:8,title:"Toradora!",titleTl:"Toradora!",year:"2006",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:2210,
+    desc:"Ryuji and Taiga are feared for their appearances but are actually gentle souls. They agree to help each other pursue their crushes, only to grow closer themselves.",
+    descTl:"Kinakatakutan sina Ryuji at Taiga sa panlabas ngunit mababait sa loob. Nagtulungan sila para makuha ang gusto nila, ngunit sa huli ay sila pala ang magkakasundo.",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/d/d9/Toradora%21_light_novel_vol_1.jpg/250px-Toradora%21_light_novel_vol_1.jpg",linkEn:"#",linkTl:"#"},
+    {id:9,title:"A Silent Voice",titleTl:"Tinig ng Puso",year:"2009",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:1876,
+    desc:"A former bully seeks redemption by reconnecting with the deaf girl he once tormented.",
+    descTl:"Isang dating mapanlait ang naghahanap ng kapatawaran sa pamamagitan ng pakikipagkaibigan sa babaeng bingi na kanyang inapi noon.",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/e/e5/A_Silent_Voice_manga_vol_1.jpg/250px-A_Silent_Voice_manga_vol_1.jpg",linkEn:"#",linkTl:"#"},
+    {id:10,title:"Horimiya",titleTl:"Horimiya",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:1543,
     desc:"A sweet and realistic story about two students who discover each other’s hidden sides outside of school.",
     descTl:"Isang magandang kwento ng dalawang mag-aaral na nalaman ang tunay na pagkatao ng isa’t isa sa labas ng paaralan.",
     img:"https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Horimiya_manga_volume_1.jpg/250px-Horimiya_manga_volume_1.jpg",linkEn:"#",linkTl:"#"}
@@ -58,7 +78,7 @@ const langText = {
 };
 
 // ==================================================
-// 3. MGA FUNCTION
+// 3. MGA TULONG NA FUNCTION
 // ==================================================
 function updateLanguage() {
     const ht = document.getElementById('heroTitle'); if(ht) ht.innerText = langText[currentLang].heroTitle;
@@ -78,20 +98,44 @@ function renderStars(rating) {
     return stars;
 }
 
+// ==================================================
+// ✅ INAYOS NA PAGPAPAKITA NG CARD (GUMAGANA NA ANG LAHAT NG KLIK)
+// ==================================================
 function renderCards(data = animeData) {
-    const tr = document.getElementById('trendingRow'); const nr = document.getElementById('newRow'); const ar = document.getElementById('allRow');
+    const tr = document.getElementById('trendingRow');
+    const nr = document.getElementById('newRow');
+    const ar = document.getElementById('allRow');
     if(!tr || !nr || !ar) return console.error("❌ Kulang ng row sa HTML!");
-    tr.innerHTML = ''; nr.innerHTML = ''; ar.innerHTML = '';
+    
+    tr.innerHTML = '';
+    nr.innerHTML = '';
+    ar.innerHTML = '';
 
     data.forEach(anime => {
         const p = getRatingPercent(anime.rating);
-        const card = document.createElement('div');
-        card.className = 'anime-card';
-        card.innerHTML = `<img src="${anime.img}" alt="${anime.title}"><div class="card-info"><h3>${anime.title}</h3><p>${anime.year} • ${anime.type}</p><div class="card-rating">${renderStars(anime.rating)} ${p}% (${anime.totalVotes})</div></div>`;
-        card.onclick = () => { selectedAnime = anime; openModal(anime); };
-        if(anime.category.includes('trending')) tr.appendChild(card.cloneNode(true));
-        if(anime.category.includes('new')) nr.appendChild(card.cloneNode(true));
-        if(anime.category.includes('all')) ar.appendChild(card);
+        const cardHTML = `
+            <div class="anime-card">
+                <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
+                <div class="card-info">
+                    <h3>${currentLang==='en'?anime.title:anime.titleTl}</h3>
+                    <p>${anime.year} • ${anime.type}</p>
+                    <div class="card-rating">${renderStars(anime.rating)} ${p}% (${anime.totalVotes})</div>
+                </div>
+            </div>
+        `;
+
+        if(anime.category.includes('trending')) {
+            tr.insertAdjacentHTML('beforeend', cardHTML);
+            tr.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); };
+        }
+        if(anime.category.includes('new')) {
+            nr.insertAdjacentHTML('beforeend', cardHTML);
+            nr.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); };
+        }
+        if(anime.category.includes('all')) {
+            ar.insertAdjacentHTML('beforeend', cardHTML);
+            ar.lastElementChild.onclick = () => { selectedAnime = anime; openModal(anime); };
+        }
     });
 }
 
@@ -108,6 +152,22 @@ function openModal(anime) {
     document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
     document.getElementById('downloadEn').innerText = langText[currentLang].downloadEn;
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
+    document.getElementById('ratingLabel').innerText = langText[currentLang].ratingLabel;
+    document.getElementById('voteLabel').innerText = langText[currentLang].voteLabel;
+
+    document.getElementById('downloadEn').onclick = () => window.open(anime.linkEn, '_blank');
+    document.getElementById('downloadTl').onclick = () => window.open(anime.linkTl, '_blank');
+
+    document.querySelectorAll('.vote-star').forEach(star => {
+        star.onclick = () => {
+            const vote = parseInt(star.dataset.vote);
+            anime.totalVotes += 1;
+            anime.rating = parseFloat(((anime.rating * (anime.totalVotes - 1) + vote) / anime.totalVotes).toFixed(1));
+            openModal(anime);
+            renderCards();
+        };
+    });
+
     im.classList.add('active'); document.body.style.overflow='hidden';
 }
 
@@ -120,23 +180,27 @@ function updateLoginUI() {
 }
 
 // ==================================================
-// 4. PAGSIMULA (LIGTAS NA SA ERROR)
+// 4. PAGSIMULA
 // ==================================================
 document.addEventListener('DOMContentLoaded', () => {
     console.log("✅ Nagsisimula na ang pag-load...");
 
-    // Wika
+    // Scroll sa Navbar
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => navbar?.classList.toggle('scrolled', window.scrollY > 50));
+
+    // Palitan Wika
     document.getElementById('langSelect')?.addEventListener('change', e => { currentLang = e.target.value; updateLanguage(); renderCards(); });
 
-    // Search
+    // Paghahanap
     document.getElementById('searchInput')?.addEventListener('input', e => {
         const kw = e.target.value.toLowerCase().trim();
         renderCards(kw ? animeData.filter(a => a.title.toLowerCase().includes(kw) || a.titleTl.toLowerCase().includes(kw)) : animeData);
     });
 
-    // Isara Modal
-    document.querySelector('.close-btn')?.addEventListener('click', () => { document.getElementById('infoModal')?.classList.remove('active'); document.body.style.overflow='auto'; });
-    window.addEventListener('click', e => { if(e.target===document.getElementById('infoModal')){ document.getElementById('infoModal')?.classList.remove('active'); document.body.style.overflow='auto'; }});
+    // Isara Info Modal
+    document.querySelector('.close-btn')?.addEventListener('click', () => { document.getElementById('infoModal')?.classList.remove('active'); document.body.style.overflow='auto'; selectedAnime=null; });
+    window.addEventListener('click', e => { if(e.target===document.getElementById('infoModal')){ document.getElementById('infoModal')?.classList.remove('active'); document.body.style.overflow='auto'; selectedAnime=null; }});
 
     // Login/Signup
     const allUsers = JSON.parse(localStorage.getItem('animeUsers')) || [];
@@ -149,15 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('doSignUp')?.addEventListener('click', () => {
         const u = document.getElementById('suUser').value.trim(); const p = document.getElementById('suPass').value;
-        if(!u||!p) return alert('Punan ang lahat!'); if(allUsers.find(x=>x.username===u)) return alert('Ginagamit na!');
-        allUsers.push({username:u,password:p}); localStorage.setItem('animeUsers',JSON.stringify(allUsers)); alert('Success! Mag-login na.');
+        if(!u||!p) return alert('Punan ang lahat!'); if(allUsers.find(x=>x.username===u)) return alert('Ginagamit na ang username!');
+        allUsers.push({username:u,password:p}); localStorage.setItem('animeUsers',JSON.stringify(allUsers)); alert('Matagumpay na nakarehistro! Mag-Sign In na.');
         document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='block';
     });
 
     document.getElementById('doSignIn')?.addEventListener('click', () => {
         const u = document.getElementById('siUser').value.trim(); const p = document.getElementById('siPass').value;
-        if(!allUsers.find(x=>x.username===u&&x.password===p)) return alert('Mali ang username o password!');
-        localStorage.setItem('activeUser',JSON.stringify({username:u})); updateLoginUI(); document.getElementById('signinModal').style.display='none'; alert(`Welcome, ${u}!`);
+        const found = allUsers.find(x=>x.username===u && x.password===p);
+        if(!found) return alert('Maling username o password!');
+        localStorage.setItem('activeUser',JSON.stringify(found)); updateLoginUI(); document.getElementById('signinModal').style.display='none'; alert(`Maligayang pagbabalik, ${u}!`);
     });
 
     document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.removeItem('activeUser'); updateLoginUI(); alert('Naka-logout na.'); });
@@ -166,5 +231,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLanguage();
     updateLoginUI();
     renderCards();
-    console.log("✅ TAPOS NA! Dapat nakikita mo na ang mga anime.");
+    console.log("✅ TAPOS NA! Lahat ng kategorya ay nakiki-click na.");
 });
