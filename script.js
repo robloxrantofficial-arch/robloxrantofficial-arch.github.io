@@ -383,7 +383,7 @@ updateLoginUI = function(user) { originalUpdateUI(user); updateOnlineCount(); };
 const heroBackgrounds = [
     'https://images3.alphacoders.com/130/thumb-1920-1302159.jpg',
     'https://images6.alphacoders.com/510/thumb-1920-510155.png',
-    'https://4kwallpapers.com/images/walls/thumbs_2t/24319.jpg',
+    'https://images4.alphacoders.com/139/thumb-1920-1396583.jpg',
     'https://images3.alphacoders.com/119/thumb-1920-1195019.png',
     'https://images2.alphacoders.com/135/thumb-1920-1356991.jpeg',
     'https://images3.alphacoders.com/936/thumb-1920-936371.jpg',
