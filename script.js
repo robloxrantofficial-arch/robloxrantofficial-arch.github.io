@@ -249,21 +249,54 @@ const animeData = [
     img:"https://upload.wikimedia.org/wikipedia/en/thumb/7/7d/Horimiya_manga_volume_1.jpg/250px-Horimiya_manga_volume_1.jpg",linkEn:"#",linkTl:"#"}
 ];
 
+// ==============================================
+// ANIMEBOOKS - BUONG SCRIPT (NA AYOS NA)
+// SIGURADUHING NASA UNAHAN ANG IYONG animeData
+// ==============================================
+
 let currentLang = 'en';
 let selectedAnime = null;
+
 const langText = {
-    en: {heroTitle:"Your Favorite Anime Light Novels & Ebooks",heroDesc:"Download thousands of anime light novels and ebooks for free",trendingTitle:"🔥 Trending Now",newTitle:"✨ New Released",allTitle:"📚 All Anime Ebooks",searchPlaceholder:"Search anime ebooks...",downloadEn:"Download English",downloadTl:"Download Tagalog",ratingLabel:"Rating:",voteLabel:"Vote this ebook:"},
-    tl: {heroTitle:"Ang Iyong Mga Paboritong Nobela at Ebook",heroDesc:"Mag-download ng libo-libong anime nobela at ebook nang libre",trendingTitle:"🔥 Pinakasikat Ngayon",newTitle:"✨ Mga Bagong Labas",allTitle:"📚 Lahat ng Anime Ebook",searchPlaceholder:"Maghanap ng anime ebook...",downloadEn:"I-download sa Ingles",downloadTl:"I-download sa Tagalog",ratingLabel:"Marka:",voteLabel:"Bigyan ng marka ang nobelang ito:"}
+    en: {
+        heroTitle:"Your Favorite Anime Light Novels & Ebooks",
+        heroDesc:"Download thousands of anime light novels and ebooks for free",
+        trendingTitle:"🔥 Trending Now",
+        newTitle:"✨ New Released",
+        allTitle:"📚 All Anime Ebooks",
+        searchPlaceholder:"Search anime ebooks...",
+        downloadEn:"Download English",
+        downloadTl:"Download Tagalog",
+        ratingLabel:"Rating:",
+        voteLabel:"Vote this ebook:"
+    },
+    tl: {
+        heroTitle:"Ang Iyong Mga Paboritong Nobela at Ebook",
+        heroDesc:"Mag-download ng libo-libong anime nobela at ebook nang libre",
+        trendingTitle:"🔥 Pinakasikat Ngayon",
+        newTitle:"✨ Mga Bagong Labas",
+        allTitle:"📚 Lahat ng Anime Ebook",
+        searchPlaceholder:"Maghanap ng anime ebook...",
+        downloadEn:"I-download sa Ingles",
+        downloadTl:"I-download sa Tagalog",
+        ratingLabel:"Marka:",
+        voteLabel:"Bigyan ng marka ang nobelang ito:"
+    }
 };
 
+// Kunin ang mga elemento sa HTML
 const navbar = document.querySelector('.navbar');
 const langSelect = document.getElementById('langSelect');
 const searchInput = document.getElementById('searchInput');
 const infoModal = document.getElementById('infoModal');
 const closeBtn = document.querySelector('.close-btn');
 
-window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+// Ipakita ang itim na navbar kapag nag-scroll
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
 
+// Palitan ang wika
 langSelect.addEventListener('change', e => {
     currentLang = e.target.value;
     updateLanguage();
@@ -271,6 +304,7 @@ langSelect.addEventListener('change', e => {
     if(selectedAnime) openModal(selectedAnime);
 });
 
+// I-update ang mga teksto batay sa wika
 function updateLanguage() {
     document.getElementById('heroTitle').innerText = langText[currentLang].heroTitle;
     document.getElementById('heroDesc').innerText = langText[currentLang].heroDesc;
@@ -280,17 +314,23 @@ function updateLanguage() {
     searchInput.placeholder = langText[currentLang].searchPlaceholder;
 }
 
+// I-compute ang porsyento ng rating
 function getRatingPercent(rating) {
     return Math.round((rating / 5) * 100);
 }
 
+// Gumawa ng mga bituin para sa rating
 function renderStars(rating) {
     let stars = '';
-    for(let i=1; i<=5; i++) stars += `<span class="star ${i <= Math.round(rating) ? 'active' : ''}" data-star="${i}">★</span>`;
+    for(let i=1; i<=5; i++) {
+        stars += `<span class="star ${i <= Math.round(rating) ? 'active' : ''}" data-star="${i}">★</span>`;
+    }
     return stars;
 }
 
+// Ipakita ang lahat ng cards
 function renderCards(data = animeData) {
+    // Linisin muna ang laman
     document.getElementById('trendingRow').innerHTML = '';
     document.getElementById('newRow').innerHTML = '';
     document.getElementById('allRow').innerHTML = '';
@@ -299,21 +339,32 @@ function renderCards(data = animeData) {
         const percent = getRatingPercent(anime.rating);
         const card = document.createElement('div');
         card.className = 'anime-card';
+        
+        // Gawing clickable ang buong card
+        card.style.cursor = 'pointer';
         card.innerHTML = `
             <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
             <div class="card-info">
                 <h3>${currentLang==='en'?anime.title:anime.titleTl}</h3>
                 <p>${anime.year} • ${anime.type}</p>
                 <div class="card-rating">${renderStars(anime.rating)} <span>${percent}% (${anime.totalVotes} votes)</span></div>
-            </div>`;
-        card.addEventListener('click', () => { selectedAnime = anime; openModal(anime); });
+            </div>
+        `;
 
+        // Buksan ang detalye kapag kinlick
+        card.addEventListener('click', () => {
+            selectedAnime = anime;
+            openModal(anime);
+        });
+
+        // Ilagay sa tamang kategorya
         if (anime.category.includes('trending')) document.getElementById('trendingRow').appendChild(card.cloneNode(true));
         if (anime.category.includes('new')) document.getElementById('newRow').appendChild(card.cloneNode(true));
         if (anime.category.includes('all')) document.getElementById('allRow').appendChild(card);
     });
 }
 
+// Buksan ang detalye ng napiling anime
 function openModal(anime) {
     document.getElementById('modalImg').src = anime.img;
     document.getElementById('modalTitle').innerText = currentLang==='en'?anime.title:anime.titleTl;
@@ -324,6 +375,8 @@ function openModal(anime) {
     document.getElementById('modalRatingPercent').innerText = `${getRatingPercent(anime.rating)}%`;
     document.getElementById('modalRatingStars').innerHTML = renderStars(anime.rating);
     document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
+    
+    // Mga button para sa download
     document.getElementById('downloadEn').onclick = () => window.open(anime.linkEn, '_blank');
     document.getElementById('downloadTl').onclick = () => window.open(anime.linkTl, '_blank');
     document.getElementById('downloadEn').innerText = langText[currentLang].downloadEn;
@@ -331,6 +384,7 @@ function openModal(anime) {
     document.getElementById('ratingLabel').innerText = langText[currentLang].ratingLabel;
     document.getElementById('voteLabel').innerText = langText[currentLang].voteLabel;
 
+    // Boto sa rating
     document.querySelectorAll('.vote-star').forEach(star => {
         star.onclick = () => {
             const vote = parseInt(star.dataset.vote);
@@ -345,9 +399,34 @@ function openModal(anime) {
     document.body.style.overflow = 'hidden';
 }
 
-closeBtn.addEventListener('click', () => { infoModal.classList.remove('active'); document.body.style.overflow='auto'; selectedAnime=null; });
-window.addEventListener('click', e => { if(e.target===infoModal){ infoModal.classList.remove('active'); document.body.style.overflow='auto'; selectedAnime=null; }});
-searchInput.addEventListener('input', e => { const kw = e.target.value.toLowerCase().trim(); renderCards(kw ? animeData.filter(a => a.title.toLowerCase().includes(kw) || a.titleTl.toLowerCase().includes(kw)) : animeData); });
+// Isara ang detalye
+closeBtn.addEventListener('click', () => {
+    infoModal.classList.remove('active');
+    document.body.style.overflow='auto';
+    selectedAnime=null;
+});
 
+window.addEventListener('click', e => {
+    if(e.target===infoModal){
+        infoModal.classList.remove('active');
+        document.body.style.overflow='auto';
+        selectedAnime=null;
+    }
+});
+
+// Paghahanap
+searchInput.addEventListener('input', e => {
+    const kw = e.target.value.toLowerCase().trim();
+    renderCards(kw ? animeData.filter(a => a.title.toLowerCase().includes(kw) || a.titleTl.toLowerCase().includes(kw)) : animeData);
+});
+
+// SIMULAN ANG PAGPAPAKITA KAPAG BUO NA ANG LAHAT
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof animeData !== 'undefined') {
+        renderCards();
+    } else {
+        console.error("WALA ANG animeData! Siguraduhing naisama mo ang listahan ng mga anime bago ang script na ito.");
+    }
+});
 renderCards();
 updateLanguage();
