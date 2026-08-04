@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, user => { updateLoginUI(user); });
 
-    // ✅ BINAGO: display: flex na para NASA GITNA
+    // ✅ NASA GITNA NA ANG MODAL
     document.getElementById('signinBtn').onclick = () => {
         document.getElementById('signinModal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -440,6 +440,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('signinModal').style.display = 'none'; 
             document.body.style.overflow = 'auto';
         }).catch(err => showError("Invalid email or password!"));
+    };
+
+    // ✅ FORGOT PASSWORD LINK — NAKAKABIT NA
+    document.getElementById('forgotPassLink').onclick = (e) => {
+        e.preventDefault();
+        alert("Paumanhin, ang pag-reset ng password ay hindi pa aktibo. Gumamit muna ng ibang account o mag-sign up.");
     };
 
     // Navigation (Home / Trending / New Released / All Anime)
