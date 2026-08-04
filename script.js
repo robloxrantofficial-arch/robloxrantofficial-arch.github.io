@@ -64,11 +64,6 @@ function isValidEmail(email) {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 }
 
-function notifyAllUsersNewUpload(title, linkEn, linkTl) {
-    console.log(`📢 BAGONG UPLOAD: ${title}\nEnglish: ${linkEn}\nTagalog: ${linkTl}`);
-    alert(`✅ Naka-record na ang paalala!\nKapag naka-server na, awtomatiko itong ipapadala sa lahat ng rehistradong email.`);
-}
-
 function updateLanguage() {
     Object.keys(langText[currentLang]).forEach(key => {
         const el = document.getElementById(key);
@@ -117,17 +112,32 @@ function openModal(anime) {
     document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
 
     document.getElementById('downloadEn').onclick = () => {
-        if(!currentUser) return alert("🔒 Kailangan mag-Sign In muna!");
+        if(!currentUser) {
+            document.getElementById('infoModal').classList.remove('active');
+            document.getElementById('signinModal').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            return;
+        }
         window.open(anime.linkEn, '_blank');
     };
     document.getElementById('downloadTl').onclick = () => {
-        if(!currentUser) return alert("🔒 Kailangan mag-Sign In muna!");
+        if(!currentUser) {
+            document.getElementById('infoModal').classList.remove('active');
+            document.getElementById('signinModal').style.display = 'block';
+            document.body.style.overflow = 'auto';
+            return;
+        }
         window.open(anime.linkTl, '_blank');
     };
 
     document.querySelectorAll('.vote-star').forEach(star => {
         star.onclick = () => {
-            if(!currentUser) return alert("🔒 Kailangan mag-Sign In muna!");
+            if(!currentUser) {
+                document.getElementById('infoModal').classList.remove('active');
+                document.getElementById('signinModal').style.display = 'block';
+                document.body.style.overflow = 'auto';
+                return;
+            }
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes++;
             anime.rating = parseFloat(((anime.rating*(anime.totalVotes-1)+vote)/anime.totalVotes).toFixed(1));
@@ -148,6 +158,18 @@ function updateLoginUI(user) {
     document.getElementById('userDisplay').innerText = user ? `👤 ${user.email}` : '';
 }
 
+// IPAPAKITA ANG ERROR SA ILALIM NG BUTTON
+function showError(message) {
+    const suErr = document.getElementById('suError');
+    if(suErr) { suErr.innerText = message; suErr.style.display = 'block'; }
+    const siErr = document.getElementById('siError');
+    if(siErr) { siErr.innerText = message; siErr.style.display = 'block'; }
+    setTimeout(() => {
+        if(suErr) suErr.style.display = 'none';
+        if(siErr) siErr.style.display = 'none';
+    }, 5000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const auth = window.firebaseAuth;
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
@@ -163,9 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => {
                 updateLoginUI(res.user);
                 document.getElementById('signinModal').style.display = 'none';
-                alert(`✅ Kumusta, ${res.user.email}! Maaari ka nang mag-download.`);
             })
-            .catch(err => alert(`❌ Mali: ${err.message}`));
+            .catch(err => showError(err.message));
     };
 
     // GOOGLE SIGN UP
@@ -174,9 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => {
                 updateLoginUI(res.user);
                 document.getElementById('signupModal').style.display = 'none';
-                alert(`✅ Naka-rehistro at naka-login na, ${res.user.email}!`);
             })
-            .catch(err => alert(`❌ Mali: ${err.message}`));
+            .catch(err => showError(err.message));
     };
 
     // EMAIL SIGN UP
@@ -185,17 +205,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const pass = document.getElementById('suPass').value;
         const confirm = document.getElementById('suConfirmPass').value;
 
-        if(!email || !pass || !confirm) return alert('⚠️ Punan lahat ng patlang!');
-        if(!isValidEmail(email)) return alert('❌ Ilagay ang tamang format ng email!');
-        if(pass !== confirm) return alert('❌ Hindi tugma ang password!');
+        if(!email || !pass || !confirm) return showError("Please fill in all fields!");
+        if(!isValidEmail(email)) return showError("Please enter a valid email address!");
+        if(pass !== confirm) return showError("Passwords do not match!");
 
         createUserWithEmailAndPassword(auth, email, pass)
             .then(res => {
                 updateLoginUI(res.user);
                 document.getElementById('signupModal').style.display = 'none';
-                alert(`✅ Matagumpay na nakarehistro, ${email}!`);
             })
-            .catch(err => alert(`❌ Mali: ${err.message}`));
+            .catch(err => showError(err.message));
     };
 
     // EMAIL SIGN IN
@@ -203,23 +222,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('siUser').value.trim();
         const pass = document.getElementById('siPass').value;
 
-        if(!email || !pass) return alert('⚠️ Ilagay ang email at password!');
-        if(!isValidEmail(email)) return alert('❌ Ilagay ang tamang format ng email!');
+        if(!email || !pass) return showError("Please enter your email and password!");
+        if(!isValidEmail(email)) return showError("Please enter a valid email address!");
 
         signInWithEmailAndPassword(auth, email, pass)
             .then(res => {
                 updateLoginUI(res.user);
                 document.getElementById('signinModal').style.display = 'none';
-                alert(`✅ Maligayang pagbabalik, ${res.user.email}!`);
             })
-            .catch(err => alert(`❌ Maling email o password!`));
+            .catch(err => showError("Invalid email or password!"));
     };
 
     // LOGOUT
     document.getElementById('logoutBtn').onclick = () => {
         signOut(auth).then(() => {
             updateLoginUI(null);
-            alert('👋 Naka-logout na.');
         });
     };
 
