@@ -130,7 +130,21 @@ function openModal(anime) {
         window.open(anime.linkTl, '_blank');
     };
 
-    document.querySelectorAll('.vote-star').forEach(star => {
+    // --- SISTEMA NG BOTO: ISANG USER = ISANG BOTO LANG ---
+    const userId = currentUser ? currentUser.uid : null;
+    const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
+    const userVote = userId && savedVotes[userId] ? savedVotes[userId][anime.id] : null;
+
+    document.querySelectorAll('.vote-star').forEach((star, idx) => {
+        // Ipakita na ang boto ng user kung meron na
+        if(userVote) {
+            star.style.pointerEvents = 'none';
+            star.style.color = idx < userVote ? '#ffc107' : '#444';
+        } else {
+            star.style.pointerEvents = 'auto';
+            star.style.color = '#444';
+        }
+
         star.onclick = () => {
             if(!currentUser) {
                 document.getElementById('infoModal').classList.remove('active');
@@ -138,9 +152,22 @@ function openModal(anime) {
                 document.body.style.overflow = 'auto';
                 return;
             }
+
+            // Kung nakaboto na, bawal na
+            if(savedVotes[userId] && savedVotes[userId][anime.id]) {
+                showError("You have already voted for this ebook!");
+                return;
+            }
+
+            // I-save ang bagong boto
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes++;
             anime.rating = parseFloat(((anime.rating*(anime.totalVotes-1)+vote)/anime.totalVotes).toFixed(1));
+
+            if(!savedVotes[userId]) savedVotes[userId] = {};
+            savedVotes[userId][anime.id] = vote;
+            localStorage.setItem('userVotes', JSON.stringify(savedVotes));
+
             openModal(anime); renderCards();
         };
     });
