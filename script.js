@@ -399,8 +399,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSavedStats();
     setRandomHeroBackground();
     updateOnlineCount();
+    renderCards(); // ✅ DAGDAGAN ITO — ITO ANG MAGPAPAKITA SA LAHAT NG KARD
     setInterval(updateOnlineCount, 600000); // 10 minutes
 
+    // ... ang natitirang code ay mananatili
+});
     const auth = window.firebaseAuth;
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
     const provider = window.firebaseProvider;
