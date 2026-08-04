@@ -76,6 +76,17 @@ function renderStars(rating) {
     return Array.from({length:5}, (_,i) => `<span class="star ${i < Math.round(rating) ? 'active' : ''}">★</span>`).join('');
 }
 
+// ✅ PAG BUKAS NG PAHINA, I-LOAD ANG NA-SAVE NA BILANG NG BOTO AT RATING
+function loadSavedStats() {
+    const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
+    animeData.forEach(anime => {
+        if(savedStats[anime.id]) {
+            anime.totalVotes = savedStats[anime.id].totalVotes;
+            anime.rating = savedStats[anime.id].rating;
+        }
+    });
+}
+
 function renderCards(data = animeData) {
     ['trending','new','all'].forEach(cat => {
         const row = document.getElementById(`${cat}Row`);
@@ -130,9 +141,10 @@ function openModal(anime) {
         window.open(anime.linkTl, '_blank');
     };
 
-    // --- SISTEMA NG BOTO: ISANG USER = ISANG BOTO LANG ---
+    // --- SISTEMA NG BOTO: ISANG USER = ISANG BOTO LANG + PERMANENT SAVE ---
     const userId = currentUser ? currentUser.uid : null;
     const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
+    const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
     const userVote = userId && savedVotes[userId] ? savedVotes[userId][anime.id] : null;
 
     document.querySelectorAll('.vote-star').forEach((star, idx) => {
@@ -159,14 +171,22 @@ function openModal(anime) {
                 return;
             }
 
-            // I-save ang bagong boto
+            // I-UPDATE ANG BILANG AT MARKA
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes++;
             anime.rating = parseFloat(((anime.rating*(anime.totalVotes-1)+vote)/anime.totalVotes).toFixed(1));
 
+            // I-SAVE ANG BOTO NG USER
             if(!savedVotes[userId]) savedVotes[userId] = {};
             savedVotes[userId][anime.id] = vote;
             localStorage.setItem('userVotes', JSON.stringify(savedVotes));
+
+            // I-SAVE PATI ANG BAGONG BILANG NG BOTO AT RATING
+            savedStats[anime.id] = {
+                totalVotes: anime.totalVotes,
+                rating: anime.rating
+            };
+            localStorage.setItem('animeStats', JSON.stringify(savedStats));
 
             openModal(anime); renderCards();
         };
@@ -198,6 +218,9 @@ function showError(message) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // ✅ I-LOAD AGAD ANG NA-SAVE NA BILANG NG BOTO
+    loadSavedStats();
+
     const auth = window.firebaseAuth;
     const { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } = window.firebaseMethods;
     const provider = window.firebaseProvider;
