@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- ==================== NAVBAR ==================== -->
     <nav class="navbar">
         <div class="nav-left">
             <h1 class="logo">ANIME<span>BOOKS</span></h1>
@@ -22,13 +21,10 @@
         </div>
         <div class="nav-right">
             <span class="users-online">🟢 Users Online: <strong id="onlineCount">1</strong></span>
-
-            <!-- ✅ KUMPLETO NA ANG SEARCH BOX DITO -->
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search anime ebooks...">
                 <i class="fas fa-search"></i>
             </div>
-
             <button id="signinBtn" class="nav-btn">Sign In</button>
             <button id="signupBtn" class="nav-btn">Sign Up</button>
             <span id="userDisplay" class="user-name" style="display:none;"></span>
@@ -40,7 +36,6 @@
         </div>
     </nav>
 
-    <!-- ==================== SIGN IN MODAL ==================== -->
     <div id="signinModal" class="modal">
         <div class="modal-content">
             <span class="close-sign">&times;</span>
@@ -48,23 +43,30 @@
             <input type="text" id="siUser" placeholder="Username" required>
             <input type="password" id="siPass" placeholder="Password" required>
             <button id="doSignIn">Login</button>
-            <p>Wala pang account? <a id="goSignup">Mag-Sign Up dito</a></p>
+            <p style="margin-top:8px; font-size:13px;">
+                <a id="forgotPassLink" style="color:#ffd700; cursor:pointer;">Forgot Password?</a>
+            </p>
+            <p>Wala pang account? <a id="goSignup" style="color:#0099ff; cursor:pointer;">Mag-Sign Up dito</a></p>
         </div>
     </div>
 
-    <!-- ==================== SIGN UP MODAL ==================== -->
     <div id="signupModal" class="modal">
         <div class="modal-content">
             <span class="close-su">&times;</span>
-            <h2>Sign Up</h2>
-            <input type="text" id="suUser" placeholder="Gumawa ng Username" required>
+            <h2>Create Account</h2>
+            <label>Username:</label>
+            <input type="text" id="suUser" placeholder="Ilagay ang Username" required>
+            <label>Password:</label>
             <input type="password" id="suPass" placeholder="Gumawa ng Password" required>
-            <button id="doSignUp">Magrehistro</button>
-            <p>May account na? <a id="goSignin">Mag-Sign In dito</a></p>
+            <label>Confirm Password:</label>
+            <input type="password" id="suConfirmPass" placeholder="Ulitin ang Password" required>
+            <label>Email Address:</label>
+            <input type="email" id="suEmail" placeholder="Ilagay ang iyong Email" required>
+            <button id="doSignUp">Sign Up</button>
+            <p>May account na? <a id="goSignin" style="color:#0099ff; cursor:pointer;">Mag-Sign In dito</a></p>
         </div>
     </div>
 
-    <!-- ==================== HERO BANNER ==================== -->
     <section class="hero">
         <div class="hero-content">
             <h2 id="heroTitle">Your Favorite Anime Light Novels & Ebooks</h2>
@@ -72,49 +74,29 @@
         </div>
     </section>
 
-    <!-- ==================== CONTENT SECTIONS ==================== -->
     <div class="container">
         <section class="section">
-            <div class="section-header">
-                <h2 id="trendingTitle">🔥 Trending Now</h2>
-            </div>
+            <div class="section-header"><h2 id="trendingTitle">🔥 Trending Now</h2></div>
             <div class="card-row" id="trendingRow"></div>
         </section>
-
         <section class="section">
-            <div class="section-header">
-                <h2 id="newTitle">✨ New Released</h2>
-            </div>
+            <div class="section-header"><h2 id="newTitle">✨ New Released</h2></div>
             <div class="card-row" id="newRow"></div>
         </section>
-
         <section class="section">
-            <div class="section-header">
-                <h2 id="allTitle">📚 All Anime Ebooks</h2>
-            </div>
+            <div class="section-header"><h2 id="allTitle">📚 All Anime Ebooks</h2></div>
             <div class="card-row" id="allRow"></div>
         </section>
     </div>
 
-    <!-- ==================== INFO MODAL ==================== -->
     <div id="infoModal" class="modal">
         <span class="close-btn">&times;</span>
         <div class="modal-content">
-            <div class="modal-left">
-                <img id="modalImg" src="" alt="">
-            </div>
+            <div class="modal-left"><img id="modalImg" src="" alt=""></div>
             <div class="modal-right">
                 <h2 id="modalTitle"></h2>
-                <div class="meta">
-                    <span id="modalYear"></span> • 
-                    <span id="modalType"></span> • 
-                    <span id="modalLang"></span>
-                </div>
-                <div class="rating-area">
-                    <span id="modalRatingStars"></span>
-                    <span id="modalRatingPercent"></span>
-                    <span id="modalVotes"></span>
-                </div>
+                <div class="meta"><span id="modalYear"></span> • <span id="modalType"></span> • <span id="modalLang"></span></div>
+                <div class="rating-area"><span id="modalRatingStars"></span> <span id="modalRatingPercent"></span> <span id="modalVotes"></span></div>
                 <p id="modalDesc"></p>
                 <p id="ratingLabel">Rating:</p>
                 <div class="vote-area">
@@ -126,12 +108,8 @@
                     <span class="vote-star" data-vote="5">★</span>
                 </div>
                 <div style="margin-top:20px;">
-                    <button id="downloadEn" class="download-btn">
-                        <i class="fas fa-download"></i> Download English
-                    </button>
-                    <button id="downloadTl" class="download-btn">
-                        <i class="fas fa-download"></i> Download Tagalog
-                    </button>
+                    <button id="downloadEn" class="download-btn"><i class="fas fa-download"></i> Download English</button>
+                    <button id="downloadTl" class="download-btn"><i class="fas fa-download"></i> Download Tagalog</button>
                 </div>
             </div>
         </div>
