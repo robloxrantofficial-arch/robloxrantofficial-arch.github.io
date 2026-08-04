@@ -156,7 +156,7 @@
     <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js"></script>
 
-    <script>
+        <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
             authDomain: "nime-ebooks-hub.firebaseapp.com",
@@ -171,17 +171,16 @@
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
-        // ILAGAY SA GLOBAL PARA MAKITA NG script.js
+        // ✅ TAMA NA ANG PAGBIBIGAY NG FUNCTIONS SA GLOBAL
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
         window.firebaseMethods = {
-            signInWithPopup: firebase.auth.signInWithPopup,
-            GoogleAuthProvider: firebase.auth.GoogleAuthProvider,
-            createUserWithEmailAndPassword: firebase.auth.createUserWithEmailAndPassword,
-            signInWithEmailAndPassword: firebase.auth.signInWithEmailAndPassword,
-            onAuthStateChanged: firebase.auth.onAuthStateChanged,
-            signOut: firebase.auth.signOut,
-            sendPasswordResetEmail: firebase.auth.sendPasswordResetEmail
+            signInWithPopup: (authInst, prov) => authInst.signInWithPopup(prov),
+            createUserWithEmailAndPassword: (authInst, email, pass) => authInst.createUserWithEmailAndPassword(email, pass),
+            signInWithEmailAndPassword: (authInst, email, pass) => authInst.signInWithEmailAndPassword(email, pass),
+            onAuthStateChanged: (authInst, callback) => authInst.onAuthStateChanged(callback),
+            signOut: (authInst) => authInst.signOut(),
+            sendPasswordResetEmail: (authInst, email) => authInst.sendPasswordResetEmail(email)
         };
     </script>
 
