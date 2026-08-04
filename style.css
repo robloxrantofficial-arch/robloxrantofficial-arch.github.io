@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -31,16 +31,13 @@ nav {
     color: #ff1a1a;
     text-decoration: none;
 }
+.logo span { color: #fff; }
 
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-}
+.nav-left { display: flex; align-items: center; gap: 30px; }
+.nav-links { display: flex; list-style: none; gap: 25px; }
 
 .nav-item {
     color: #cccccc;
-    text-decoration: none;
     font-weight: 500;
     cursor: pointer !important;
     position: relative !important;
@@ -48,11 +45,7 @@ nav {
     pointer-events: auto !important;
     transition: color 0.2s ease;
 }
-
-.nav-item:hover,
-.nav-item.active {
-    color: #ffffff;
-}
+.nav-item:hover, .nav-item.active { color: #ff1a1a; }
 
 .nav-right {
     display: flex;
@@ -61,12 +54,22 @@ nav {
 }
 
 .search-box {
-    padding: 6px 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.search-box input {
+    padding: 6px 30px 6px 12px;
     border-radius: 4px;
     border: 1px solid #333;
     background-color: #1a1a1a;
     color: white;
     width: 220px;
+}
+.search-box i {
+    position: absolute;
+    right: 8px;
+    color: #888;
 }
 
 /* ===== BUTTONS ===== */
@@ -79,7 +82,7 @@ nav {
     position: relative !important;
     z-index: 99999 !important;
     pointer-events: auto !important;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 #signinBtn {
@@ -87,29 +90,20 @@ nav {
     color: white;
     border: 1px solid #555;
 }
-
-#signinBtn:hover {
-    border-color: white;
-}
+#signinBtn:hover { border-color: #ff1a1a; color: #ff1a1a; }
 
 #signupBtn {
     background-color: #ff1a1a;
     color: white;
 }
-
-#signupBtn:hover {
-    background-color: #e60000;
-}
+#signupBtn:hover { background-color: #e60000; }
 
 #logoutBtn {
     background-color: #333;
     color: white;
     display: none;
 }
-
-#logoutBtn:hover {
-    background-color: #444;
-}
+#logoutBtn:hover { background-color: #444; }
 
 #langSelect {
     padding: 6px 10px;
@@ -120,10 +114,8 @@ nav {
     cursor: pointer;
 }
 
-.online-count {
-    font-size: 14px;
-    color: #aaa;
-}
+.users-online { font-size: 14px; color: #aaa; }
+.user-name { color: #aaa; font-size: 14px; }
 
 /* ===== HERO SECTION ===== */
 .hero {
@@ -137,39 +129,18 @@ nav {
     background-position: center;
     position: relative;
 }
-
-.hero::before {
-    content: "";
+.hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to right, rgba(15,15,15,0.95), rgba(15,15,15,0.6));
     z-index: 0;
 }
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 700px;
-}
-
-.hero h1 {
-    font-size: 42px;
-    margin-bottom: 12px;
-}
-
-.hero p {
-    font-size: 18px;
-    color: #cccccc;
-    margin-bottom: 20px;
-}
-
-#learnMoreBtn {
+.hero-content { position: relative; z-index: 1; max-width: 700px; }
+.hero-title { font-size: 42px; margin-bottom: 12px; }
+.hero-subtitle { font-size: 18px; color: #cccccc; margin-bottom: 20px; }
+.hero-buttons { display: flex; gap: 12px; }
+.hero-btn {
     padding: 10px 25px;
-    background-color: #ff1a1a;
-    color: white;
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -177,21 +148,15 @@ nav {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
+.play-btn { background-color: #ff1a1a; color: white; }
+.play-btn:hover { background-color: #e60000; }
+.info-btn { background-color: #333; color: white; }
+.info-btn:hover { background-color: #444; }
 
-#learnMoreBtn:hover {
-    background-color: #e60000;
-}
-
-/* ===== CATEGORIES / CARDS ===== */
-.section {
-    padding: 30px;
-}
-
-.section-title {
-    font-size: 22px;
-    margin-bottom: 15px;
-    color: #ffffff;
-}
+.container { max-width: 1400px; margin: 0 auto; }
+.section { padding: 30px; }
+.section-header { margin-bottom: 15px; }
+.section-header h2 { font-size: 22px; color: #fff; }
 
 .card-row {
     display: flex;
@@ -199,14 +164,8 @@ nav {
     overflow-x: auto;
     padding-bottom: 10px;
 }
-
-.card-row::-webkit-scrollbar {
-    height: 6px;
-}
-.card-row::-webkit-scrollbar-thumb {
-    background-color: #333;
-    border-radius: 3px;
-}
+.card-row::-webkit-scrollbar { height: 6px; }
+.card-row::-webkit-scrollbar-thumb { background-color: #333; border-radius: 3px; }
 
 .anime-card {
     min-width: 160px;
@@ -214,11 +173,7 @@ nav {
     transition: transform 0.2s ease;
     flex-shrink: 0;
 }
-
-.anime-card:hover {
-    transform: scale(1.05);
-}
-
+.anime-card:hover { transform: scale(1.05); }
 .anime-card img {
     width: 100%;
     height: 230px;
@@ -226,7 +181,6 @@ nav {
     border-radius: 6px;
     margin-bottom: 8px;
 }
-
 .card-info h3 {
     font-size: 15px;
     margin-bottom: 4px;
@@ -234,26 +188,12 @@ nav {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.card-info p { font-size: 13px; color: #aaaaaa; }
+.card-rating { font-size: 12px; color: #ffcc00; margin-top: 4px; }
+.star { color: #333; }
+.star.active { color: #ffcc00; }
 
-.card-info p {
-    font-size: 13px;
-    color: #aaaaaa;
-}
-
-.card-rating {
-    font-size: 12px;
-    color: #ffcc00;
-    margin-top: 4px;
-}
-
-.star {
-    color: #333;
-}
-.star.active {
-    color: #ffcc00;
-}
-
-/* ===== MODAL ===== */
+/* ===== INFO MODAL ===== */
 .modal {
     display: none;
     position: fixed;
@@ -265,19 +205,13 @@ nav {
     z-index: 999999;
     overflow-y: auto;
 }
-
-.modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+.modal.active { display: flex; align-items: center; justify-content: center; padding: 20px; }
 
 .modal-content {
     background-color: #1a1a1a;
     border-radius: 8px;
     width: 100%;
-    max-width: 550px;
+    max-width: 700px;
     padding: 25px;
     position: relative;
 }
@@ -291,91 +225,87 @@ nav {
     cursor: pointer;
     transition: color 0.2s ease;
 }
+.close-btn:hover { color: white; }
 
-.close-btn:hover {
+.modal-content { display: flex; gap: 20px; }
+.modal-left { flex: 1; }
+.modal-left img { width: 100%; height: 280px; object-fit: cover; border-radius: 6px; }
+.modal-right { flex: 1; }
+.modal-right h2 { font-size: 24px; margin-bottom: 8px; }
+.meta { font-size: 14px; color: #aaa; margin-bottom: 10px; }
+.rating-area { margin-bottom: 12px; color: #ffcc00; }
+.modal-right p { color: #ddd; margin-bottom: 12px; line-height: 1.7; }
+.vote-area { margin-bottom: 18px; }
+.vote-star { font-size: 24px; cursor: pointer; margin-right: 5px; transition: color 0.15s ease; }
+.download-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff1a1a;
     color: white;
-}
-
-.modal-img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 15px;
-}
-
-.modal-title {
-    font-size: 24px;
-    margin-bottom: 8px;
-}
-
-.modal-meta {
-    font-size: 14px;
-    color: #aaa;
-    margin-bottom: 12px;
-}
-
-.modal-desc {
-    color: #ddd;
-    margin-bottom: 18px;
-    line-height: 1.7;
-}
-
-.vote-area {
-    margin-bottom: 18px;
-}
-
-.vote-area label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-}
-
-.vote-star {
-    font-size: 24px;
+    font-weight: 600;
     cursor: pointer;
-    margin-right: 5px;
-    transition: color 0.15s ease;
+    margin-right: 10px;
+    transition: background-color 0.2s ease;
 }
+.download-btn:hover { background-color: #e60000; }
 
-.modal-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 10px;
+/* ===== SIGN IN / SIGN UP MODAL — TUGMA NA SA HTML MO ===== */
+.auth-modal {
+    max-width: 420px;
+    flex-direction: column;
+    gap: 15px;
 }
+.close-sign, .close-su {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 26px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.close-sign:hover, .close-su:hover { color: #fff; }
 
-.modal-btn {
-    flex: 1;
+.auth-modal h2 { text-align: center; margin-top: 10px; margin-bottom: 10px; }
+
+.auth-btn {
+    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     transition: background-color 0.2s ease;
 }
-
-#downloadEn, #downloadTl {
-    background-color: #ff1a1a;
-    color: white;
+.google-btn { background-color: #4285f4; color: white; }
+.google-btn:hover { background-color: #3367d6; }
+.auth-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: white;
+    color: #4285f4;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-#downloadEn:hover, #downloadTl:hover {
-    background-color: #e60000;
-}
-
-/* ===== LOGIN / SIGNUP MODAL ===== */
-.modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.modal-form h2 {
+.divider-text {
     text-align: center;
-    margin-bottom: 10px;
+    color: #888;
+    margin: 5px 0;
+    font-size: 14px;
 }
 
-.modal-form input {
+.auth-modal input {
+    width: 100%;
     padding: 10px 12px;
     border-radius: 4px;
     border: 1px solid #444;
@@ -383,13 +313,21 @@ nav {
     color: white;
     font-size: 15px;
 }
+.auth-modal input:focus { outline: none; border-color: #ff1a1a; }
 
-.modal-form input:focus {
-    outline: none;
-    border-color: #ff1a1a;
+.pass-wrapper { position: relative; width: 100%; }
+.pass-wrapper input { padding-right: 35px; }
+.eye-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
 }
 
-.modal-form button {
+.submit-btn {
+    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 4px;
@@ -400,53 +338,37 @@ nav {
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
-
-.modal-form button:hover {
-    background-color: #e60000;
-}
-
-.google-btn {
-    background-color: #4285f4 !important;
-    margin-bottom: 8px;
-}
-
-.google-btn:hover {
-    background-color: #3367d6 !important;
-}
-
-.switch-form {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #aaa;
-}
-
-.switch-form span {
-    color: #ff1a1a;
-    font-weight: 600;
-    cursor: pointer;
-}
+.submit-btn:hover { background-color: #e60000; }
 
 .error-msg {
     color: #ff4d4d;
     font-size: 13px;
     margin-top: -8px;
     display: none;
+    text-align: center;
 }
 
-.user-display {
-    color: #aaa;
+.forgot-link, .switch-text {
+    text-align: center;
     font-size: 14px;
+    color: #aaa;
 }
+.forgot-link a, .switch-text a {
+    color: #ff1a1a;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.forgot-link a:hover, .switch-text a:hover { text-decoration: underline; }
 
-/* ===== PARA SIGURADONG MA-CLICK ANG LAHAT ===== */
+/* ===== SIGURADONG WALANG NAKAHARANG SA MGA BUTTON ===== */
 button,
 .nav-item,
 .anime-card,
-.switch-form span,
+.switch-text a,
 #langSelect {
     position: relative !important;
-    z-index: 9999 !important;
+    z-index: 99999 !important;
     pointer-events: auto !important;
     cursor: pointer !important;
 }
