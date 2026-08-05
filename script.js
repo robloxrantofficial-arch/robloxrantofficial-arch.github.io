@@ -204,7 +204,7 @@ function renderCards(data) {
     });
 }
 
-// ✅ MODAL — AWTOMATIKONG TATANGGAL NG VOLUME BUTTON KUNG WALANG LINK
+// ✅ MODAL — MAY SIGN-IN REQUIREMENT + AWTOMATIKONG TATANGGAL NG VOLUME BUTTON
 function openModal(anime) {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
@@ -227,8 +227,16 @@ function openModal(anime) {
         <div id="volumeListContainer" style="margin-top:15px; display:none;"></div>
     `;
 
-    // ✅ ENGLISH VOLUMES - LALABAS LANG KUNG MAY TOTOONG LINK
+    // ✅ ENGLISH VOLUMES - KAILANGAN MUNA MAKA-SIGN IN
     document.getElementById('showEnVol').onclick = () => {
+        if (!currentUser) {
+            closeAllModals();
+            document.getElementById('signinModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showError("⚠️ Kailangan munang mag-sign in para makapag-download!");
+            return;
+        }
+
         document.getElementById('volumeListContainer').style.display = 'grid';
         let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`;
         
@@ -246,8 +254,16 @@ function openModal(anime) {
         document.getElementById('volumeListContainer').innerHTML = volHtml;
     };
 
-    // ✅ TAGALOG VOLUMES - LALABAS LANG KUNG MAY TOTOONG LINK
+    // ✅ TAGALOG VOLUMES - KAILANGAN MUNA MAKA-SIGN IN
     document.getElementById('showTlVol').onclick = () => {
+        if (!currentUser) {
+            closeAllModals();
+            document.getElementById('signinModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showError("⚠️ Kailangan munang mag-sign in para makapag-download!");
+            return;
+        }
+
         document.getElementById('volumeListContainer').style.display = 'grid';
         let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`;
         
