@@ -23,15 +23,14 @@ html, body {
     left: 0 !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 8px 0 !important;
-    /* ✅ BAGONG KULAY: MADILIM + PULA — MADALI BASAHIN AT TUGMA SA THEMA */
+    padding: 6px 0 !important; /* ⚠️ PINALIIT KONTO NG PADDING */
     background-color: #1a1a1a;
     color: #ff4d4d;
     font-weight: 700;
     font-size: 15px;
     overflow: hidden;
     z-index: 9999;
-    border-bottom: 2px solid #ff1a1a;
+    border-bottom: 1px solid #ff1a1a; /* ⚠️ PINALIIT KONTO NG BORDER */
     box-shadow: 0 2px 8px rgba(255, 26, 26, 0.25);
 }
 .donation-ticker .ticker-text {
@@ -53,7 +52,7 @@ nav {
     padding: 12px 30px;
     background-color: rgba(0, 0, 0, 0.95);
     position: fixed;
-    top: 34px !important; /* ✅ EKSATONG ILALIM NG TICKER — WALANG GAP */
+    top: 28px !important; /* ✅ BINAWASAN — DAPAT SAGAD NA DIKIT NA */
     left: 0 !important;
     width: 100% !important;
     margin: 0 !important;
