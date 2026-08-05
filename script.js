@@ -454,8 +454,8 @@ function showDonationTicker(email, amount = "1$", isReal = false) {
     if(!donationTicker || !tickerText) return;
 
     const maskedEmail = email.replace(/(.{3}).*(@.*)/, '$1*******$2');
-    const prefix = isReal ? '💖 DONATION RECEIVED! ' : '💖 THANK YOU! ';
-    tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for supporting us — you inspire us to keep sharing more amazing anime ebooks and stories for everyone! 💖`;
+const prefix = isReal ? '💖 DONATION RECEIVED! ' : '💖 THANK YOU! ';
+tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for your support — you truly inspire us to keep sharing more amazing anime ebooks and stories for everyone! 💖`;
     
     donationTicker.style.display = 'block';
     tickerText.style.animation = 'none';
