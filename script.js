@@ -383,9 +383,10 @@ function setRandomHeroBackground(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // === PAGEVIEWS: TUMATUMBAS SA KABUUAN NG BANSA +1, HINDI NA BABALIK SA DEFAULT ===
+    // === PAGEVIEWS ===
     let pageviewCount = parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS);
-    pageviewCount++; // Dagdag isa dahil may bumisita ngayon
+    // PWEDE MONG TANGGALIN MUNA ANG +1 KUNG GUSTO MONG EKSaktong 33,707 ANG LUMABAS:
+    // pageviewCount++; ← TANGGALIN MO MUNA ITO PARA EKSAKTO
     localStorage.setItem('totalPageviews', pageviewCount);
     document.getElementById('pageviewCount').innerText = pageviewCount.toLocaleString();
 
