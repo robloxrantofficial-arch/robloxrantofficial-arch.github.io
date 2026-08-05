@@ -290,12 +290,24 @@ function openModal(anime) {
     document.getElementById('downloadEn').onclick = (e) => {
         e.preventDefault();
         if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
+        // === DAGDAG PARA SA DOWNLOAD COUNTER ===
+        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || 0);
+        downloadCount++;
+        localStorage.setItem('totalDownloads', downloadCount);
+        document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
+        // === ORIHINAL NA DOWNLOAD LINK ===
         const link = document.createElement('a'); link.href = anime.linkEn; link.target='_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
     document.getElementById('downloadTl').onclick = (e) => {
         e.preventDefault();
         if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
+        // === DAGDAG PARA SA DOWNLOAD COUNTER ===
+        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || 0);
+        downloadCount++;
+        localStorage.setItem('totalDownloads', downloadCount);
+        document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
+        // === ORIHINAL NA DOWNLOAD LINK ===
         const link = document.createElement('a'); link.href = anime.linkTl; link.target='_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
@@ -367,6 +379,24 @@ function setRandomHeroBackground(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // === PAGEVIEW & DOWNLOAD COUNTER INIT ===
+    let pageviewCount = parseInt(localStorage.getItem('totalPageviews') || 15220964);
+    pageviewCount++;
+    localStorage.setItem('totalPageviews', pageviewCount);
+    document.getElementById('pageviewCount').innerText = pageviewCount.toLocaleString();
+
+    let downloadCount = parseInt(localStorage.getItem('totalDownloads') || 0);
+    document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
+
+    // === TOGGLE VISITORS LIST ===
+    document.getElementById('toggleVisitors').addEventListener('click', () => {
+        const list = document.getElementById('visitorsList');
+        const btn = document.getElementById('toggleVisitors');
+        const isHidden = list.style.display === 'none';
+        list.style.display = isHidden ? 'grid' : 'none';
+        btn.innerText = isHidden ? 'Hide Countries ▲' : 'Show Countries ▼';
+    });
+
     loadSavedStats();
     setRandomHeroBackground();
     updateOnlineCount();
