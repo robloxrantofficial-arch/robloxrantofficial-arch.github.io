@@ -25,7 +25,7 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 999999 !important; /* PINATAAS PARA UNANG MAKITA */
+    z-index: 999999 !important;
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -46,7 +46,7 @@ nav {
     font-weight: 500;
     cursor: pointer !important;
     position: relative !important;
-    z-index: 9999999 !important; /* PINAKAMATAAS NA ANTAS */
+    z-index: 9999999 !important;
     pointer-events: auto !important;
     transition: color 0.2s ease;
     user-select: none;
@@ -168,7 +168,7 @@ nav {
 .info-btn { background-color: #333; color: white; }
 .info-btn:hover { background-color: #444; }
 
-/* ===== MAIN WRAPPER — ALIGN ALL CONTENT ===== */
+/* ===== MAIN WRAPPER ===== */
 .main-wrapper {
     width: 100%;
     padding: 0 30px;
@@ -236,7 +236,7 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.85);
-    z-index: 999998 !important; /* MAS MABABA KONTI SA MGA BUTTON */
+    z-index: 999998 !important;
     overflow-y: auto;
     align-items: center;
     justify-content: center;
@@ -472,7 +472,7 @@ nav {
 }
 .forgot-link a:hover, .switch-text a:hover { text-decoration: underline; }
 
-/* ===== MOBILE RESPONSIVE FIXES ===== */
+/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
     nav { padding: 10px 15px; }
     .logo { font-size: 18px; }
@@ -510,6 +510,36 @@ nav {
     .anime-card img { height: 170px; }
 }
 
+/* ===== PINAKA-MATINDING PAG-AYOS: WALANG MAKAHARANG! ===== */
+* {
+    pointer-events: auto !important;
+}
+
+nav, nav *,
+.nav-item,
+.nav-btn,
+#langSelect,
+.anime-card,
+.modal, .modal *,
+.close-btn,
+.vote-star,
+.download-btn,
+.auth-btn,
+.submit-btn,
+.forgot-link a,
+.switch-text a,
+.eye-btn {
+    position: relative !important;
+    z-index: 99999999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.hero, .main-wrapper {
+    position: relative;
+    z-index: 1 !important;
+}
+
 /* ===== PINAKA-HULING SIGURADO: LAHAT NG PWEDENG PINDUTIN ===== */
 button,
 .nav-item,
@@ -531,7 +561,7 @@ button,
 #forgotPassLink,
 #backToSignin {
     position: relative !important;
-    z-index: 9999999 !important;
+    z-index: 99999999 !important;
     pointer-events: auto !important;
     cursor: pointer !important;
     user-select: none;
