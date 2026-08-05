@@ -12,19 +12,22 @@ html, body {
     line-height: 1.6;
     width: 100%;
     overflow-x: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* ===== DONATION SCROLLING TICKER ===== */
 .donation-ticker {
-    position: fixed; /* Ginawang fixed para siguradong naka-lock sa taas */
-    top: 0;
-    left: 0;
-    width: 100%;
+    position: fixed;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8px 0 !important;
     background: linear-gradient(90deg, #ffd700, #ffea00, #ffd700);
     color: #111;
     font-weight: 700;
     font-size: 15px;
-    padding: 8px 0;
     overflow: hidden;
     z-index: 9999;
     border-bottom: 2px solid #e6b800;
@@ -49,13 +52,13 @@ nav {
     padding: 12px 30px;
     background-color: rgba(0, 0, 0, 0.9);
     position: fixed;
-    top: 34px; /* Dikit agad sa ilalim ng ticker (8px padding + border) */
-    left: 0;
-    width: 100%;
+    top: 34px !important; /* Eksaktong taas ng ticker + border — WALANG LAGPAS */
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important; /* SIGURADONG WALANG MARGIN */
     z-index: 998;
     flex-wrap: wrap;
     gap: 10px;
-    /* ❌ TINANGGAL NA ANG margin-top: 34px; — ITO ANG DAHILAN NG GAP */
 }
 
 .logo {
@@ -155,7 +158,7 @@ nav {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    margin-top: 90px; /* Itinama para hindi matakpan ng fixed nav */
+    margin-top: 90px;
     min-height: 50vh;
     display: flex;
     flex-direction: column;
@@ -226,9 +229,6 @@ nav {
 .card-row::-webkit-scrollbar { height: 6px; }
 .card-row::-webkit-scrollbar-thumb { background-color: #333; border-radius: 3px; }
 
-/* ==============================================
-   ✅ FIXED NA ANG LAHAT — TUGMA NA SA JS
-   ============================================== */
 .card {
     width: 180px;
     height: 320px;
@@ -609,8 +609,8 @@ nav {
 @media (max-width: 768px) {
     nav { 
         padding: 10px 15px; 
-        top: 34px; 
-        /* ❌ TINANGGAL NA RIN ANG margin-top: 34px; dito */
+        top: 34px !important;
+        margin: 0 !important;
     }
     .logo { font-size: 18px; }
     .nav-left { gap: 15px; }
