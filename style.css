@@ -228,6 +228,99 @@ nav {
 .star { color: #333; }
 .star.active { color: #ffcc00; }
 
+/* ===== SUPPORT & VISITORS (CENTERED & CLEAN) ===== */
+.support-section {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    text-align: center;
+}
+
+.support-box, .visitors-box {
+    width: 100%;
+    max-width: 600px;
+    background-color: #121212;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.support-box h3, .visitors-box h4 {
+    color: #ff2b2b;
+    margin-bottom: 12px;
+    font-size: 19px;
+}
+
+.support-box p {
+    color: #cccccc;
+    font-size: 15px;
+    margin-bottom: 18px;
+    line-height: 1.6;
+}
+
+.paypal-link {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+.paypal-link:hover {
+    transform: scale(1.05);
+}
+.paypal-logo {
+    height: 35px;
+    cursor: pointer;
+}
+
+.visitors-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.toggle-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #aaa;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.toggle-btn:hover {
+    border-color: #ff2b2b;
+    color: #ff2b2b;
+}
+
+.visitor-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 15px 0;
+    text-align: left;
+}
+.visitor-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ddd;
+    font-size: 14px;
+}
+.flag {
+    font-size: 18px;
+}
+
+.pageviews, .download-count {
+    color: #888;
+    font-size: 13px;
+    padding-top: 8px;
+    border-top: 1px solid #222;
+    margin-top: 5px;
+}
+
 /* ===== INFO MODAL ===== */
 .modal {
     display: none;
@@ -496,6 +589,9 @@ nav {
     .anime-card { min-width: 130px; max-width: 130px; }
     .anime-card img { height: 190px; }
     .card-info h3 { font-size: 14px; }
+
+    .visitor-list { grid-template-columns: 1fr; }
+    .visitors-header { flex-direction: column; gap: 8px; align-items: flex-start; }
 
     .modal-content { flex-direction: column; }
     .modal-left img { height: 220px; }
