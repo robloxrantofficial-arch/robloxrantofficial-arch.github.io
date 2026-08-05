@@ -350,35 +350,36 @@ function openModal(anime) {
     document.getElementById('modalRatingPercent').innerText = `${getRatingPercent(anime.rating)}%`;
     document.getElementById('modalRatingStars').innerHTML = renderStars(anime.rating);
     document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
-    document.getElementById('downloadEn').innerText = langText[currentLang].downloadEn;
-    document.getElementById('downloadTl').innerText = langText[currentLang].downloadTl;
-    document.getElementById('downloadEn').style.display = 'inline-block';
-    document.getElementById('downloadTl').style.display = 'inline-block';
+    
+    // Itinatago natin ang lumang download buttons dahil nasa volume list na ang lahat
+    document.getElementById('downloadEn').style.display = 'none';
+    document.getElementById('downloadTl').style.display = 'none';
     document.querySelector('.vote-area').style.display = 'block';
 
-    document.getElementById('downloadEn').onclick = (e) => {
-        e.preventDefault();
-        if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
-        // === DOWNLOAD COUNTER — DAGDAG +1 AT NAKA-SAVE ===
-        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
-        downloadCount++;
-        localStorage.setItem('totalDownloads', downloadCount);
-        document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
-        // === ORIHINAL NA DOWNLOAD LINK ===
-        const link = document.createElement('a'); link.href = anime.linkEn; link.target='_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
-    };
+    // Ise-set natin dito ang mga download links para sa bawat volume
+    // Siguraduhing mayroon kang linkEnVol1... linkTlVol6 sa iyong animeData
+    const volumeLinks = document.getElementById('volumeListContainer');
+    if(volumeLinks) {
+        volumeLinks.innerHTML = `
+            <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Version:</h4>
+            <a href="${anime.linkEnVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
+            <a href="${anime.linkEnVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
+            <a href="${anime.linkEnVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
+            <a href="${anime.linkEnVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
+            <a href="${anime.linkEnVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
+            <a href="${anime.linkEnVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
 
-    document.getElementById('downloadTl').onclick = (e) => {
-        e.preventDefault();
-        if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
-        // === DOWNLOAD COUNTER — DAGDAG +1 AT NAKA-SAVE ===
-        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
-        downloadCount++;
-        localStorage.setItem('totalDownloads', downloadCount);
-        document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
-        // === ORIHINAL NA DOWNLOAD LINK ===
-        const link = document.createElement('a'); link.href = anime.linkTl; link.target='_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
-    };
+            <div style="height:1px; background:#333; margin:10px 0;"></div>
+
+            <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Version:</h4>
+            <a href="${anime.linkTlVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
+            <a href="${anime.linkTlVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
+            <a href="${anime.linkTlVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
+            <a href="${anime.linkTlVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
+            <a href="${anime.linkTlVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
+            <a href="${anime.linkTlVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
+        `;
+    }
 
     const userId = currentUser ? currentUser.uid : null;
     const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
@@ -623,6 +624,8 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         document.getElementById('downloadEn').style.display='none';
         document.getElementById('downloadTl').style.display='none';
         document.querySelector('.vote-area').style.display='none';
+        document.getElementById('volumeListContainer').style.display='none';
+        document.getElementById('toggleVolumesBtn').style.display='none';
     });
 
     document.getElementById('searchInput').addEventListener('input', e => {
