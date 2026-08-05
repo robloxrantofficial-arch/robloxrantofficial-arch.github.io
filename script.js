@@ -183,6 +183,9 @@ let currentLang = 'en';
 let selectedAnime = null;
 let currentUser = null;
 
+// SIGURADUHING NASA ITAAS DITO ANG IYONG animeData!
+// let animeData = [ ... ilagay mo dito ang listahan ng anime ... ];
+
 const langText = {
     en: {
         heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
@@ -222,12 +225,14 @@ function renderStars(rating) {
 
 function loadSavedStats() {
     const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
-    animeData.forEach(anime => {
-        if(savedStats[anime.id]) {
-            anime.totalVotes = savedStats[anime.id].totalVotes;
-            anime.rating = savedStats[anime.id].rating;
-        }
-    });
+    if (typeof animeData !== 'undefined') {
+        animeData.forEach(anime => {
+            if(savedStats[anime.id]) {
+                anime.totalVotes = savedStats[anime.id].totalVotes;
+                anime.rating = savedStats[anime.id].rating;
+            }
+        });
+    }
 }
 
 function closeAllModals() {
@@ -238,12 +243,14 @@ function closeAllModals() {
     document.body.style.overflow = 'auto';
 }
 
-function renderCards(data = animeData) {
+function renderCards(data) {
+    if (typeof animeData === 'undefined') return;
+    const list = data || animeData;
     ['trending','new','all'].forEach(cat => {
         const row = document.getElementById(`${cat}Row`);
         if(!row) return;
         row.innerHTML = '';
-        data.filter(a => a.category.includes(cat)).forEach(anime => {
+        list.filter(a => a.category.includes(cat)).forEach(anime => {
             const card = document.createElement('div');
             card.className = 'anime-card';
             card.innerHTML = `
@@ -372,11 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const provider = window.firebaseProvider;
     onAuthStateChanged(auth, updateLoginUI);
 
-    // ==============================================
-    // LAHAT NG BUTTONS AT MODALS — TUGMA NA SA BAGONG CSS
-    // ==============================================
-
-    // SIGN IN / SIGN UP BUTTONS
+    // === BUTTONS & MODALS ===
     document.getElementById('signinBtn').addEventListener('click', (e) => {
         e.preventDefault();
         closeAllModals();
@@ -391,7 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
     });
 
-    // SWITCH MODALS
     document.getElementById('goSignup').addEventListener('click', (e) => {
         e.preventDefault();
         document.getElementById('signinModal').classList.remove('active');
@@ -416,32 +418,22 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('signinModal').classList.add('active');
     });
 
-    // CLOSE BUTTONS
-    document.querySelector('.close-btn').addEventListener('click', () => {
-        document.getElementById('infoModal').classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
+    document.querySelector('.close-btn').addEventListener('click', closeAllModals);
     document.querySelector('.close-sign').addEventListener('click', closeAllModals);
     document.querySelector('.close-su').addEventListener('click', closeAllModals);
     document.querySelector('.close-fp').addEventListener('click', closeAllModals);
 
-    // NAVIGATION ITEMS
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             this.classList.add('active');
             const s = this.dataset.section;
-            if (s === 'home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                const target = document.getElementById(`${s}Row`);
-                if(target) target.parentElement.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (s === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+            else { const target = document.getElementById(`${s}Row`); if(target) target.parentElement.scrollIntoView({ behavior: 'smooth' }); }
         });
     });
 
-    // LEARN MORE BUTTON
     document.getElementById('learnMoreBtn').addEventListener('click', (e) => {
         e.preventDefault();
         closeAllModals();
@@ -467,18 +459,16 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         document.querySelector('.vote-area').style.display='none';
     });
 
-    // SEARCH
     document.getElementById('searchInput').addEventListener('input', e => {
+        if (typeof animeData === 'undefined') return;
         const q = e.target.value.toLowerCase().trim();
         if(!q) return renderCards();
         const filtered = animeData.filter(a=>a.title.toLowerCase().includes(q) || (a.titleTl&&a.titleTl.toLowerCase().includes(q)));
         renderCards(filtered);
     });
 
-    // LANGUAGE
     document.getElementById('langSelect').addEventListener('change', e => { currentLang=e.target.value; updateLanguage(); renderCards(); });
 
-    // GOOGLE / EMAIL AUTH
     document.getElementById('googleSignInBtn').addEventListener('click', () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError));
     document.getElementById('googleSignUpBtn').addEventListener('click', () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError));
     document.getElementById('doSignUp').addEventListener('click', () => {
@@ -498,9 +488,6 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         signInWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(()=>showError("Invalid email or password!"));
     });
 
-    // FORGOT PASSWORD
-    document.getElementById('forgotPassLink').addEventListener('click', e => { e.preventDefault(); document.getElementById('signinModal').classList.remove('active'); document.getElementById('forgotPassModal').classList.add('active'); });
-    document.getElementById('backToSignin').addEventListener('click', e => { e.preventDefault(); document.getElementById('forgotPassModal').classList.remove('active'); document.getElementById('signinModal').classList.add('active'); });
     document.getElementById('doSendReset').addEventListener('click', async () => {
         const em = document.getElementById('fpEmail').value.trim();
         const err = document.getElementById('fpError');
@@ -510,12 +497,10 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         catch(e){ err.style.display='block'; err.textContent = e.code==='auth/user-not-found'?'No account found.' : e.message; }
     });
 
-    // LOGOUT
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError));
 
-    // CLICK OUTSIDE MODAL
     window.addEventListener('click', e => {
         if(e.target.id==='infoModal') closeAllModals();
         if(['signinModal','signupModal','forgotPassModal'].includes(e.target.id)) closeAllModals();
     });
-};
+});
