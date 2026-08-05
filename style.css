@@ -14,6 +14,33 @@ html, body {
     overflow-x: hidden;
 }
 
+/* ===== DONATION SCROLLING TICKER ===== */
+.donation-ticker {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(90deg, #ffd700, #ffea00, #ffd700);
+    color: #111;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 8px 0;
+    overflow: hidden;
+    z-index: 9999;
+    border-bottom: 2px solid #e6b800;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.35);
+}
+.donation-ticker .ticker-text {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: scrollTicker 12s linear forwards;
+}
+@keyframes scrollTicker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); opacity: 0; }
+}
+
 /* ===== NAVIGATION BAR ===== */
 nav {
     display: flex;
@@ -25,9 +52,10 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 999;
+    z-index: 998;
     flex-wrap: wrap;
     gap: 10px;
+    margin-top: 34px;
 }
 
 .logo {
@@ -127,7 +155,7 @@ nav {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    margin-top: 55px;
+    margin-top: 90px;
     min-height: 50vh;
     display: flex;
     flex-direction: column;
@@ -228,7 +256,7 @@ nav {
 .star { color: #333; }
 .star.active { color: #ffcc00; }
 
-/* ===== SUPPORT & VISITORS (CENTERED & CLEAN) ===== */
+/* ===== SUPPORT & VISITORS ===== */
 .support-section {
     max-width: 900px;
     margin: 60px auto;
@@ -569,7 +597,7 @@ nav {
 
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
-    nav { padding: 10px 15px; }
+    nav { padding: 10px 15px; margin-top: 34px; }
     .logo { font-size: 18px; }
     .nav-left { gap: 15px; }
     .nav-links { gap: 12px; font-size: 14px; }
@@ -577,7 +605,7 @@ nav {
     .search-box input { width: 150px; }
     .users-online { display: inline-block; font-size: 11px; }
 
-    .hero { padding: 25px 15px; min-height: 45vh; margin-top: 50px; }
+    .hero { padding: 25px 15px; min-height: 45vh; margin-top: 70px; }
     .hero-title { font-size: 28px; }
     .hero-subtitle { font-size: 15px; }
     .hero-buttons { flex-direction: column; width: 100%; }
