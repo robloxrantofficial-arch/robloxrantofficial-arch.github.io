@@ -58,12 +58,11 @@ let currentUser = null;
 // ==============================================
 // let animeData = [ ... ilagay mo dito ang listahan ng anime ... ];
 
-// === DEFAULT NA KABUUAN — TUMATUMBAS SA LISTAHAN NG BANSA AT RATINGS ===
-const DEFAULT_TOTAL_PAGEVIEWS = 33707; // Kabuuan: 33,707
-const DEFAULT_TOTAL_DOWNLOADS = 77414; // Palitan mo ito ng totoong kabuuan ng total votes/ratings ng lahat ng ebook mo
-
-// === DONATION TICKER CONFIG — 10 MINUTES INTERVAL, TOTOONG DONOR UNA ===
+// === DEFAULT NA KABUUAN ===
+const DEFAULT_TOTAL_PAGEVIEWS = 33707;
+const DEFAULT_TOTAL_DOWNLOADS = 77414;
 const DONATION_INTERVAL_MINUTES = 10;
+
 const randomDonors = [
     { email: 'bran******@gmail.com', amount: '1$' },
     { email: 'anne****@gmail.com', amount: '1$' },
@@ -125,19 +124,19 @@ const randomDonors = [
     { email: 'henr*******@gmail.com', amount: '1$' }
 ];
 let lastRandomIndex = -1;
-let hasRealDonation = false; // Kapag may totoong donasyon, i-set ito sa true
+let hasRealDonation = false;
 
 const langText = {
     en: {
         heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
         trendingTitle:"🔥 Trending Now", newTitle:"✨ New Released", allTitle:"📚 All Anime Ebooks",
-        searchPlaceholder:"Search anime ebooks...", downloadEn:"Download English", downloadTl:"Download Tagalog",
+        searchPlaceholder:"Search anime ebooks...", downloadEn:"🇬🇧 English Version", downloadTl:"🇵🇭 Tagalog Version",
         ratingLabel:"Rating:", voteLabel:"Vote this ebook:"
     },
     tl: {
         heroTitle:"Ang Iyong Mga Paboritong Nobela at Ebook", heroDesc:"Mag-download ng libo-libong anime nobela at ebook nang libre",
         trendingTitle:"🔥 Pinakasikat Ngayon", newTitle:"✨ Mga Bagong Labas", allTitle:"📚 Lahat ng Anime Ebook",
-        searchPlaceholder:"Maghanap ng anime ebook...", downloadEn:"I-download sa Ingles", downloadTl:"I-download sa Tagalog",
+        searchPlaceholder:"Maghanap ng anime ebook...", downloadEn:"🇬🇧 Bersyong Ingles", downloadTl:"🇵🇭 Bersyong Tagalog",
         ratingLabel:"Marka:", voteLabel:"Bigyan ng marka ang nobelang ito:"
     }
 };
@@ -176,18 +175,11 @@ function loadSavedStats() {
 }
 
 function closeAllModals() {
-    const infoModal = document.getElementById('infoModal');
-    const signinModal = document.getElementById('signinModal');
-    const signupModal = document.getElementById('signupModal');
-    const forgotPassModal = document.getElementById('forgotPassModal');
-    
-    if(infoModal) infoModal.classList.remove('active');
-    if(signinModal) signinModal.classList.remove('active');
-    if(signupModal) signupModal.classList.remove('active');
-    if(forgotPassModal) forgotPassModal.classList.remove('active');
+    ['infoModal','signinModal','signupModal','forgotPassModal'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
     document.body.style.overflow = 'auto';
 }
 
+// ✅ INALISAN NA ANG MGA BUTTON SA CARD
 function renderCards(data) {
     if (typeof animeData === 'undefined') return;
     const list = data || animeData;
@@ -198,6 +190,7 @@ function renderCards(data) {
         list.filter(a => a.category.includes(cat)).forEach(anime => {
             const card = document.createElement('div');
             card.className = 'card';
+            // WALANG BUTTON SA ILALIM NGAYON — CLICKABLE NA ANG BUONG CARD
             card.innerHTML = `
                 <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
                 <div class="card-info">
@@ -205,18 +198,15 @@ function renderCards(data) {
                     <p>${anime.year} • ${anime.type}</p>
                     <div class="card-rating">${renderStars(anime.rating)} ${getRatingPercent(anime.rating)}% (${anime.totalVotes})</div>
                 </div>
-                <div class="card-buttons">
-                    <button class="card-btn info" onclick="openModal(anime)">ℹ️ Alamin Pa</button>
-                    <button class="card-btn down" onclick="openModal(anime, 'download')">📥 I-download</button>
-                </div>
             `;
+            card.onclick = () => { selectedAnime = anime; openModal(anime); };
             row.appendChild(card);
         });
     });
 }
 
-// ✅ INAYOS NA OPENMODAL — WALANG DOWNLOAD BUTTON KAPAG ABOUT
-function openModal(anime, action = 'about') {
+// ✅ BAGONG DISENYO NG MODAL — LALABAS LANG ANG VOLUMES PAG PINILIAN ANG WIKA
+function openModal(anime) {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
     closeAllModals();
@@ -231,43 +221,45 @@ function openModal(anime, action = 'about') {
     document.getElementById('modalRatingStars').innerHTML = renderStars(anime.rating);
     document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
 
-    // ✅ DITO LANG ILALAGAY ANG DOWNLOAD SECTION KUNG DOWNLOAD ANG PININDOT
+    // ✅ DITO ANG MGA BUTTON PARA SA WIKA — WALANG VOLUME LIST PA
     const downloadSection = document.getElementById('dynamicDownloadSection');
-    downloadSection.innerHTML = ''; // Linisin muna
+    downloadSection.innerHTML = `
+        <button id="showEnVol" class="download-btn">${langText[currentLang].downloadEn}</button>
+        <button id="showTlVol" class="download-btn">${langText[currentLang].downloadTl}</button>
+        <div id="volumeListContainer" style="margin-top:15px; display:none;"></div>
+    `;
 
-    if(action === 'download') {
-        downloadSection.innerHTML = `
-            <button id="volToggleBtn" class="download-btn" style="width:100%;">📥 Pumili ng Volume na I-download</button>
-            <div id="volList" style="display:none; margin-top:15px; display:grid; gap:8px;">
-                <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Version:</h4>
-                <a href="${anime.linkEnVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
-                <a href="${anime.linkEnVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
-                <a href="${anime.linkEnVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
-                <a href="${anime.linkEnVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
-                <a href="${anime.linkEnVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
-                <a href="${anime.linkEnVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
-
-                <div style="height:1px; background:#333; margin:10px 0;"></div>
-
-                <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Version:</h4>
-                <a href="${anime.linkTlVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
-                <a href="${anime.linkTlVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
-                <a href="${anime.linkTlVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
-                <a href="${anime.linkTlVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
-                <a href="${anime.linkTlVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
-                <a href="${anime.linkTlVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
-            </div>
+    // ✅ KAPAG PININDOT ANG ENGLISH — LALABAS ANG ENGLISH VOLUMES
+    document.getElementById('showEnVol').onclick = () => {
+        document.getElementById('volumeListContainer').style.display = 'grid';
+        document.getElementById('volumeListContainer').innerHTML = `
+            <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>
+            <a href="${anime.linkEnVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
+            <a href="${anime.linkEnVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
+            <a href="${anime.linkEnVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
+            <a href="${anime.linkEnVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
+            <a href="${anime.linkEnVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
+            <a href="${anime.linkEnVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
         `;
-    }
+    };
 
-    // ✅ BOTOHAN — LUMALABAS LANG SA TOTOONG ANIME, HINDI SA ABOUT
+    // ✅ KAPAG PININDOT ANG TAGALOG — LALABAS ANG TAGALOG VOLUMES
+    document.getElementById('showTlVol').onclick = () => {
+        document.getElementById('volumeListContainer').style.display = 'grid';
+        document.getElementById('volumeListContainer').innerHTML = `
+            <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>
+            <a href="${anime.linkTlVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
+            <a href="${anime.linkTlVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
+            <a href="${anime.linkTlVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
+            <a href="${anime.linkTlVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
+            <a href="${anime.linkTlVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
+            <a href="${anime.linkTlVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
+        `;
+    };
+
+    // ✅ BOTOHAN
     const voteArea = document.querySelector('.vote-area');
-    if(action === 'download' || action === 'about') {
-        voteArea.style.display = 'block';
-    } else {
-        voteArea.style.display = 'none';
-    }
-
+    voteArea.style.display = 'block';
     const userId = currentUser ? currentUser.uid : null;
     const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
     const userVote = userId && savedVotes[userId] ? savedVotes[userId][anime.id] : null;
@@ -285,27 +277,13 @@ function openModal(anime, action = 'about') {
             savedVotes[userId][anime.id] = vote;
             localStorage.setItem('userVotes', JSON.stringify(savedVotes));
             localStorage.setItem('animeStats', JSON.stringify(animeData.reduce((o,a)=>{o[a.id]={totalVotes:a.totalVotes,rating:a.rating};return o;},{})));
-            openModal(anime, action); renderCards();
+            openModal(anime); renderCards();
         };
     });
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
-
-// ✅ FUNCTION PARA SA PAGBUKAS/PAGSARA NG VOLUME LIST
-document.addEventListener('click', function(e) {
-    if (e.target.id === 'volToggleBtn') {
-        const list = document.getElementById('volList');
-        if (list.style.display === 'none' || list.style.display === '') {
-            list.style.display = 'grid';
-            e.target.innerHTML = '📁 Isara ang Listahan';
-        } else {
-            list.style.display = 'none';
-            e.target.innerHTML = '📥 Pumili ng Volume na I-download';
-        }
-    }
-});
 
 function updateLoginUI(user) {
     currentUser = user;
@@ -349,97 +327,50 @@ function setRandomHeroBackground(){
     const h = document.querySelector('.hero'); if(h) h.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.15)), url('${img}')`;
 }
 
-// === DONATION TICKER FUNCTIONS ===
+// === DONATION TICKER ===
 function showDonationTicker(email, amount = "1$", isReal = false) {
     const donationTicker = document.getElementById('donationTicker');
     const tickerText = donationTicker.querySelector('.ticker-text');
     if(!donationTicker || !tickerText) return;
-
     const maskedEmail = email.replace(/(.{3}).*(@.*)/, '$1*******$2');
     const prefix = isReal ? '💖 DONATION RECEIVED! ' : '💖 THANK YOU! ';
-    tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for your support — you truly inspire us to keep sharing more amazing anime ebooks and stories for everyone! 💖`;
-    
+    tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for your support! 💖`;
     donationTicker.style.display = 'block';
     tickerText.style.animation = 'none';
-    setTimeout(() => {
-        tickerText.style.animation = 'scrollTicker 12s linear forwards';
-    }, 10);
-
-    setTimeout(() => {
-        donationTicker.style.display = 'none';
-    }, 12000);
+    setTimeout(() => tickerText.style.animation = 'scrollTicker 12s linear forwards', 10);
+    setTimeout(() => donationTicker.style.display = 'none', 12000);
 }
-
 function showRandomDonor() {
     let randomIndex;
-    do {
-        randomIndex = Math.floor(Math.random() * randomDonors.length);
-    } while (randomIndex === lastRandomIndex && randomDonors.length > 1);
-    
+    do { randomIndex = Math.floor(Math.random() * randomDonors.length); } while (randomIndex === lastRandomIndex && randomDonors.length > 1);
     lastRandomIndex = randomIndex;
-    const donor = randomDonors[randomIndex];
-    showDonationTicker(donor.email, donor.amount, false);
+    showDonationTicker(randomDonors[randomIndex].email, randomDonors[randomIndex].amount, false);
 }
-
 function showRealDonor(email, amount) {
     hasRealDonation = true;
-    const donationTicker = document.getElementById('donationTicker');
-    if(donationTicker) donationTicker.style.display = 'none';
-    setTimeout(() => {
-        showDonationTicker(email, amount, true);
-    }, 500);
+    setTimeout(() => showDonationTicker(email, amount, true), 500);
 }
-
 function canShowDonationNow() {
     const lastShown = parseInt(localStorage.getItem('lastDonationShown') || 0);
-    const now = Date.now();
-    const intervalMs = DONATION_INTERVAL_MINUTES * 60 * 1000;
-    return (now - lastShown) >= intervalMs;
+    return (Date.now() - lastShown) >= DONATION_INTERVAL_MINUTES * 60000;
 }
-
-function updateLastShownTime() {
-    localStorage.setItem('lastDonationShown', Date.now());
-}
+function updateLastShownTime() { localStorage.setItem('lastDonationShown', Date.now()); }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // === PAGEVIEWS ===
-    let pageviewCount = parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS);
-    localStorage.setItem('totalPageviews', pageviewCount);
-    document.getElementById('pageviewCount').innerText = pageviewCount.toLocaleString();
+    document.getElementById('pageviewCount').innerText = (parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS)).toLocaleString();
+    document.getElementById('downloadCount').innerText = (parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS)).toLocaleString();
 
-    // === DOWNLOADS ===
-    let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
-    document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
+    if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
+    setInterval(() => { if(!hasRealDonation && canShowDonationNow()) { showRandomDonor(); updateLastShownTime(); } }, 60000);
 
-    // === DONATION TICKER SCHEDULE ===
-    if(!hasRealDonation && canShowDonationNow()) {
-        setTimeout(() => {
-            showRandomDonor();
-            updateLastShownTime();
-        }, 2000);
-    }
-    // Uulit bawat 10 minuto
-    setInterval(() => {
-        if(!hasRealDonation && canShowDonationNow()) {
-            showRandomDonor();
-            updateLastShownTime();
-        }
-    }, 60000); // Bawat 1 minuto tinitingnan kung pwede na ulit
-
-    // === TOGGLE VISITORS LIST ===
     document.getElementById('toggleVisitors').addEventListener('click', () => {
         const list = document.getElementById('visitorsList');
         const btn = document.getElementById('toggleVisitors');
-        const isHidden = list.style.display === 'none';
-        list.style.display = isHidden ? 'grid' : 'none';
-        btn.innerText = isHidden ? 'Hide Countries ▲' : 'Show Countries ▼';
+        list.style.display = list.style.display === 'none' ? 'grid' : 'none';
+        btn.innerText = list.style.display === 'grid' ? 'Hide Countries ▲' : 'Show Countries ▼';
     });
 
-    loadSavedStats();
-    setRandomHeroBackground();
-    updateOnlineCount();
-    renderCards();
-    updateLanguage();
+    loadSavedStats(); setRandomHeroBackground(); updateOnlineCount(); renderCards(); updateLanguage();
     setInterval(updateOnlineCount, 600000);
 
     const auth = window.firebaseAuth;
@@ -447,137 +378,70 @@ document.addEventListener('DOMContentLoaded', () => {
     const provider = window.firebaseProvider;
     onAuthStateChanged(auth, updateLoginUI);
 
-    // === BUTTONS & MODALS ===
-    document.getElementById('signinBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        closeAllModals();
-        document.getElementById('signinModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
+    document.getElementById('signinBtn').onclick = () => { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; };
+    document.getElementById('signupBtn').onclick = () => { closeAllModals(); document.getElementById('signupModal').classList.add('active'); document.body.style.overflow='hidden'; };
+    document.getElementById('goSignup').onclick = () => { document.getElementById('signinModal').classList.remove('active'); document.getElementById('signupModal').classList.add('active'); };
+    document.getElementById('goSignin').onclick = () => { document.getElementById('signupModal').classList.remove('active'); document.getElementById('signinModal').classList.add('active'); };
+    document.getElementById('forgotPassLink').onclick = () => { document.getElementById('signinModal').classList.remove('active'); document.getElementById('forgotPassModal').classList.add('active'); };
+    document.getElementById('backToSignin').onclick = () => { document.getElementById('forgotPassModal').classList.remove('active'); document.getElementById('signinModal').classList.add('active'); };
 
-    document.getElementById('signupBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        closeAllModals();
-        document.getElementById('signupModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
-
-    document.getElementById('goSignup').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('signinModal').classList.remove('active');
-        document.getElementById('signupModal').classList.add('active');
-    });
-
-    document.getElementById('goSignin').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('signupModal').classList.remove('active');
-        document.getElementById('signinModal').classList.add('active');
-    });
-
-    document.getElementById('forgotPassLink').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('signinModal').classList.remove('active');
-        document.getElementById('forgotPassModal').classList.add('active');
-    });
-
-    document.getElementById('backToSignin').addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('forgotPassModal').classList.remove('active');
-        document.getElementById('signinModal').classList.add('active');
-    });
-
-    document.querySelector('.close-btn').addEventListener('click', closeAllModals);
-    document.querySelector('.close-sign').addEventListener('click', closeAllModals);
-    document.querySelector('.close-su').addEventListener('click', closeAllModals);
-    document.querySelector('.close-fp').addEventListener('click', closeAllModals);
+    document.querySelectorAll('.close-btn, .close-sign, .close-su, .close-fp').forEach(btn=>btn.onclick=closeAllModals);
 
     document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function(e) {
+        item.onclick = (e) => {
             e.preventDefault();
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
             this.classList.add('active');
             const s = this.dataset.section;
-            if (s === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
-            else { const target = document.getElementById(`${s}Row`); if(target) target.parentElement.scrollIntoView({ behavior: 'smooth' }); }
-        });
+            if(s==='home') window.scrollTo({top:0,behavior:'smooth'});
+            else { const t=document.getElementById(`${s}Row`); if(t)t.parentElement.scrollIntoView({behavior:'smooth'}); }
+        };
     });
 
-    document.getElementById('learnMoreBtn').addEventListener('click', (e) => {
-        e.preventDefault();
-        closeAllModals();
-        document.getElementById('infoModal').classList.add('active');
-        document.body.style.overflow='hidden';
+    document.getElementById('learnMoreBtn').onclick = (e) => {
+        e.preventDefault(); closeAllModals(); document.getElementById('infoModal').classList.add('active'); document.body.style.overflow='hidden';
         document.getElementById('modalImg').src='https://images3.alphacoders.com/130/thumb-1920-1302159.jpg';
         document.getElementById('modalTitle').innerText='About Anime Ebooks Hub';
-        document.getElementById('modalYear').innerText='';
-        document.getElementById('modalType').innerText='';
-        document.getElementById('modalLang').innerText='';
-        document.getElementById('modalDesc').innerText=`✅ Download all light novels and ebooks for free
-✅ Available in English and Tagalog
-✅ You can rate and vote for your favorites
-✅ Safe, fast, and easy to use
-✅ New titles added regularly
+        document.getElementById('modalYear').innerText=''; document.getElementById('modalType').innerText=''; document.getElementById('modalLang').innerText='';
+        document.getElementById('modalDesc').innerText=`✅ Download all light novels and ebooks for free\n✅ Available in English and Tagalog\n✅ You can rate and vote for your favorites\n✅ Safe, fast, and easy to use\n✅ New titles added regularly\n\nEverything is made for anime and story lovers — completely free, no hassle!`;
+        document.getElementById('modalRatingStars').innerHTML=''; document.getElementById('modalRatingPercent').innerText=''; document.getElementById('modalVotes').innerText='';
+        document.getElementById('dynamicDownloadSection').innerHTML=''; document.querySelector('.vote-area').style.display='none';
+    };
 
-Everything is made for anime and story lovers — completely free, no hassle!`;
-        document.getElementById('modalRatingStars').innerHTML='';
-        document.getElementById('modalRatingPercent').innerText='';
-        document.getElementById('modalVotes').innerText='';
-        document.getElementById('dynamicDownloadSection').innerHTML=''; // WALANG DOWNLOAD BUTTON
-        document.querySelector('.vote-area').style.display='none';
-    });
-
-    document.getElementById('searchInput').addEventListener('input', e => {
+    document.getElementById('searchInput').oninput = (e) => {
         if (typeof animeData === 'undefined') return;
         const q = e.target.value.toLowerCase().trim();
-        if(!q) return renderCards();
-        const filtered = animeData.filter(a=>a.title.toLowerCase().includes(q) || (a.titleTl&&a.titleTl.toLowerCase().includes(q)));
-        renderCards(filtered);
-    });
+        renderCards(q ? animeData.filter(a=>a.title.toLowerCase().includes(q)||(a.titleTl&&a.titleTl.toLowerCase().includes(q))) : null);
+    };
 
-    document.getElementById('langSelect').addEventListener('change', e => { currentLang=e.target.value; updateLanguage(); renderCards(); });
+    document.getElementById('langSelect').onchange = (e) => { currentLang=e.target.value; updateLanguage(); renderCards(); };
 
-    document.getElementById('googleSignInBtn').addEventListener('click', () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError));
-    document.getElementById('googleSignUpBtn').addEventListener('click', () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError));
-    document.getElementById('doSignUp').addEventListener('click', () => {
-        const e = document.getElementById('suEmail').value.trim();
-        const p = document.getElementById('suPass').value;
-        const c = document.getElementById('suConfirmPass').value;
+    document.getElementById('googleSignInBtn').onclick = () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
+    document.getElementById('googleSignUpBtn').onclick = () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
+    document.getElementById('doSignUp').onclick = () => {
+        const e = document.getElementById('suEmail').value.trim(), p = document.getElementById('suPass').value, c = document.getElementById('suConfirmPass').value;
         if(!e||!p||!c) return showError("Please fill all fields!");
         if(!isValidEmail(e)) return showError("Invalid email!");
         if(p!==c) return showError("Passwords do not match!");
         createUserWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    });
-    document.getElementById('doSignIn').addEventListener('click', () => {
-        const e = document.getElementById('siUser').value.trim();
-        const p = document.getElementById('siPass').value;
+    };
+    document.getElementById('doSignIn').onclick = () => {
+        const e = document.getElementById('siUser').value.trim(), p = document.getElementById('siPass').value;
         if(!e||!p) return showError("Enter email and password!");
         if(!isValidEmail(e)) return showError("Invalid email!");
         signInWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(()=>showError("Invalid email or password!"));
-    });
-
-    document.getElementById('doSendReset').addEventListener('click', async () => {
-        const em = document.getElementById('fpEmail').value.trim();
-        const err = document.getElementById('fpError');
+    };
+    document.getElementById('doSendReset').onclick = async () => {
+        const em = document.getElementById('fpEmail').value.trim(), err = document.getElementById('fpError');
         if(!em){ err.style.display='block'; err.textContent='Enter email address.'; return; }
         if(!isValidEmail(em)){ err.style.display='block'; err.textContent='Invalid email.'; return; }
         try{ await sendPasswordResetEmail(auth,em); alert(`✅ Reset link sent to:\n${em}`); closeAllModals(); }
         catch(e){ err.style.display='block'; err.textContent = e.code==='auth/user-not-found'?'No account found.' : e.message; }
-    });
+    };
+    document.getElementById('logoutBtn').onclick = () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError);
 
-    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError));
-
-    // === DONATE BUTTON TEST ===
     const donateBtn = document.querySelector('.paypal-link');
-    if(donateBtn){
-        donateBtn.addEventListener('click', () => {
-            setTimeout(() => {
-                showRealDonor('hmzurbito@gmail.com', '5$');
-            }, 1500);
-        });
-    }
+    if(donateBtn) donateBtn.onclick = () => setTimeout(()=>showRealDonor('hmzurbito@gmail.com','5$'),1500);
 
-    window.addEventListener('click', e => {
-        if(e.target.id==='infoModal') closeAllModals();
-        if(['signinModal','signupModal','forgotPassModal'].includes(e.target.id)) closeAllModals();
-    });
+    window.onclick = (e) => { if(['infoModal','signinModal','signupModal','forgotPassModal'].includes(e.target.id)) closeAllModals(); };
 });
