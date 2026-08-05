@@ -53,7 +53,9 @@ let currentLang = 'en';
 let selectedAnime = null;
 let currentUser = null;
 
-// SIGURADUHING NASA ITAAS DITO ANG IYONG animeData!
+// ==============================================
+// ✅ ILAGAY MO ANG IYONG BUONG animeData DITO SA IBABA
+// ==============================================
 // let animeData = [ ... ilagay mo dito ang listahan ng anime ... ];
 
 // === DEFAULT NA KABUUAN — TUMATUMBAS SA LISTAHAN NG BANSA AT RATINGS ===
@@ -163,22 +165,26 @@ function renderStars(rating) {
 }
 
 function loadSavedStats() {
+    if (typeof animeData === 'undefined') return;
     const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
-    if (typeof animeData !== 'undefined') {
-        animeData.forEach(anime => {
-            if(savedStats[anime.id]) {
-                anime.totalVotes = savedStats[anime.id].totalVotes;
-                anime.rating = savedStats[anime.id].rating;
-            }
-        });
-    }
+    animeData.forEach(anime => {
+        if(savedStats[anime.id]) {
+            anime.totalVotes = savedStats[anime.id].totalVotes;
+            anime.rating = savedStats[anime.id].rating;
+        }
+    });
 }
 
 function closeAllModals() {
-    document.getElementById('infoModal').classList.remove('active');
-    document.getElementById('signinModal').classList.remove('active');
-    document.getElementById('signupModal').classList.remove('active');
-    document.getElementById('forgotPassModal').classList.remove('active');
+    const infoModal = document.getElementById('infoModal');
+    const signinModal = document.getElementById('signinModal');
+    const signupModal = document.getElementById('signupModal');
+    const forgotPassModal = document.getElementById('forgotPassModal');
+    
+    if(infoModal) infoModal.classList.remove('active');
+    if(signinModal) signinModal.classList.remove('active');
+    if(signupModal) signupModal.classList.remove('active');
+    if(forgotPassModal) forgotPassModal.classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
@@ -191,7 +197,7 @@ function renderCards(data) {
         row.innerHTML = '';
         list.filter(a => a.category.includes(cat)).forEach(anime => {
             const card = document.createElement('div');
-            card.className = 'anime-card';
+            card.className = 'card';
             card.innerHTML = `
                 <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
                 <div class="card-info">
@@ -199,14 +205,18 @@ function renderCards(data) {
                     <p>${anime.year} • ${anime.type}</p>
                     <div class="card-rating">${renderStars(anime.rating)} ${getRatingPercent(anime.rating)}% (${anime.totalVotes})</div>
                 </div>
+                <div class="card-buttons">
+                    <button class="card-btn info" onclick="openModal(anime)">ℹ️ Alamin Pa</button>
+                    <button class="card-btn down" onclick="openModal(anime, 'download')">📥 I-download</button>
+                </div>
             `;
-            card.onclick = () => { selectedAnime = anime; openModal(anime); };
             row.appendChild(card);
         });
     });
 }
 
-function openModal(anime) {
+// ✅ INAYOS NA OPENMODAL — WALANG DOWNLOAD BUTTON KAPAG ABOUT
+function openModal(anime, action = 'about') {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
     closeAllModals();
@@ -216,39 +226,46 @@ function openModal(anime) {
     document.getElementById('modalYear').innerText = anime.year;
     document.getElementById('modalType').innerText = anime.type;
     document.getElementById('modalLang').innerText = anime.lang;
-    document.getElementById('modalDesc').innerText = currentLang==='en'?anime.desc:anime.descTl;
+    document.getElementById('modalDesc').innerHTML = `${currentLang==='en'?anime.desc:anime.descTl}<br><br><strong>${currentLang==='en'?'Tagalog':'Ingles'}:</strong> ${currentLang==='en'?anime.descTl:anime.desc}`;
     document.getElementById('modalRatingPercent').innerText = `${getRatingPercent(anime.rating)}%`;
     document.getElementById('modalRatingStars').innerHTML = renderStars(anime.rating);
     document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
-    
-    // Itinatago natin ang lumang download buttons dahil nasa volume list na ang lahat
-    document.getElementById('downloadEn').style.display = 'none';
-    document.getElementById('downloadTl').style.display = 'none';
-    document.querySelector('.vote-area').style.display = 'block';
 
-    // Ise-set natin dito ang mga download links para sa bawat volume
-    // Siguraduhing mayroon kang linkEnVol1... linkTlVol6 sa iyong animeData
-    const volumeLinks = document.getElementById('volumeListContainer');
-    if(volumeLinks) {
-        volumeLinks.innerHTML = `
-            <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Version:</h4>
-            <a href="${anime.linkEnVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
-            <a href="${anime.linkEnVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
-            <a href="${anime.linkEnVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
-            <a href="${anime.linkEnVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
-            <a href="${anime.linkEnVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
-            <a href="${anime.linkEnVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
+    // ✅ DITO LANG ILALAGAY ANG DOWNLOAD SECTION KUNG DOWNLOAD ANG PININDOT
+    const downloadSection = document.getElementById('dynamicDownloadSection');
+    downloadSection.innerHTML = ''; // Linisin muna
 
-            <div style="height:1px; background:#333; margin:10px 0;"></div>
+    if(action === 'download') {
+        downloadSection.innerHTML = `
+            <button id="volToggleBtn" class="download-btn" style="width:100%;">📥 Pumili ng Volume na I-download</button>
+            <div id="volList" style="display:none; margin-top:15px; display:grid; gap:8px;">
+                <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Version:</h4>
+                <a href="${anime.linkEnVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
+                <a href="${anime.linkEnVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
+                <a href="${anime.linkEnVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
+                <a href="${anime.linkEnVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
+                <a href="${anime.linkEnVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
+                <a href="${anime.linkEnVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
 
-            <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Version:</h4>
-            <a href="${anime.linkTlVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
-            <a href="${anime.linkTlVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
-            <a href="${anime.linkTlVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
-            <a href="${anime.linkTlVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
-            <a href="${anime.linkTlVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
-            <a href="${anime.linkTlVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
+                <div style="height:1px; background:#333; margin:10px 0;"></div>
+
+                <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Version:</h4>
+                <a href="${anime.linkTlVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
+                <a href="${anime.linkTlVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
+                <a href="${anime.linkTlVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
+                <a href="${anime.linkTlVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
+                <a href="${anime.linkTlVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
+                <a href="${anime.linkTlVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
+            </div>
         `;
+    }
+
+    // ✅ BOTOHAN — LUMALABAS LANG SA TOTOONG ANIME, HINDI SA ABOUT
+    const voteArea = document.querySelector('.vote-area');
+    if(action === 'download' || action === 'about') {
+        voteArea.style.display = 'block';
+    } else {
+        voteArea.style.display = 'none';
     }
 
     const userId = currentUser ? currentUser.uid : null;
@@ -268,13 +285,27 @@ function openModal(anime) {
             savedVotes[userId][anime.id] = vote;
             localStorage.setItem('userVotes', JSON.stringify(savedVotes));
             localStorage.setItem('animeStats', JSON.stringify(animeData.reduce((o,a)=>{o[a.id]={totalVotes:a.totalVotes,rating:a.rating};return o;},{})));
-            openModal(anime); renderCards();
+            openModal(anime, action); renderCards();
         };
     });
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
+
+// ✅ FUNCTION PARA SA PAGBUKAS/PAGSARA NG VOLUME LIST
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'volToggleBtn') {
+        const list = document.getElementById('volList');
+        if (list.style.display === 'none' || list.style.display === '') {
+            list.style.display = 'grid';
+            e.target.innerHTML = '📁 Isara ang Listahan';
+        } else {
+            list.style.display = 'none';
+            e.target.innerHTML = '📥 Pumili ng Volume na I-download';
+        }
+    }
+});
 
 function updateLoginUI(user) {
     currentUser = user;
@@ -325,8 +356,8 @@ function showDonationTicker(email, amount = "1$", isReal = false) {
     if(!donationTicker || !tickerText) return;
 
     const maskedEmail = email.replace(/(.{3}).*(@.*)/, '$1*******$2');
-const prefix = isReal ? '💖 DONATION RECEIVED! ' : '💖 THANK YOU! ';
-tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for your support — you truly inspire us to keep sharing more amazing anime ebooks and stories for everyone! 💖`;
+    const prefix = isReal ? '💖 DONATION RECEIVED! ' : '💖 THANK YOU! ';
+    tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for your support — you truly inspire us to keep sharing more amazing anime ebooks and stories for everyone! 💖`;
     
     donationTicker.style.display = 'block';
     tickerText.style.animation = 'none';
@@ -491,11 +522,8 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         document.getElementById('modalRatingStars').innerHTML='';
         document.getElementById('modalRatingPercent').innerText='';
         document.getElementById('modalVotes').innerText='';
-        document.getElementById('downloadEn').style.display='none';
-        document.getElementById('downloadTl').style.display='none';
+        document.getElementById('dynamicDownloadSection').innerHTML=''; // WALANG DOWNLOAD BUTTON
         document.querySelector('.vote-area').style.display='none';
-        document.getElementById('volumeListContainer').style.display='none';
-        document.getElementById('toggleVolumesBtn').style.display='none';
     });
 
     document.getElementById('searchInput').addEventListener('input', e => {
