@@ -16,7 +16,7 @@ html, body {
 
 /* ===== DONATION SCROLLING TICKER ===== */
 .donation-ticker {
-    position: sticky;
+    position: fixed; /* Ginawang fixed para siguradong naka-lock sa taas */
     top: 0;
     left: 0;
     width: 100%;
@@ -49,13 +49,13 @@ nav {
     padding: 12px 30px;
     background-color: rgba(0, 0, 0, 0.9);
     position: fixed;
-    top: 0;
+    top: 34px; /* Dikit agad sa ilalim ng ticker (8px padding + border) */
     left: 0;
     width: 100%;
     z-index: 998;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 34px;
+    /* ❌ TINANGGAL NA ANG margin-top: 34px; — ITO ANG DAHILAN NG GAP */
 }
 
 .logo {
@@ -155,7 +155,7 @@ nav {
 
 /* ===== HERO SECTION ===== */
 .hero {
-    margin-top: 90px;
+    margin-top: 90px; /* Itinama para hindi matakpan ng fixed nav */
     min-height: 50vh;
     display: flex;
     flex-direction: column;
@@ -607,7 +607,11 @@ nav {
 
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
-    nav { padding: 10px 15px; margin-top: 34px; }
+    nav { 
+        padding: 10px 15px; 
+        top: 34px; 
+        /* ❌ TINANGGAL NA RIN ANG margin-top: 34px; dito */
+    }
     .logo { font-size: 18px; }
     .nav-left { gap: 15px; }
     .nav-links { gap: 12px; font-size: 14px; }
