@@ -2,7 +2,7 @@
 // 🔴 PINAKA-UNA: ANG BUONG LISTA NG LAHAT NG ANIME
 // ==============================================
 const animeData = [
-    {id:1,title:"Demon Slayer: The Flower of Happiness",titleTl:"Demon Slayer: Bulaklak ng Kaligayahan",year:"2019",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.8,totalVotes:1247,desc:"An official side-story light novel set during the main series journey. Follow Tanjiro, Nezuko, Zenitsu, and Inosuke as they arrive at a peaceful mountain village plagued by a mysterious demon that preys on happy memories.",descTl:"Isang opisyal na karagdagang kwento na naganap habang naglalakbay pa ang mga bida. Samahan sina Tanjiro, Nezuko, Zenitsu, at Inosuke sa isang payapang nayon sa bundok na pinamumugaran ng demonyong kumukuha ng masasayang alaala.",img:"https://upload.wikimedia.org/wikipedia/en/0/09/Demon_Slayer_-_Kimetsu_no_Yaiba%2C_volume_1.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
+    {id:1,title:"Demon Slayer: The Flower of Happiness",titleTl:"Demon Slayer: Bulaklak ng Kaligayahan",year:"2019",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.8,totalVotes:1247,desc:"An official side-story light novel set during the main series journey. Follow Tanjiro, Nezuko, Zenitsu, and Inosuke as they arrive at a peaceful mountain village plagued by a mysterious demon that preys on happy memories.",descTl:"Isang opisyal na karagdagang kwento na naganap habang naglalakbay pa ang mga bida. Samahan sina Tanjiro, Nezuko, Zenitsu, at Inosuke sa isang payapang nayon sa bundok na pinamumugaran ng demonyong kumukuha ng masasayang alaala.",img:"https://upload.wikimedia.org/wikipedia/en/0/09/Demon_Slayer_-_Kimetsu_no_Yaiba%2C_volume_1.jpg",linkEnVol1:"https://drive.google.com/file/d/1zxQDxStY8IxSwzDqMWy0bDXi2QvDlrJB/view",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
     {id:2,title:"Jujutsu Kaisen: Summer of Ashes, Autumn of Dust",titleTl:"Jujutsu Kaisen: Tag-init ng Abo, Taglagas ng Alikabok",year:"2019",type:"Light Novel",lang:"EN / TL",category:["trending","new","all"],rating:4.9,totalVotes:1892,desc:"Explore untold missions and backstories of Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, and their teacher Gojo Satoru.",descTl:"Alamin ang mga hindi pa nasasabing misyon at nakaraan nina Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, at ng kanilang guro na si Gojo Satoru.",img:"https://upload.wikimedia.org/wikipedia/en/4/46/Jujutsu_kaisen.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
     {id:3,title:"One Piece: The Novel",titleTl:"One Piece: Ang Nobela",year:"2000",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.7,totalVotes:987,desc:"A retelling of the early adventures of Monkey D. Luffy and the formation of the Straw Hat Pirates.",descTl:"Isang muling pagsasalaysay ng mga unang pakikipagsapalaran ni Monkey D. Luffy at kung paano nabuo ang Straw Hat Pirates.",img:"https://upload.wikimedia.org/wikipedia/en/9/90/One_Piece%2C_Volume_61_Cover_%28Japanese%29.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
     {id:4,title:"Solo Leveling: Light Novel Complete",titleTl:"Solo Leveling: Kumpletong Nobela",year:"2016",type:"Light Novel",lang:"EN / TL",category:["new","all"],rating:4.9,totalVotes:2103,desc:"The full original light novel series that inspired the global hit manhwa. Follow Sung Jin-Woo, the weakest hunter, who gains a mysterious ability to level up without limits.",descTl:"Ang buong orihinal na nobela na naging batayan ng sikat na manhwa. Sundan si Sung Jin-Woo, ang pinakamahinang mangangaso, na binigyan ng kakayahang lumakas nang walang hangganan.",img:"https://upload.wikimedia.org/wikipedia/en/6/6c/Solo_Leveling_Volume_1_Cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
@@ -179,7 +179,7 @@ function closeAllModals() {
     document.body.style.overflow = 'auto';
 }
 
-// ✅ INALISAN NA ANG MGA BUTTON SA CARD
+// ✅ INALISAN NA ANG MGA BUTTON SA CARD — TUGMA NA SA CSS
 function renderCards(data) {
     if (typeof animeData === 'undefined') return;
     const list = data || animeData;
@@ -190,7 +190,6 @@ function renderCards(data) {
         list.filter(a => a.category.includes(cat)).forEach(anime => {
             const card = document.createElement('div');
             card.className = 'card';
-            // WALANG BUTTON SA ILALIM NGAYON — CLICKABLE NA ANG BUONG CARD
             card.innerHTML = `
                 <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
                 <div class="card-info">
@@ -205,7 +204,7 @@ function renderCards(data) {
     });
 }
 
-// ✅ BAGONG DISENYO NG MODAL — LALABAS LANG ANG VOLUMES PAG PINILIAN ANG WIKA
+// ✅ MODAL — LALABAS LANG ANG VOLUMES PAG PINILIAN ANG WIKA
 function openModal(anime) {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
@@ -221,7 +220,6 @@ function openModal(anime) {
     document.getElementById('modalRatingStars').innerHTML = renderStars(anime.rating);
     document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
 
-    // ✅ DITO ANG MGA BUTTON PARA SA WIKA — WALANG VOLUME LIST PA
     const downloadSection = document.getElementById('dynamicDownloadSection');
     downloadSection.innerHTML = `
         <button id="showEnVol" class="download-btn">${langText[currentLang].downloadEn}</button>
@@ -229,7 +227,6 @@ function openModal(anime) {
         <div id="volumeListContainer" style="margin-top:15px; display:none;"></div>
     `;
 
-    // ✅ KAPAG PININDOT ANG ENGLISH — LALABAS ANG ENGLISH VOLUMES
     document.getElementById('showEnVol').onclick = () => {
         document.getElementById('volumeListContainer').style.display = 'grid';
         document.getElementById('volumeListContainer').innerHTML = `
@@ -243,7 +240,6 @@ function openModal(anime) {
         `;
     };
 
-    // ✅ KAPAG PININDOT ANG TAGALOG — LALABAS ANG TAGALOG VOLUMES
     document.getElementById('showTlVol').onclick = () => {
         document.getElementById('volumeListContainer').style.display = 'grid';
         document.getElementById('volumeListContainer').innerHTML = `
@@ -257,7 +253,6 @@ function openModal(anime) {
         `;
     };
 
-    // ✅ BOTOHAN
     const voteArea = document.querySelector('.vote-area');
     voteArea.style.display = 'block';
     const userId = currentUser ? currentUser.uid : null;
@@ -387,15 +382,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.close-btn, .close-sign, .close-su, .close-fp').forEach(btn=>btn.onclick=closeAllModals);
 
+    // ✅ INAYOS NA ANG NAVIGATION — GAGANA NA ANG PAG PINDOT
     document.querySelectorAll('.nav-item').forEach(item => {
-        item.onclick = (e) => {
+        item.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             this.classList.add('active');
-            const s = this.dataset.section;
-            if(s==='home') window.scrollTo({top:0,behavior:'smooth'});
-            else { const t=document.getElementById(`${s}Row`); if(t)t.parentElement.scrollIntoView({behavior:'smooth'}); }
-        };
+            const section = this.dataset.section;
+            if (section === 'home') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const targetRow = document.getElementById(`${section}Row`);
+                if (targetRow) {
+                    targetRow.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
     });
 
     document.getElementById('learnMoreBtn').onclick = (e) => {
