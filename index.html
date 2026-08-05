@@ -122,7 +122,7 @@
         </div>
     </section>
 
-    <!-- ✅ MODALS -->
+    <!-- ✅ MODALS - WALANG NAKATIGIL NA DOWNLOAD BUTTONS DITO -->
     <div id="infoModal" class="modal">
         <span class="close-btn">&times;</span>
         <div class="modal-content">
@@ -141,33 +141,8 @@
                     <span class="vote-star" data-vote="4">★</span>
                     <span class="vote-star" data-vote="5">★</span>
                 </div>
-
-                <!-- ✅ BAGONG DOWNLOAD SECTION: PUMILI MUNA BAGO LUMABAS ANG VOLUME -->
-                <div style="margin-top:20px;">
-                    <button id="toggleVolumesBtn" class="download-btn" style="width:100%;">
-                        📥 Pumili ng Volume na I-download
-                    </button>
-
-                    <div id="volumeListContainer" style="display:none; margin-top:15px; display:grid; gap:8px;">
-                        <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Version:</h4>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol1_En.pdf" target="_blank" class="download-btn">📄 Volume 1</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol2_En.pdf" target="_blank" class="download-btn">📄 Volume 2</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol3_En.pdf" target="_blank" class="download-btn">📄 Volume 3</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol4_En.pdf" target="_blank" class="download-btn">📄 Volume 4</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol5_En.pdf" target="_blank" class="download-btn">📄 Volume 5</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol6_En.pdf" target="_blank" class="download-btn">📄 Volume 6</a>
-
-                        <div style="height:1px; background:#333; margin:10px 0;"></div>
-
-                        <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Version:</h4>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol1_Tl.pdf" target="_blank" class="download-btn">📄 Volume 1</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol2_Tl.pdf" target="_blank" class="download-btn">📄 Volume 2</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol3_Tl.pdf" target="_blank" class="download-btn">📄 Volume 3</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol4_Tl.pdf" target="_blank" class="download-btn">📄 Volume 4</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol5_Tl.pdf" target="_blank" class="download-btn">📄 Volume 5</a>
-                        <a href="https://robloxrantofficial-arch.github.io/PALITAN_ITO_Vol6_Tl.pdf" target="_blank" class="download-btn">📄 Volume 6</a>
-                    </div>
-                </div>
+                <!-- ✅ DITO NA LANG ILALAGAY NG JS ANG BUTTONS KUNG MAY ANIME NA BINUKSAN -->
+                <div id="dynamicDownloadSection" style="margin-top:20px;"></div>
             </div>
         </div>
     </div>
@@ -255,22 +230,6 @@
             signOut: (authInst) => authInst.signOut(),
             sendPasswordResetEmail: (authInst, email) => authInst.sendPasswordResetEmail(email)
         };
-    </script>
-
-    <!-- ✅ SCRIPT PARA SA PAGBUKAS AT PAGSARA NG VOLUME LIST -->
-    <script>
-        document.addEventListener('click', function(e) {
-            if (e.target.id === 'toggleVolumesBtn') {
-                const list = document.getElementById('volumeListContainer');
-                if (list.style.display === 'none' || list.style.display === '') {
-                    list.style.display = 'grid';
-                    e.target.innerHTML = '📁 Isara ang Listahan';
-                } else {
-                    list.style.display = 'none';
-                    e.target.innerHTML = '📥 Pumili ng Volume na I-download';
-                }
-            }
-        });
     </script>
 
     <script src="script.js"></script>
