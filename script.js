@@ -126,6 +126,16 @@ const randomDonors = [
 let lastRandomIndex = -1;
 let hasRealDonation = false;
 
+// === FIREBASE REFERENCES ===
+let fbDb = null;
+let fbOnlineRef = null;
+let fbStatsRef = null;
+let fbCountryRef = null;
+let myOnlineKey = null;
+
+// === FLAG PARA HINDI UMULIT ANG BILANG NG BANSA SA ISANG BISITA ===
+let alreadyCountedCountry = false;
+
 const langText = {
     en: {
         heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
@@ -139,6 +149,21 @@ const langText = {
         searchPlaceholder:"Maghanap ng anime ebook...", downloadEn:"🇬🇧 Bersyong Ingles", downloadTl:"🇵🇭 Bersyong Tagalog",
         ratingLabel:"Marka:", voteLabel:"Bigyan ng marka ang nobelang ito:"
     }
+};
+
+// === FLAG NG MGA BANSA AT FLAG ICON ===
+const countryFlags = {
+    "Philippines": "🇵🇭",
+    "Japan": "🇯🇵",
+    "United States": "🇺🇸",
+    "Canada": "🇨🇦",
+    "Indonesia": "🇮🇩",
+    "Malaysia": "🇲🇾",
+    "Singapore": "🇸🇬",
+    "Australia": "🇦🇺",
+    "Vietnam": "🇻🇳",
+    "Thailand": "🇹🇭",
+    "Other": "🌍"
 };
 
 function isValidEmail(email) {
@@ -179,20 +204,103 @@ function closeAllModals() {
     document.body.style.overflow = 'auto';
 }
 
-// ✅ DAGDAG SA PAGEVIEWS AT DOWNLOADS
-function updatePageviews() {
-    const current = parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS);
-    localStorage.setItem('totalPageviews', current + 1);
-    document.getElementById('pageviewCount').innerText = (current + 1).toLocaleString();
+// ✅ I-UPDATE ANG PAGEVIEWS SA FIREBASE
+async function updatePageviews() {
+    if(!fbStatsRef) return;
+    const snap = await fbStatsRef.child('pageviews').once('value');
+    let count = snap.val() || DEFAULT_TOTAL_PAGEVIEWS;
+    count++;
+    await fbStatsRef.child('pageviews').set(count);
+    document.getElementById('pageviewCount').innerText = count.toLocaleString();
 }
 
-function updateDownloads() {
-    const current = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
-    localStorage.setItem('totalDownloads', current + 1);
-    document.getElementById('downloadCount').innerText = (current + 1).toLocaleString();
+// ✅ I-UPDATE ANG DOWNLOADS SA FIREBASE
+async function updateDownloads() {
+    if(!fbStatsRef) return;
+    const snap = await fbStatsRef.child('downloads').once('value');
+    let count = snap.val() || DEFAULT_TOTAL_DOWNLOADS;
+    count++;
+    await fbStatsRef.child('downloads').set(count);
+    document.getElementById('downloadCount').innerText = count.toLocaleString();
 }
 
-// ✅ INALISAN NA ANG MGA BUTTON SA CARD — TUGMA NA SA CSS
+// ✅ I-DETECT ANG BANSA NG BISITA AT DAGDAGAN ANG BILANG
+async function countVisitorByCountry() {
+    if(!fbCountryRef || alreadyCountedCountry) return;
+    try {
+        // Gamit tayo ng libreng API para malaman ang bansa
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        let country = data.country_name || 'Other';
+
+        // Kung wala sa listahan natin, ilagay sa "Other"
+        if(!countryFlags[country]) country = 'Other';
+
+        // Dagdagan ang bilang sa Firebase
+        const snap = await fbCountryRef.child(country).once('value');
+        let count = snap.val() || 0;
+        count++;
+        await fbCountryRef.child(country).set(count);
+
+        alreadyCountedCountry = true;
+        renderVisitorList();
+    } catch (err) {
+        // Kapag hindi makuha ang bansa → dagdag sa "Other"
+        const snap = await fbCountryRef.child('Other').once('value');
+        let count = snap.val() || 0;
+        count++;
+        await fbCountryRef.child('Other').set(count);
+        alreadyCountedCountry = true;
+        renderVisitorList();
+    }
+}
+
+// ✅ IPAKITA ANG LISTAHAN NG MGA BANSA AT BILANG
+function renderVisitorList(data = null) {
+    const listEl = document.getElementById('visitorsList');
+    if(!listEl) return;
+    const countries = data || countryFlags;
+    listEl.innerHTML = '';
+
+    // Ayusin mula sa pinakamarami hanggang pinakakaunti
+    const sorted = Object.entries(countries).sort((a,b) => b[1] - a[1]);
+
+    sorted.forEach(([name, count]) => {
+        const flag = countryFlags[name] || '🌍';
+        const item = document.createElement('div');
+        item.className = 'visitor-item';
+        item.innerHTML = `<span>${flag} ${name}</span><span>${count.toLocaleString()}</span>`;
+        listEl.appendChild(item);
+    });
+}
+
+// ✅ I-INITIALIZE ANG MGA DEFAULT NA BILANG NG BANSA
+async function initCountryStats() {
+    if(!fbCountryRef) return;
+    const defaults = {
+        "Philippines": 11352,
+        "Japan": 3565,
+        "United States": 9884,
+        "Canada": 3231,
+        "Indonesia": 3005,
+        "Malaysia": 859,
+        "Singapore": 1308,
+        "Australia": 239,
+        "Vietnam": 127,
+        "Thailand": 137,
+        "Other": 0
+    };
+    const snap = await fbCountryRef.once('value');
+    if(!snap.exists()) {
+        await fbCountryRef.set(defaults);
+    }
+    // Pakinggan ang anumang pagbabago at ipakita agad
+    fbCountryRef.on('value', snap => {
+        renderVisitorList(snap.val() || defaults);
+    });
+}
+
+// ✅ I-RENDER ANG MGA CARD
 function renderCards(data) {
     if (typeof animeData === 'undefined') return;
     const list = data || animeData;
@@ -217,7 +325,7 @@ function renderCards(data) {
     });
 }
 
-// ✅ MODAL — MAY SIGN-IN REQUIREMENT + AWTOMATIKONG TATANGGAL NG VOLUME BUTTON + DADAGDAG ANG DOWNLOADS
+// ✅ MODAL AT DOWNLOADS
 function openModal(anime) {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
@@ -240,7 +348,6 @@ function openModal(anime) {
         <div id="volumeListContainer" style="margin-top:15px; display:none;"></div>
     `;
 
-    // ✅ ENGLISH VOLUMES - KAILANGAN MUNA MAKA-SIGN IN + DADAGDAG ANG DOWNLOADS
     document.getElementById('showEnVol').onclick = () => {
         if (!currentUser) {
             closeAllModals();
@@ -249,25 +356,18 @@ function openModal(anime) {
             showError("⚠️ Kailangan munang mag-sign in para makapag-download!");
             return;
         }
-
         document.getElementById('volumeListContainer').style.display = 'grid';
         let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`;
-        
         if(anime.linkEnVol1 && anime.linkEnVol1 !== '#') volHtml += `<a href="${anime.linkEnVol1}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 1</a>`;
         if(anime.linkEnVol2 && anime.linkEnVol2 !== '#') volHtml += `<a href="${anime.linkEnVol2}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 2</a>`;
         if(anime.linkEnVol3 && anime.linkEnVol3 !== '#') volHtml += `<a href="${anime.linkEnVol3}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 3</a>`;
         if(anime.linkEnVol4 && anime.linkEnVol4 !== '#') volHtml += `<a href="${anime.linkEnVol4}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 4</a>`;
         if(anime.linkEnVol5 && anime.linkEnVol5 !== '#') volHtml += `<a href="${anime.linkEnVol5}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 5</a>`;
         if(anime.linkEnVol6 && anime.linkEnVol6 !== '#') volHtml += `<a href="${anime.linkEnVol6}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 6</a>`;
-
-        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`) {
-            volHtml += `<p style="color:#888; font-size:14px;">No English volumes available yet.</p>`;
-        }
-
+        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`) volHtml += `<p style="color:#888; font-size:14px;">No English volumes available yet.</p>`;
         document.getElementById('volumeListContainer').innerHTML = volHtml;
     };
 
-    // ✅ TAGALOG VOLUMES - KAILANGAN MUNA MAKA-SIGN IN + DADAGDAG ANG DOWNLOADS
     document.getElementById('showTlVol').onclick = () => {
         if (!currentUser) {
             closeAllModals();
@@ -276,21 +376,15 @@ function openModal(anime) {
             showError("⚠️ Kailangan munang mag-sign in para makapag-download!");
             return;
         }
-
         document.getElementById('volumeListContainer').style.display = 'grid';
         let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`;
-        
         if(anime.linkTlVol1 && anime.linkTlVol1 !== '#') volHtml += `<a href="${anime.linkTlVol1}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 1</a>`;
         if(anime.linkTlVol2 && anime.linkTlVol2 !== '#') volHtml += `<a href="${anime.linkTlVol2}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 2</a>`;
         if(anime.linkTlVol3 && anime.linkTlVol3 !== '#') volHtml += `<a href="${anime.linkTlVol3}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 3</a>`;
         if(anime.linkTlVol4 && anime.linkTlVol4 !== '#') volHtml += `<a href="${anime.linkTlVol4}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 4</a>`;
         if(anime.linkTlVol5 && anime.linkTlVol5 !== '#') volHtml += `<a href="${anime.linkTlVol5}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 5</a>`;
         if(anime.linkTlVol6 && anime.linkTlVol6 !== '#') volHtml += `<a href="${anime.linkTlVol6}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 6</a>`;
-
-        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`) {
-            volHtml += `<p style="color:#888; font-size:14px;">No Tagalog volumes available yet.</p>`;
-        }
-
+        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`) volHtml += `<p style="color:#888; font-size:14px;">No Tagalog volumes available yet.</p>`;
         document.getElementById('volumeListContainer').innerHTML = volHtml;
     };
 
@@ -338,17 +432,6 @@ function showError(message) {
     setTimeout(()=>{if(suErr)suErr.style.display='none';if(siErr)siErr.style.display='none';},5000);
 }
 
-let baseOnline = parseInt(localStorage.getItem('baseOnlineUsers') || 0);
-function getNewRandomOnline(){ return Math.floor(Math.random()*501)+300; }
-function updateOnlineCount(){
-    const last = parseInt(localStorage.getItem('lastOnlineUpdate')||0);
-    const now = Date.now();
-    if(!baseOnline || (now-last)>600000){ baseOnline=getNewRandomOnline(); localStorage.setItem('baseOnlineUsers',baseOnline); localStorage.setItem('lastOnlineUpdate',now); }
-    document.getElementById('onlineCount').innerText = currentUser ? baseOnline+1 : baseOnline;
-}
-const origUpdateUI = updateLoginUI;
-updateLoginUI = u => { origUpdateUI(u); updateOnlineCount(); };
-
 const heroBackgrounds = [
     'https://images3.alphacoders.com/130/thumb-1920-1302159.jpg',
     'https://images6.alphacoders.com/510/thumb-1920-510155.png',
@@ -392,12 +475,48 @@ function canShowDonationNow() {
 }
 function updateLastShownTime() { localStorage.setItem('lastDonationShown', Date.now()); }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // ✅ DADAGDAG AGAD ANG PAGEVIEW SA BAWAT PAGBUKAS
-    updatePageviews();
-    
-    document.getElementById('pageviewCount').innerText = (parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS)).toLocaleString();
-    document.getElementById('downloadCount').innerText = (parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS)).toLocaleString();
+document.addEventListener('DOMContentLoaded', async () => {
+    // ✅ KUNIN ANG FIREBASE DB
+    const app = window.firebaseApp;
+    if(app) {
+        fbDb = window.firebaseDatabase(app);
+        fbOnlineRef = fbDb.ref('online');
+        fbStatsRef = fbDb.ref('stats');
+        fbCountryRef = fbDb.ref('visitorsByCountry');
+
+        // ✅ I-ADD ANG SARILI SA ONLINE LIST
+        myOnlineKey = fbOnlineRef.push(true).key;
+        fbOnlineRef.child(myOnlineKey).onDisconnect().remove();
+
+        // ✅ BILANGIN ANG TOTOONG ONLINE USERS
+        fbOnlineRef.on('value', snap => {
+            const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+            document.getElementById('onlineCount').innerText = count;
+        });
+
+        // ✅ I-INITIALIZE ANG PAGEVIEWS, DOWNLOADS AT BANSA
+        const statsSnap = await fbStatsRef.once('value');
+        if(!statsSnap.exists()) {
+            await fbStatsRef.set({
+                pageviews: DEFAULT_TOTAL_PAGEVIEWS,
+                downloads: DEFAULT_TOTAL_DOWNLOADS
+            });
+        }
+
+        // ✅ I-INITIALIZE ANG LISTAHAN NG BANSA
+        await initCountryStats();
+
+        // ✅ BASAHIN AT I-UPDATE ANG PAGEVIEW
+        updatePageviews();
+
+        // ✅ IPAKITA ANG KASALUKUYANG BILANG NG DOWNLOADS
+        fbStatsRef.child('downloads').on('value', snap => {
+            document.getElementById('downloadCount').innerText = (snap.val() || DEFAULT_TOTAL_DOWNLOADS).toLocaleString();
+        });
+
+        // ✅ BILANGIN ANG BANSA NG KASALUKUYANG BISITA
+        countVisitorByCountry();
+    }
 
     if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
     setInterval(() => { if(!hasRealDonation && canShowDonationNow()) { showRandomDonor(); updateLastShownTime(); } }, 60000);
@@ -409,8 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.innerText = list.style.display === 'grid' ? 'Hide Countries ▲' : 'Show Countries ▼';
     });
 
-    loadSavedStats(); setRandomHeroBackground(); updateOnlineCount(); renderCards(); updateLanguage();
-    setInterval(updateOnlineCount, 600000);
+    loadSavedStats(); setRandomHeroBackground(); renderCards(); updateLanguage();
 
     const auth = window.firebaseAuth;
     const { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } = window.firebaseMethods;
@@ -426,7 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.close-btn, .close-sign, .close-su, .close-fp').forEach(btn=>btn.onclick=closeAllModals);
 
-    // ✅ INAYOS NA ANG NAVIGATION — GAGANA NA ANG PAG PINDOT
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function (e) {
             e.preventDefault();
