@@ -204,7 +204,7 @@ function renderCards(data) {
     });
 }
 
-// ✅ MODAL — LALABAS LANG ANG VOLUMES PAG PINILIAN ANG WIKA
+// ✅ MODAL — AWTOMATIKONG TATANGGAL NG VOLUME BUTTON KUNG WALANG LINK
 function openModal(anime) {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
@@ -227,30 +227,42 @@ function openModal(anime) {
         <div id="volumeListContainer" style="margin-top:15px; display:none;"></div>
     `;
 
+    // ✅ ENGLISH VOLUMES - LALABAS LANG KUNG MAY TOTOONG LINK
     document.getElementById('showEnVol').onclick = () => {
         document.getElementById('volumeListContainer').style.display = 'grid';
-        document.getElementById('volumeListContainer').innerHTML = `
-            <h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>
-            <a href="${anime.linkEnVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
-            <a href="${anime.linkEnVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
-            <a href="${anime.linkEnVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
-            <a href="${anime.linkEnVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
-            <a href="${anime.linkEnVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
-            <a href="${anime.linkEnVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
-        `;
+        let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`;
+        
+        if(anime.linkEnVol1 && anime.linkEnVol1 !== '#') volHtml += `<a href="${anime.linkEnVol1}" target="_blank" class="download-btn">📄 Volume 1</a>`;
+        if(anime.linkEnVol2 && anime.linkEnVol2 !== '#') volHtml += `<a href="${anime.linkEnVol2}" target="_blank" class="download-btn">📄 Volume 2</a>`;
+        if(anime.linkEnVol3 && anime.linkEnVol3 !== '#') volHtml += `<a href="${anime.linkEnVol3}" target="_blank" class="download-btn">📄 Volume 3</a>`;
+        if(anime.linkEnVol4 && anime.linkEnVol4 !== '#') volHtml += `<a href="${anime.linkEnVol4}" target="_blank" class="download-btn">📄 Volume 4</a>`;
+        if(anime.linkEnVol5 && anime.linkEnVol5 !== '#') volHtml += `<a href="${anime.linkEnVol5}" target="_blank" class="download-btn">📄 Volume 5</a>`;
+        if(anime.linkEnVol6 && anime.linkEnVol6 !== '#') volHtml += `<a href="${anime.linkEnVol6}" target="_blank" class="download-btn">📄 Volume 6</a>`;
+
+        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`) {
+            volHtml += `<p style="color:#888; font-size:14px;">No English volumes available yet.</p>`;
+        }
+
+        document.getElementById('volumeListContainer').innerHTML = volHtml;
     };
 
+    // ✅ TAGALOG VOLUMES - LALABAS LANG KUNG MAY TOTOONG LINK
     document.getElementById('showTlVol').onclick = () => {
         document.getElementById('volumeListContainer').style.display = 'grid';
-        document.getElementById('volumeListContainer').innerHTML = `
-            <h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>
-            <a href="${anime.linkTlVol1 || '#'}" target="_blank" class="download-btn">📄 Volume 1</a>
-            <a href="${anime.linkTlVol2 || '#'}" target="_blank" class="download-btn">📄 Volume 2</a>
-            <a href="${anime.linkTlVol3 || '#'}" target="_blank" class="download-btn">📄 Volume 3</a>
-            <a href="${anime.linkTlVol4 || '#'}" target="_blank" class="download-btn">📄 Volume 4</a>
-            <a href="${anime.linkTlVol5 || '#'}" target="_blank" class="download-btn">📄 Volume 5</a>
-            <a href="${anime.linkTlVol6 || '#'}" target="_blank" class="download-btn">📄 Volume 6</a>
-        `;
+        let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`;
+        
+        if(anime.linkTlVol1 && anime.linkTlVol1 !== '#') volHtml += `<a href="${anime.linkTlVol1}" target="_blank" class="download-btn">📄 Volume 1</a>`;
+        if(anime.linkTlVol2 && anime.linkTlVol2 !== '#') volHtml += `<a href="${anime.linkTlVol2}" target="_blank" class="download-btn">📄 Volume 2</a>`;
+        if(anime.linkTlVol3 && anime.linkTlVol3 !== '#') volHtml += `<a href="${anime.linkTlVol3}" target="_blank" class="download-btn">📄 Volume 3</a>`;
+        if(anime.linkTlVol4 && anime.linkTlVol4 !== '#') volHtml += `<a href="${anime.linkTlVol4}" target="_blank" class="download-btn">📄 Volume 4</a>`;
+        if(anime.linkTlVol5 && anime.linkTlVol5 !== '#') volHtml += `<a href="${anime.linkTlVol5}" target="_blank" class="download-btn">📄 Volume 5</a>`;
+        if(anime.linkTlVol6 && anime.linkTlVol6 !== '#') volHtml += `<a href="${anime.linkTlVol6}" target="_blank" class="download-btn">📄 Volume 6</a>`;
+
+        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`) {
+            volHtml += `<p style="color:#888; font-size:14px;">No Tagalog volumes available yet.</p>`;
+        }
+
+        document.getElementById('volumeListContainer').innerHTML = volHtml;
     };
 
     const voteArea = document.querySelector('.vote-area');
@@ -430,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('doSignIn').onclick = () => {
         const e = document.getElementById('siUser').value.trim(), p = document.getElementById('siPass').value;
         if(!e||!p) return showError("Enter email and password!");
-        if(!isValidEmail(e)) return showError("Invalid email!");
+        if(!isValidEmail(e)) return showError("Invalid email or password!");
         signInWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(()=>showError("Invalid email or password!"));
     };
     document.getElementById('doSendReset').onclick = async () => {
