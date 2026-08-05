@@ -372,22 +372,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const provider = window.firebaseProvider;
     onAuthStateChanged(auth, updateLoginUI);
 
-    // SIGN IN / SIGN UP BUTTONS — FIXED
-    document.getElementById('signinBtn').onclick = () => { closeAllModals(); document.getElementById('signinModal').style.display='flex'; document.body.style.overflow='hidden'; };
-    document.getElementById('signupBtn').onclick = () => { closeAllModals(); document.getElementById('signupModal').style.display='flex'; document.body.style.overflow='hidden'; };
+    // ==============================================
+    // SIGURADONG CLICKABLE: LAHAT NG BUTTONS AT LINKS
+    // ==============================================
 
-    // NAVIGATION — FIXED
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.onclick = () => {
-            document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
-            item.classList.add('active');
-            const s = item.dataset.section;
-            s==='home' ? window.scrollTo({top:0,behavior:'smooth'}) : document.getElementById(`${s}Row`)?.parentElement.scrollIntoView({behavior:'smooth'});
-        };
+    // SIGN IN / SIGN UP BUTTONS – PINAKA-SIGURADO
+    document.getElementById('signinBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeAllModals();
+        document.getElementById('signinModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     });
 
-    // LEARN MORE — FIXED
-    document.getElementById('learnMoreBtn').onclick = () => {
+    document.getElementById('signupBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeAllModals();
+        document.getElementById('signupModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // NAVIGATION ITEMS – SIGURADONG TUTUNAN ANG CLICK
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            const s = this.dataset.section;
+            if (s === 'home') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const target = document.getElementById(`${s}Row`);
+                if(target) target.parentElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // LEARN MORE / INFO BUTTON – TAMA NA ANG PAGKAKABUO
+    document.getElementById('learnMoreBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         closeAllModals();
         document.getElementById('infoModal').classList.add('active');
         document.body.style.overflow='hidden';
@@ -409,7 +435,7 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         document.getElementById('downloadEn').style.display='none';
         document.getElementById('downloadTl').style.display='none';
         document.querySelector('.vote-area').style.display='none';
-    };
+    });
 
     // SEARCH — FIXED
     document.getElementById('searchInput').addEventListener('input', e => {
@@ -420,12 +446,12 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
     });
 
     // LANGUAGE — FIXED
-    document.getElementById('langSelect').onchange = e => { currentLang=e.target.value; updateLanguage(); renderCards(); };
+    document.getElementById('langSelect').addEventListener('change', e => { currentLang=e.target.value; updateLanguage(); renderCards(); });
 
     // GOOGLE / EMAIL AUTH
-    document.getElementById('googleSignInBtn').onclick = () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    document.getElementById('googleSignUpBtn').onclick = () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    document.getElementById('doSignUp').onclick = () => {
+    document.getElementById('googleSignInBtn').addEventListener('click', () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError));
+    document.getElementById('googleSignUpBtn').addEventListener('click', () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError));
+    document.getElementById('doSignUp').addEventListener('click', () => {
         const e = document.getElementById('suEmail').value.trim();
         const p = document.getElementById('suPass').value;
         const c = document.getElementById('suConfirmPass').value;
@@ -433,43 +459,43 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         if(!isValidEmail(e)) return showError("Invalid email!");
         if(p!==c) return showError("Passwords do not match!");
         createUserWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    };
-    document.getElementById('doSignIn').onclick = () => {
+    });
+    document.getElementById('doSignIn').addEventListener('click', () => {
         const e = document.getElementById('siUser').value.trim();
         const p = document.getElementById('siPass').value;
         if(!e||!p) return showError("Enter email and password!");
         if(!isValidEmail(e)) return showError("Invalid email!");
         signInWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(()=>showError("Invalid email or password!"));
-    };
+    });
 
     // FORGOT PASSWORD
-    document.getElementById('forgotPassLink').onclick = e => { e.preventDefault(); document.getElementById('signinModal').style.display='none'; document.getElementById('forgotPassModal').style.display='flex'; };
-    document.querySelector('.close-fp').onclick = closeAllModals;
-    document.getElementById('backToSignin').onclick = e => { e.preventDefault(); document.getElementById('forgotPassModal').style.display='none'; document.getElementById('signinModal').style.display='flex'; };
-    document.getElementById('doSendReset').onclick = async () => {
+    document.getElementById('forgotPassLink').addEventListener('click', e => { e.preventDefault(); document.getElementById('signinModal').style.display='none'; document.getElementById('forgotPassModal').style.display='flex'; });
+    document.querySelector('.close-fp').addEventListener('click', closeAllModals);
+    document.getElementById('backToSignin').addEventListener('click', e => { e.preventDefault(); document.getElementById('forgotPassModal').style.display='none'; document.getElementById('signinModal').style.display='flex'; });
+    document.getElementById('doSendReset').addEventListener('click', async () => {
         const em = document.getElementById('fpEmail').value.trim();
         const err = document.getElementById('fpError');
         if(!em){ err.style.display='block'; err.textContent='Enter email address.'; return; }
         if(!isValidEmail(em)){ err.style.display='block'; err.textContent='Invalid email.'; return; }
         try{ await sendPasswordResetEmail(auth,em); alert(`✅ Reset link sent to:\n${em}`); closeAllModals(); }
         catch(e){ err.style.display='block'; err.textContent = e.code==='auth/user-not-found'?'No account found.' : e.message; }
-    };
+    });
 
     // SWITCH MODALS
-    document.getElementById('goSignup').onclick = () => { document.getElementById('signinModal').style.display='none'; document.getElementById('signupModal').style.display='flex'; };
-    document.getElementById('goSignin').onclick = () => { document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='flex'; };
+    document.getElementById('goSignup').addEventListener('click', () => { document.getElementById('signinModal').style.display='none'; document.getElementById('signupModal').style.display='flex'; });
+    document.getElementById('goSignin').addEventListener('click', () => { document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='flex'; });
 
     // CLOSE BUTTONS
-    document.querySelector('.close-btn').onclick = () => { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; document.getElementById('downloadEn').style.display='inline-block'; document.getElementById('downloadTl').style.display='inline-block'; document.querySelector('.vote-area').style.display='block'; };
-    document.querySelector('.close-sign').onclick = closeAllModals;
-    document.querySelector('.close-su').onclick = closeAllModals;
+    document.querySelector('.close-btn').addEventListener('click', () => { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; document.getElementById('downloadEn').style.display='inline-block'; document.getElementById('downloadTl').style.display='inline-block'; document.querySelector('.vote-area').style.display='block'; });
+    document.querySelector('.close-sign').addEventListener('click', closeAllModals);
+    document.querySelector('.close-su').addEventListener('click', closeAllModals);
 
     // LOGOUT
-    document.getElementById('logoutBtn').onclick = () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError);
+    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError));
 
     // CLICK OUTSIDE MODAL
-    window.onclick = e => {
+    window.addEventListener('click', e => {
         if(e.target.id==='infoModal'){ document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; document.getElementById('downloadEn').style.display='inline-block'; document.getElementById('downloadTl').style.display='inline-block'; document.querySelector('.vote-area').style.display='block'; }
         if(['signinModal','signupModal','forgotPassModal'].includes(e.target.id)) closeAllModals();
-    };
+    });
 });
