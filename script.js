@@ -232,9 +232,9 @@ function loadSavedStats() {
 
 function closeAllModals() {
     document.getElementById('infoModal').classList.remove('active');
-    document.getElementById('signinModal').style.display = 'none';
-    document.getElementById('signupModal').style.display = 'none';
-    document.getElementById('forgotPassModal').style.display = 'none';
+    document.getElementById('signinModal').classList.remove('active');
+    document.getElementById('signupModal').classList.remove('active');
+    document.getElementById('forgotPassModal').classList.remove('active');
     document.body.style.overflow = 'auto';
 }
 
@@ -282,13 +282,13 @@ function openModal(anime) {
 
     document.getElementById('downloadEn').onclick = (e) => {
         e.preventDefault();
-        if(!currentUser) { closeAllModals(); document.getElementById('signinModal').style.display='flex'; document.body.style.overflow='hidden'; return; }
+        if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
         const link = document.createElement('a'); link.href = anime.linkEn; link.target='_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
     document.getElementById('downloadTl').onclick = (e) => {
         e.preventDefault();
-        if(!currentUser) { closeAllModals(); document.getElementById('signinModal').style.display='flex'; document.body.style.overflow='hidden'; return; }
+        if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
         const link = document.createElement('a'); link.href = anime.linkTl; link.target='_blank'; document.body.appendChild(link); link.click(); document.body.removeChild(link);
     };
 
@@ -300,7 +300,7 @@ function openModal(anime) {
         star.style.pointerEvents = userVote ? 'none' : 'auto';
         star.style.color = userVote ? (idx < userVote ? '#ffc107' : '#444') : '#444';
         star.onclick = () => {
-            if(!currentUser) { closeAllModals(); document.getElementById('signinModal').style.display='flex'; document.body.style.overflow='hidden'; return; }
+            if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
             if(savedVotes[userId] && savedVotes[userId][anime.id]) { showError("You have already voted for this ebook!"); return; }
             const vote = parseInt(star.dataset.vote);
             anime.totalVotes++;
@@ -373,31 +373,62 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, updateLoginUI);
 
     // ==============================================
-    // SIGURADONG CLICKABLE: LAHAT NG BUTTONS AT LINKS
+    // LAHAT NG BUTTONS AT MODALS — TUGMA NA SA BAGONG CSS
     // ==============================================
 
-    // SIGN IN / SIGN UP BUTTONS – PINAKA-SIGURADO
-    document.getElementById('signinBtn').addEventListener('click', function(e) {
+    // SIGN IN / SIGN UP BUTTONS
+    document.getElementById('signinBtn').addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation();
         closeAllModals();
-        document.getElementById('signinModal').style.display = 'flex';
+        document.getElementById('signinModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     });
 
-    document.getElementById('signupBtn').addEventListener('click', function(e) {
+    document.getElementById('signupBtn').addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation();
         closeAllModals();
-        document.getElementById('signupModal').style.display = 'flex';
+        document.getElementById('signupModal').classList.add('active');
         document.body.style.overflow = 'hidden';
     });
 
-    // NAVIGATION ITEMS – SIGURADONG TUTUNAN ANG CLICK
+    // SWITCH MODALS
+    document.getElementById('goSignup').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('signinModal').classList.remove('active');
+        document.getElementById('signupModal').classList.add('active');
+    });
+
+    document.getElementById('goSignin').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('signupModal').classList.remove('active');
+        document.getElementById('signinModal').classList.add('active');
+    });
+
+    document.getElementById('forgotPassLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('signinModal').classList.remove('active');
+        document.getElementById('forgotPassModal').classList.add('active');
+    });
+
+    document.getElementById('backToSignin').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('forgotPassModal').classList.remove('active');
+        document.getElementById('signinModal').classList.add('active');
+    });
+
+    // CLOSE BUTTONS
+    document.querySelector('.close-btn').addEventListener('click', () => {
+        document.getElementById('infoModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+    document.querySelector('.close-sign').addEventListener('click', closeAllModals);
+    document.querySelector('.close-su').addEventListener('click', closeAllModals);
+    document.querySelector('.close-fp').addEventListener('click', closeAllModals);
+
+    // NAVIGATION ITEMS
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopPropagation();
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             this.classList.add('active');
             const s = this.dataset.section;
@@ -410,10 +441,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // LEARN MORE / INFO BUTTON – TAMA NA ANG PAGKAKABUO
-    document.getElementById('learnMoreBtn').addEventListener('click', function(e) {
+    // LEARN MORE BUTTON
+    document.getElementById('learnMoreBtn').addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation();
         closeAllModals();
         document.getElementById('infoModal').classList.add('active');
         document.body.style.overflow='hidden';
@@ -437,7 +467,7 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         document.querySelector('.vote-area').style.display='none';
     });
 
-    // SEARCH — FIXED
+    // SEARCH
     document.getElementById('searchInput').addEventListener('input', e => {
         const q = e.target.value.toLowerCase().trim();
         if(!q) return renderCards();
@@ -445,7 +475,7 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         renderCards(filtered);
     });
 
-    // LANGUAGE — FIXED
+    // LANGUAGE
     document.getElementById('langSelect').addEventListener('change', e => { currentLang=e.target.value; updateLanguage(); renderCards(); });
 
     // GOOGLE / EMAIL AUTH
@@ -469,9 +499,8 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
     });
 
     // FORGOT PASSWORD
-    document.getElementById('forgotPassLink').addEventListener('click', e => { e.preventDefault(); document.getElementById('signinModal').style.display='none'; document.getElementById('forgotPassModal').style.display='flex'; });
-    document.querySelector('.close-fp').addEventListener('click', closeAllModals);
-    document.getElementById('backToSignin').addEventListener('click', e => { e.preventDefault(); document.getElementById('forgotPassModal').style.display='none'; document.getElementById('signinModal').style.display='flex'; });
+    document.getElementById('forgotPassLink').addEventListener('click', e => { e.preventDefault(); document.getElementById('signinModal').classList.remove('active'); document.getElementById('forgotPassModal').classList.add('active'); });
+    document.getElementById('backToSignin').addEventListener('click', e => { e.preventDefault(); document.getElementById('forgotPassModal').classList.remove('active'); document.getElementById('signinModal').classList.add('active'); });
     document.getElementById('doSendReset').addEventListener('click', async () => {
         const em = document.getElementById('fpEmail').value.trim();
         const err = document.getElementById('fpError');
@@ -481,21 +510,12 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
         catch(e){ err.style.display='block'; err.textContent = e.code==='auth/user-not-found'?'No account found.' : e.message; }
     });
 
-    // SWITCH MODALS
-    document.getElementById('goSignup').addEventListener('click', () => { document.getElementById('signinModal').style.display='none'; document.getElementById('signupModal').style.display='flex'; });
-    document.getElementById('goSignin').addEventListener('click', () => { document.getElementById('signupModal').style.display='none'; document.getElementById('signinModal').style.display='flex'; });
-
-    // CLOSE BUTTONS
-    document.querySelector('.close-btn').addEventListener('click', () => { document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; document.getElementById('downloadEn').style.display='inline-block'; document.getElementById('downloadTl').style.display='inline-block'; document.querySelector('.vote-area').style.display='block'; });
-    document.querySelector('.close-sign').addEventListener('click', closeAllModals);
-    document.querySelector('.close-su').addEventListener('click', closeAllModals);
-
     // LOGOUT
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError));
 
     // CLICK OUTSIDE MODAL
     window.addEventListener('click', e => {
-        if(e.target.id==='infoModal'){ document.getElementById('infoModal').classList.remove('active'); document.body.style.overflow='auto'; document.getElementById('downloadEn').style.display='inline-block'; document.getElementById('downloadTl').style.display='inline-block'; document.querySelector('.vote-area').style.display='block'; }
+        if(e.target.id==='infoModal') closeAllModals();
         if(['signinModal','signupModal','forgotPassModal'].includes(e.target.id)) closeAllModals();
     });
-});
+};
