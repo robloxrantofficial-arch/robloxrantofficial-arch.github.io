@@ -186,6 +186,10 @@ let currentUser = null;
 // SIGURADUHING NASA ITAAS DITO ANG IYONG animeData!
 // let animeData = [ ... ilagay mo dito ang listahan ng anime ... ];
 
+// === DEFAULT NA KABUUAN — TUMATUMBAS SA LISTAHAN NG BANSA AT RATINGS ===
+const DEFAULT_TOTAL_PAGEVIEWS = 33707; // Kabuuan: 33,707
+const DEFAULT_TOTAL_DOWNLOADS = 77414; // Palitan mo ito ng totoong kabuuan ng total votes/ratings ng lahat ng ebook mo
+
 const langText = {
     en: {
         heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
@@ -290,8 +294,8 @@ function openModal(anime) {
     document.getElementById('downloadEn').onclick = (e) => {
         e.preventDefault();
         if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
-        // === DAGDAG PARA SA DOWNLOAD COUNTER ===
-        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || 0);
+        // === DOWNLOAD COUNTER — DAGDAG +1 AT NAKA-SAVE ===
+        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
         downloadCount++;
         localStorage.setItem('totalDownloads', downloadCount);
         document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
@@ -302,8 +306,8 @@ function openModal(anime) {
     document.getElementById('downloadTl').onclick = (e) => {
         e.preventDefault();
         if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
-        // === DAGDAG PARA SA DOWNLOAD COUNTER ===
-        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || 0);
+        // === DOWNLOAD COUNTER — DAGDAG +1 AT NAKA-SAVE ===
+        let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
         downloadCount++;
         localStorage.setItem('totalDownloads', downloadCount);
         document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
@@ -379,13 +383,14 @@ function setRandomHeroBackground(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // === PAGEVIEW & DOWNLOAD COUNTER INIT ===
-    let pageviewCount = parseInt(localStorage.getItem('totalPageviews') || 15220964);
-    pageviewCount++;
+    // === PAGEVIEWS: TUMATUMBAS SA KABUUAN NG BANSA +1, HINDI NA BABALIK SA DEFAULT ===
+    let pageviewCount = parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS);
+    pageviewCount++; // Dagdag isa dahil may bumisita ngayon
     localStorage.setItem('totalPageviews', pageviewCount);
     document.getElementById('pageviewCount').innerText = pageviewCount.toLocaleString();
 
-    let downloadCount = parseInt(localStorage.getItem('totalDownloads') || 0);
+    // === DOWNLOADS: NAKABASE SA TOTAL RATINGS, HINDI NA BABALIK SA DEFAULT ===
+    let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
     document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
 
     // === TOGGLE VISITORS LIST ===
