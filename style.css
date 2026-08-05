@@ -24,14 +24,15 @@ html, body {
     width: 100% !important;
     margin: 0 !important;
     padding: 8px 0 !important;
-    background: linear-gradient(90deg, #ffd700, #ffea00, #ffd700);
-    color: #111;
+    /* ✅ BAGONG KULAY: MADILIM + PULA — MADALI BASAHIN AT TUGMA SA THEMA */
+    background-color: #1a1a1a;
+    color: #ff4d4d;
     font-weight: 700;
     font-size: 15px;
     overflow: hidden;
     z-index: 9999;
-    border-bottom: 2px solid #e6b800;
-    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.35);
+    border-bottom: 2px solid #ff1a1a;
+    box-shadow: 0 2px 8px rgba(255, 26, 26, 0.25);
 }
 .donation-ticker .ticker-text {
     display: inline-block;
@@ -50,12 +51,12 @@ nav {
     align-items: center;
     justify-content: space-between;
     padding: 12px 30px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     position: fixed;
-    top: 34px !important; /* Eksaktong taas ng ticker + border — WALANG LAGPAS */
+    top: 34px !important; /* ✅ EKSATONG ILALIM NG TICKER — WALANG GAP */
     left: 0 !important;
     width: 100% !important;
-    margin: 0 !important; /* SIGURADONG WALANG MARGIN */
+    margin: 0 !important;
     z-index: 998;
     flex-wrap: wrap;
     gap: 10px;
