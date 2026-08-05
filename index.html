@@ -139,7 +139,7 @@
         </div>
     </div>
 
-    <!-- ✅ NEW FORGOT PASSWORD MODAL -->
+    <!-- FORGOT PASSWORD MODAL -->
     <div id="forgotPassModal" class="modal">
         <div class="modal-content auth-modal">
             <span class="close-fp">&times;</span>
@@ -152,11 +152,11 @@
         </div>
     </div>
 
-    <!-- ✅ FIXED FIREBASE — GAMITIN ANG REGULAR NA SCRIPT HINDI MODULE -->
+    <!-- FIREBASE SCRIPTS -->
     <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js"></script>
 
-        <script>
+    <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
             authDomain: "nime-ebooks-hub.firebaseapp.com",
@@ -171,7 +171,6 @@
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
-        // ✅ TAMA NA ANG PAGBIBIGAY NG FUNCTIONS SA GLOBAL
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
         window.firebaseMethods = {
