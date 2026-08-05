@@ -25,7 +25,7 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 999999 !important;
+    z-index: 999;
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -44,10 +44,10 @@ nav {
 .nav-item {
     color: #cccccc;
     font-weight: 500;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     transition: color 0.2s ease;
     user-select: none;
 }
@@ -59,7 +59,7 @@ nav {
 
 .search-box {
     position: relative; display: flex; align-items: center;
-    z-index: 999999 !important;
+    z-index: 10;
 }
 .search-box input {
     padding: 6px 30px 6px 12px;
@@ -80,10 +80,10 @@ nav {
     border: none;
     border-radius: 4px;
     font-weight: 600;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     transition: all 0.2s ease;
     font-size: 14px;
     user-select: none;
@@ -115,10 +115,10 @@ nav {
     background-color: #1a1a1a;
     color: white;
     border: 1px solid #333;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     font-size: 14px;
 }
 
@@ -137,6 +137,7 @@ nav {
     background-position: center;
     position: relative;
     width: 100%;
+    z-index: 1;
 }
 .hero-overlay {
     position: absolute;
@@ -144,7 +145,7 @@ nav {
     background: linear-gradient(to right, rgba(15,15,15,0.95), rgba(15,15,15,0.6));
     z-index: 0;
 }
-.hero-content { position: relative; z-index: 1; max-width: 700px; width: 100%; }
+.hero-content { position: relative; z-index: 2; max-width: 700px; width: 100%; }
 .hero-title { font-size: 42px; margin-bottom: 12px; }
 .hero-subtitle { font-size: 18px; color: #cccccc; margin-bottom: 20px; }
 .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -154,10 +155,10 @@ nav {
     border-radius: 4px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     transition: background-color 0.2s ease;
     flex: 1 1 auto;
     min-width: 140px;
@@ -199,10 +200,10 @@ nav {
 .anime-card {
     min-width: 160px;
     max-width: 160px;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto;
     transition: transform 0.2s ease;
     flex-shrink: 0;
     user-select: none;
@@ -236,13 +237,13 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.85);
-    z-index: 999998 !important;
+    z-index: 9999;
     overflow-y: auto;
     align-items: center;
     justify-content: center;
     padding: 20px 15px;
 }
-.modal.active { display: flex; z-index: 9999999 !important; }
+.modal.active { display: flex; }
 
 .modal-content {
     background-color: #1a1a1a;
@@ -262,10 +263,10 @@ nav {
     right: 20px;
     font-size: 28px;
     color: #888;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     transition: color 0.2s ease;
     user-select: none;
 }
@@ -282,10 +283,10 @@ nav {
 .vote-area { margin-bottom: 18px; }
 .vote-star { 
     font-size: 28px; 
-    cursor: pointer !important; 
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     margin-right: 5px; 
     transition: color 0.15s ease; 
     padding: 5px; 
@@ -298,10 +299,10 @@ nav {
     background-color: #ff1a1a;
     color: white;
     font-weight: 600;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     margin-right: 10px;
     margin-bottom: 8px;
     transition: background-color 0.2s ease;
@@ -319,11 +320,12 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.85);
-    z-index: 999998 !important;
+    z-index: 9999;
     align-items: center;
     justify-content: center;
     padding: 15px;
 }
+#signinModal.active, #signupModal.active, #forgotPassModal.active { display: flex; }
 
 #signinModal .modal-content.auth-modal,
 #signupModal .modal-content.auth-modal,
@@ -347,10 +349,10 @@ nav {
     right: 15px;
     font-size: 28px;
     color: #888;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     transition: color 0.2s;
     padding: 5px;
     user-select: none;
@@ -365,10 +367,10 @@ nav {
     border: none;
     border-radius: 4px;
     font-weight: 600;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -417,10 +419,10 @@ nav {
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     color: #888;
     font-size: 18px;
     padding: 5px;
@@ -436,10 +438,10 @@ nav {
     color: white;
     font-weight: 600;
     font-size: 16px;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     transition: background-color 0.2s ease;
     margin-top: 5px;
     user-select: none;
@@ -464,10 +466,10 @@ nav {
 .forgot-link a, .switch-text a {
     color: #ff1a1a;
     font-weight: 600;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 9999999 !important;
-    pointer-events: auto !important;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
     text-decoration: none;
 }
 .forgot-link a:hover, .switch-text a:hover { text-decoration: underline; }
@@ -508,61 +510,4 @@ nav {
     .users-online { font-size: 10px; }
     .anime-card { min-width: 120px; max-width: 120px; }
     .anime-card img { height: 170px; }
-}
-
-/* ===== PINAKA-MATINDING PAG-AYOS: WALANG MAKAHARANG! ===== */
-* {
-    pointer-events: auto !important;
-}
-
-nav, nav *,
-.nav-item,
-.nav-btn,
-#langSelect,
-.anime-card,
-.modal, .modal *,
-.close-btn,
-.vote-star,
-.download-btn,
-.auth-btn,
-.submit-btn,
-.forgot-link a,
-.switch-text a,
-.eye-btn {
-    position: relative !important;
-    z-index: 99999999 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-}
-
-.hero, .main-wrapper {
-    position: relative;
-    z-index: 1 !important;
-}
-
-/* ===== PINAKA-HULING SIGURADO: LAHAT NG PWEDENG PINDUTIN ===== */
-button,
-.nav-item,
-.anime-card,
-.switch-text a,
-.forgot-link a,
-#langSelect,
-.close-btn,
-.close-sign,
-.close-su,
-.close-fp,
-.vote-star,
-.download-btn,
-.auth-btn,
-.submit-btn,
-.eye-btn,
-#goSignin,
-#goSignup,
-#forgotPassLink,
-#backToSignin {
-    position: relative !important;
-    z-index: 99999999 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-    user-select: none;
 }
