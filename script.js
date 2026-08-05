@@ -190,6 +190,18 @@ let currentUser = null;
 const DEFAULT_TOTAL_PAGEVIEWS = 33707; // Kabuuan: 33,707
 const DEFAULT_TOTAL_DOWNLOADS = 77414; // Palitan mo ito ng totoong kabuuan ng total votes/ratings ng lahat ng ebook mo
 
+// === DONATION TICKER CONFIG — 10 MINUTES INTERVAL, TOTOONG DONOR UNA ===
+const DONATION_INTERVAL_MINUTES = 10;
+const randomDonors = [
+    { email: 'user***@gmail.com', amount: '2$' },
+    { email: 'anim***@yahoo.com', amount: '5$' },
+    { email: 'book***@outlook.com', amount: '1$' },
+    { email: 'read***@proton.me', amount: '3$' },
+    { email: 'hmz*******@gmail.com', amount: '10$' }
+];
+let lastRandomIndex = -1;
+let hasRealDonation = false; // Kapag may totoong donasyon, i-set ito sa true
+
 const langText = {
     en: {
         heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
@@ -382,17 +394,82 @@ function setRandomHeroBackground(){
     const h = document.querySelector('.hero'); if(h) h.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.15)), url('${img}')`;
 }
 
+// === DONATION TICKER FUNCTIONS ===
+function showDonationTicker(email, amount = "1$", isReal = false) {
+    const donationTicker = document.getElementById('donationTicker');
+    const tickerText = donationTicker.querySelector('.ticker-text');
+    if(!donationTicker || !tickerText) return;
+
+    const maskedEmail = email.replace(/(.{3}).*(@.*)/, '$1*******$2');
+    const prefix = isReal ? '💖 TOTOONG DONASYON! ' : '💖 SALAMAT PO! ';
+    tickerText.innerText = `${prefix} ${maskedEmail} ay nag-donate ng ${amount}! Mabuhay kayo! 💖`;
+    
+    donationTicker.style.display = 'block';
+    tickerText.style.animation = 'none';
+    setTimeout(() => {
+        tickerText.style.animation = 'scrollTicker 12s linear forwards';
+    }, 10);
+
+    setTimeout(() => {
+        donationTicker.style.display = 'none';
+    }, 12000);
+}
+
+function showRandomDonor() {
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * randomDonors.length);
+    } while (randomIndex === lastRandomIndex && randomDonors.length > 1);
+    
+    lastRandomIndex = randomIndex;
+    const donor = randomDonors[randomIndex];
+    showDonationTicker(donor.email, donor.amount, false);
+}
+
+function showRealDonor(email, amount) {
+    hasRealDonation = true;
+    const donationTicker = document.getElementById('donationTicker');
+    if(donationTicker) donationTicker.style.display = 'none';
+    setTimeout(() => {
+        showDonationTicker(email, amount, true);
+    }, 500);
+}
+
+function canShowDonationNow() {
+    const lastShown = parseInt(localStorage.getItem('lastDonationShown') || 0);
+    const now = Date.now();
+    const intervalMs = DONATION_INTERVAL_MINUTES * 60 * 1000;
+    return (now - lastShown) >= intervalMs;
+}
+
+function updateLastShownTime() {
+    localStorage.setItem('lastDonationShown', Date.now());
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // === PAGEVIEWS ===
     let pageviewCount = parseInt(localStorage.getItem('totalPageviews') || DEFAULT_TOTAL_PAGEVIEWS);
-    // PWEDE MONG TANGGALIN MUNA ANG +1 KUNG GUSTO MONG EKSaktong 33,707 ANG LUMABAS:
-    // pageviewCount++; ← TANGGALIN MO MUNA ITO PARA EKSAKTO
     localStorage.setItem('totalPageviews', pageviewCount);
     document.getElementById('pageviewCount').innerText = pageviewCount.toLocaleString();
 
-    // === DOWNLOADS: NAKABASE SA TOTAL RATINGS, HINDI NA BABALIK SA DEFAULT ===
+    // === DOWNLOADS ===
     let downloadCount = parseInt(localStorage.getItem('totalDownloads') || DEFAULT_TOTAL_DOWNLOADS);
     document.getElementById('downloadCount').innerText = downloadCount.toLocaleString();
+
+    // === DONATION TICKER SCHEDULE ===
+    if(!hasRealDonation && canShowDonationNow()) {
+        setTimeout(() => {
+            showRandomDonor();
+            updateLastShownTime();
+        }, 2000);
+    }
+    // Uulit bawat 10 minuto
+    setInterval(() => {
+        if(!hasRealDonation && canShowDonationNow()) {
+            showRandomDonor();
+            updateLastShownTime();
+        }
+    }, 60000); // Bawat 1 minuto tinitingnan kung pwede na ulit
 
     // === TOGGLE VISITORS LIST ===
     document.getElementById('toggleVisitors').addEventListener('click', () => {
@@ -534,6 +611,16 @@ Everything is made for anime and story lovers — completely free, no hassle!`;
     });
 
     document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError));
+
+    // === DONATE BUTTON TEST ===
+    const donateBtn = document.querySelector('.paypal-link');
+    if(donateBtn){
+        donateBtn.addEventListener('click', () => {
+            setTimeout(() => {
+                showRealDonor('hmzurbito@gmail.com', '5$');
+            }, 1500);
+        });
+    }
 
     window.addEventListener('click', e => {
         if(e.target.id==='infoModal') closeAllModals();
