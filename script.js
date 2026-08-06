@@ -470,7 +470,8 @@ function updateLastShownTime() { localStorage.setItem('lastDonationShown', Date.
 function showOnlineDisplay() {
     const randomBase = Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin;
     const total = randomBase + realOnlineCount;
-    document.getElementById('onlineCount').innerText = total;
+    const el = document.getElementById('onlineCount');
+    if(el) el.innerText = total;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -487,14 +488,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         fbOnlineRef.child(myOnlineKey).onDisconnect().remove();
 
         // ✅ KUNIN ANG SAKLAW MULA SA FIREBASE
-        fbOnlineRef.child('min_base').once('value').then(s => { if(s.exists()) baseMin = s.val(); });
-        fbOnlineRef.child('max_base').once('value').then(s => { if(s.exists()) baseMax = s.val(); });
+        fbOnlineRef.child('min_base').on('value', s => { if(s.exists()) baseMin = s.val(); showOnlineDisplay(); });
+        fbOnlineRef.child('max_base').on('value', s => { if(s.exists()) baseMax = s.val(); showOnlineDisplay(); });
 
         // ✅ BILANGIN ANG TOTOONG ONLINE (HUWAG ISAMA ANG min/max)
         fbOnlineRef.on('value', snap => {
             const allData = snap.val() || {};
             const activeKeys = Object.keys(allData).filter(k => k !== 'min_base' && k !== 'max_base');
             realOnlineCount = activeKeys.length;
+            showOnlineDisplay();
         });
 
         // ✅ I-INITIALIZE ANG PAGEVIEWS, DOWNLOADS AT BANSA
@@ -520,11 +522,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         // ✅ BILANGIN ANG BANSA NG KASALUKUYANG BISITA
         countVisitorByCountry();
 
-       // ✅ IPASIMULA ANG RANDOM ONLINE UPDATE
-// Agad na ipakita kahit hindi pa tumugon ang Firebase
-showOnlineDisplay();
-// Siguraduhing laging nag-iiba bawat ilang segundo
-setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
+        // ✅ IPASIMULA AGAD ANG RANDOM ONLINE UPDATE
+        showOnlineDisplay();
+        setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
     }
 
     if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
