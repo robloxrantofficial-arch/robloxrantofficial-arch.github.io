@@ -135,6 +135,9 @@ let myOnlineKey = null;
 
 // === FLAG PARA HINDI UMULIT ANG BILANG NG BANSA SA ISANG BISITA ===
 let alreadyCountedCountry = false;
+let realOnlineCount = 0;
+let baseMin = 332;
+let baseMax = 800;
 
 const langText = {
     en: {
@@ -228,24 +231,17 @@ async function updateDownloads() {
 async function countVisitorByCountry() {
     if(!fbCountryRef || alreadyCountedCountry) return;
     try {
-        // Gamit tayo ng libreng API para malaman ang bansa
         const res = await fetch('https://ipapi.co/json/');
         const data = await res.json();
         let country = data.country_name || 'Other';
-
-        // Kung wala sa listahan natin, ilagay sa "Other"
         if(!countryFlags[country]) country = 'Other';
-
-        // Dagdagan ang bilang sa Firebase
         const snap = await fbCountryRef.child(country).once('value');
         let count = snap.val() || 0;
         count++;
         await fbCountryRef.child(country).set(count);
-
         alreadyCountedCountry = true;
         renderVisitorList();
     } catch (err) {
-        // Kapag hindi makuha ang bansa → dagdag sa "Other"
         const snap = await fbCountryRef.child('Other').once('value');
         let count = snap.val() || 0;
         count++;
@@ -261,10 +257,7 @@ function renderVisitorList(data = null) {
     if(!listEl) return;
     const countries = data || countryFlags;
     listEl.innerHTML = '';
-
-    // Ayusin mula sa pinakamarami hanggang pinakakaunti
     const sorted = Object.entries(countries).sort((a,b) => b[1] - a[1]);
-
     sorted.forEach(([name, count]) => {
         const flag = countryFlags[name] || '🌍';
         const item = document.createElement('div');
@@ -294,7 +287,6 @@ async function initCountryStats() {
     if(!snap.exists()) {
         await fbCountryRef.set(defaults);
     }
-    // Pakinggan ang anumang pagbabago at ipakita agad
     fbCountryRef.on('value', snap => {
         renderVisitorList(snap.val() || defaults);
     });
@@ -330,7 +322,6 @@ function openModal(anime) {
     const modal = document.getElementById('infoModal');
     if(!modal) return;
     closeAllModals();
-
     document.getElementById('modalImg').src = anime.img;
     document.getElementById('modalTitle').innerText = currentLang==='en'?anime.title:anime.titleTl;
     document.getElementById('modalYear').innerText = anime.year;
@@ -475,6 +466,13 @@ function canShowDonationNow() {
 }
 function updateLastShownTime() { localStorage.setItem('lastDonationShown', Date.now()); }
 
+// ✅ ONLINE DISPLAY: MAY RANDOM + TOTOONG BILANG
+function showOnlineDisplay() {
+    const randomBase = Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin;
+    const total = randomBase + realOnlineCount;
+    document.getElementById('onlineCount').innerText = total;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     // ✅ KUNIN ANG FIREBASE DB
     const app = window.firebaseApp;
@@ -488,10 +486,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         myOnlineKey = fbOnlineRef.push(true).key;
         fbOnlineRef.child(myOnlineKey).onDisconnect().remove();
 
-        // ✅ BILANGIN ANG TOTOONG ONLINE USERS
+        // ✅ KUNIN ANG SAKLAW MULA SA FIREBASE
+        fbOnlineRef.child('min_base').once('value').then(s => { if(s.exists()) baseMin = s.val(); });
+        fbOnlineRef.child('max_base').once('value').then(s => { if(s.exists()) baseMax = s.val(); });
+
+        // ✅ BILANGIN ANG TOTOONG ONLINE (HUWAG ISAMA ANG min/max)
         fbOnlineRef.on('value', snap => {
-            const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-            document.getElementById('onlineCount').innerText = count;
+            const allData = snap.val() || {};
+            const activeKeys = Object.keys(allData).filter(k => k !== 'min_base' && k !== 'max_base');
+            realOnlineCount = activeKeys.length;
         });
 
         // ✅ I-INITIALIZE ANG PAGEVIEWS, DOWNLOADS AT BANSA
@@ -516,6 +519,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // ✅ BILANGIN ANG BANSA NG KASALUKUYANG BISITA
         countVisitorByCountry();
+
+        // ✅ IPASIMULA ANG RANDOM ONLINE UPDATE
+        showOnlineDisplay();
+        setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
     }
 
     if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
