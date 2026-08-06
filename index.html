@@ -201,9 +201,10 @@
         </div>
     </div>
 
-    <!-- ✅ FIREBASE SCRIPTS -->
+    <!-- ✅ FIREBASE SCRIPTS - KOMPLETO NA DATABASE, AUTH AT APP -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <script>
         const firebaseConfig = {
@@ -220,8 +221,11 @@
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
+        // ✅ IDINAGDAG ANG KULANG NA DATABASE CONNECTION
+        window.firebaseApp = firebase.app();
         window.firebaseAuth = auth;
         window.firebaseProvider = provider;
+        window.firebaseDatabase = firebase.database;
         window.firebaseMethods = {
             signInWithPopup: (authInst, prov) => authInst.signInWithPopup(prov),
             createUserWithEmailAndPassword: (authInst, email, pass) => authInst.createUserWithEmailAndPassword(email, pass),
