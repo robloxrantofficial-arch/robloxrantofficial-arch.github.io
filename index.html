@@ -1,621 +1,243 @@
-// ==============================================
-// 🔴 PINAKA-UNA: ANG BUONG LISTA NG LAHAT NG ANIME
-// ==============================================
-const animeData = [
-    {id:1,title:"Demon Slayer: The Flower of Happiness",titleTl:"Demon Slayer: Bulaklak ng Kaligayahan",year:"2019",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.8,totalVotes:1247,desc:"An official side-story light novel set during the main series journey. Follow Tanjiro, Nezuko, Zenitsu, and Inosuke as they arrive at a peaceful mountain village plagued by a mysterious demon that preys on happy memories.",descTl:"Isang opisyal na karagdagang kwento na naganap habang naglalakbay pa ang mga bida. Samahan sina Tanjiro, Nezuko, Zenitsu, at Inosuke sa isang payapang nayon sa bundok na pinamumugaran ng demonyong kumukuha ng masasayang alaala.",img:"https://upload.wikimedia.org/wikipedia/en/0/09/Demon_Slayer_-_Kimetsu_no_Yaiba%2C_volume_1.jpg",linkEnVol1:"https://drive.google.com/file/d/1zxQDxStY8IxSwzDqMWy0bDXi2QvDlrJB/view",linkEnVol2:"https://drive.google.com/file/d/10pEkq0_1g8ZrNH3nG-7oTIg-8BbSFg3d/view",linkEnVol3:"https://drive.google.com/file/d/1_tt4QcdWKX9sBb8LQBcDDqkAB070h9-J/view",linkEnVol4:"https://drive.google.com/file/d/1eZbWCsaH9KQzjyFoGuRHGm-rtGUJpglY/view",linkEnVol5:"https://drive.google.com/file/d/1gZekulwqF49jU4DTYcQ7RJ_Gti2Y0z2q/view",linkEnVol6:"https://drive.google.com/file/d/1f-zOqV1FB9gaOnE13SFgbiqOq3e6Cs0Z/view",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:2,title:"Jujutsu Kaisen: Summer of Ashes, Autumn of Dust",titleTl:"Jujutsu Kaisen: Tag-init ng Abo, Taglagas ng Alikabok",year:"2019",type:"Light Novel",lang:"EN / TL",category:["trending","new","all"],rating:4.9,totalVotes:1892,desc:"Explore untold missions and backstories of Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, and their teacher Gojo Satoru.",descTl:"Alamin ang mga hindi pa nasasabing misyon at nakaraan nina Yuji Itadori, Megumi Fushiguro, Nobara Kugisaki, at ng kanilang guro na si Gojo Satoru.",img:"https://upload.wikimedia.org/wikipedia/en/4/46/Jujutsu_kaisen.jpg",linkEnVol1:"https://drive.google.com/file/d/1hVgDNG6KK7ADsOWQe5ZAYN66ZQNCmIXo/view",linkEnVol2:"https://drive.google.com/file/d/1NQCD6XtfTEIxsIJSXqsJIjEUpUsFS2-o/view",linkEnVol3:"https://drive.google.com/file/d/1D3sv0gNDIKEbSyxZU4qD0nn_o1_gQk4_/view",linkEnVol4:"https://drive.google.com/file/d/17jIjq0swMqen22-xApzJqS6j3KSpAziK/view",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:3,title:"One Piece: The Novel",titleTl:"One Piece: Ang Nobela",year:"2000",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.7,totalVotes:987,desc:"A retelling of the early adventures of Monkey D. Luffy and the formation of the Straw Hat Pirates.",descTl:"Isang muling pagsasalaysay ng mga unang pakikipagsapalaran ni Monkey D. Luffy at kung paano nabuo ang Straw Hat Pirates.",img:"https://upload.wikimedia.org/wikipedia/en/9/90/One_Piece%2C_Volume_61_Cover_%28Japanese%29.jpg",linkEnVol1:"https://drive.google.com/file/d/1OnYiofmgaJYQI5-Z6SxR9CxVEW_9OlNq/view",linkEnVol2:"https://drive.google.com/file/d/1KzVc9TIghR_iBfX_ZKvGMscpPQClRmcp/view",linkEnVol3:"https://drive.google.com/file/d/1sfKU-WPuCF2Uir1Ea0tjaWwhO37nYaH5/view",linkEnVol4:"https://drive.google.com/file/d/1lOv2QNFaWpufQtBdqqTeapGVeY-PFToB/view",linkEnVol5:"https://drive.google.com/file/d/1EP-IJu8RCI2oXHa_tdjE6J1xa80CFD9F/view",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:4,title:"Solo Leveling: Light Novel Complete",titleTl:"Solo Leveling: Kumpletong Nobela",year:"2016",type:"Light Novel",lang:"EN / TL",category:["new","all"],rating:4.9,totalVotes:2103,desc:"The full original light novel series that inspired the global hit manhwa. Follow Sung Jin-Woo, the weakest hunter, who gains a mysterious ability to level up without limits.",descTl:"Ang buong orihinal na nobela na naging batayan ng sikat na manhwa. Sundan si Sung Jin-Woo, ang pinakamahinang mangangaso, na binigyan ng kakayahang lumakas nang walang hangganan.",img:"https://upload.wikimedia.org/wikipedia/en/6/6c/Solo_Leveling_Volume_1_Cover.jpg",linkEnVol1:"https://drive.google.com/file/d/1kJiKaJMBfV7Zi48g-J_70cFfHClvbwbi/view",linkEnVol2:"https://drive.google.com/file/d/1oCigoYm_8ZGbidvduG0S8IzJrP1KAikj/view",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:5,title:"Attack on Titan: Before the Fall",titleTl:"Pag-atake ng Higante: Bago ang Pagbagsak",year:"2011",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.6,totalVotes:765,desc:"A gripping prequel set decades before Eren Yeager’s story begins. Learn how humanity first discovered the terrifying Titans.",descTl:"Isang nakakapanabik na kwento bago pa man ang kwento ni Eren. Alamin kung paano unang nakilala ng tao ang mga nakakatakot na Higante.",img:"https://upload.wikimedia.org/wikipedia/en/d/d6/Shingeki_no_Kyojin_manga_volume_1.jpg",linkEnVol1:"https://drive.google.com/file/d/1jJD37xj16zrENEDJhKkacTox4jKRk0GS/view",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:6,title:"Spy x Family: Family Portrait",titleTl:"Spy x Family: Larawan ng Pamilya",year:"2021",type:"Light Novel",lang:"EN / TL",category:["trending","new","all"],rating:4.8,totalVotes:1567,desc:"Enjoy extra missions and slice-of-life stories featuring the Forger Family: spy Loid, assassin Yor, and telepath Anya.",descTl:"Masiyahan sa mga karagdagang kwento ng pamilya Forger: ang espiya, mamamatay-tao, at batang nakakabasa ng isip.",img:"https://upload.wikimedia.org/wikipedia/en/5/51/Spy_Family_vol_1.jpg",linkEnVol1:"https://drive.google.com/file/d/1Io8ykhNzqvpL0NfdqAYE_TOfax3yGjvD/view",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:7,title:"Naruto: The Chronicles",titleTl:"Naruto: Ang mga Kasaysayan",year:"2002",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.7,totalVotes:1123,desc:"Official expanded stories diving deeper into Naruto Uzumaki’s journey from outcast to Seventh Hokage.",descTl:"Mga kwento na nagpapalawak sa paglalakbay ni Naruto mula sa pagiging iniiwasan hanggang sa maging Hokage.",img:"https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg",linkEnVol1:"https://drive.google.com/file/d/1hm14xD3-OFhoKYtKkVFz2-ZSYesmH_FT/view?usp=drive_link",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:8,title:"Bleach: The Death Save the Strawberry",titleTl:"Bleach: Ang Kaligtasan ng Prutas",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.5,totalVotes:654,desc:"Follow Ichigo Kurosaki during the gaps between major battles, exploring his life as a substitute Soul Reaper.",descTl:"Sundan si Ichigo sa kanyang buhay bilang pansamantalang Tagapagligtas ng Kaluluwa.",img:"https://upload.wikimedia.org/wikipedia/en/3/3f/Bleach_%28manga%29_1.png",linkEnVol1:"https://drive.google.com/file/d/1-mawqIYZqN_XrzuDvpySokYhzAYYhZGr/view?usp=drive_link",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:9,title:"My Hero Academia: School Briefs",titleTl:"Ang Aking Bayani: Mga Kwento sa Paaralan",year:"2016",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.8,totalVotes:1345,desc:"Step into the daily life of Class 1-A at U.A. High School as they learn the true meaning of heroism.",descTl:"Pumasok sa buhay ng Class 1-A at alamin ang tunay na kahulugan ng pagiging bayani.",img:"https://upload.wikimedia.org/wikipedia/en/5/5a/Boku_no_Hero_Academia_Volume_1.png",linkEnVol1:"https://drive.google.com/file/d/1-3W_DjJJZ8nwZ2H2pojLujkyjhMfaWBS/view?usp=sharing",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:10,title:"Tokyo Ghoul: Days",titleTl:"Halimaw ng Tokyo: Mga Araw",year:"2013",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.4,totalVotes:543,desc:"Side stories showing the quiet, painful moments of humans and ghouls living in Tokyo.",descTl:"Mga kwento ng tahimik at masakit na buhay ng mga tao at halimaw sa Tokyo.",img:"https://upload.wikimedia.org/wikipedia/en/e/e5/Tokyo_Ghoul_volume_1_cover.jpg",linkEnVol1:"https://drive.google.com/file/d/1Fn8Lx32t-RqLiDsQmzrnqgLOv8oHkWZR/view?usp=sharing",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:11,title:"Death Note: Another Note",titleTl:"Aklat ng Kamatayan: Isa pang Tala",year:"2006",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:876,desc:"A thrilling prequel about the Los Angeles BB Murder Cases before Kira appeared.",descTl:"Kwento ng mga krimen bago pa man dumating si Kira.",img:"https://upload.wikimedia.org/wikipedia/en/6/6f/Death_Note_Vol_1.jpg",linkEnVol1:"https://drive.google.com/file/d/1WCwemmJerIm1mE5cMIztMTv9Z4uvmIiv/view?usp=drive_link",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:12,title:"Black Clover: The Knights of the Kingdom",titleTl:"Itim na Klaber: Mga Kawal ng Kaharian",year:"2018",type:"Light Novel",lang:"EN / TL",category:["new","all"],rating:4.6,totalVotes:721,desc:"Journey with Asta and the Black Bulls showing that hard work can overcome magic.",descTl:"Samahan si Asta at patunayan na ang pagsisikap ay kayang talunin ang mahika.",img:"https://upload.wikimedia.org/wikipedia/en/6/69/Black_Clover%2C_volume_1.jpg",linkEnVol1:"https://drive.google.com/file/d/1Frdi55a63rqi5GGJfU-LXcynTZXkITIp/view?usp=sharing",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:13,title:"Re:Zero - Starting Life in Another World",titleTl:"Re:Zero - Magsimula Muli sa Ibang Mundo",year:"2014",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.8,totalVotes:1098,desc:"Natsuki Subaru returns from death repeatedly to protect the people he loves.",descTl:"Paulit-ulit na bumabalik mula sa kamatayan si Subaru para iligtas ang mga mahal niya.",img:"https://upload.wikimedia.org/wikipedia/en/3/3c/Re-Zero_kara_Hajimeru_Isekai_Seikatsu_light_novel_volume_1_cover.jpg",linkEnVol1:"https://drive.google.com/file/d/1EGuhUoXZ8S4Oms1ZFmjrc1sxHWh0OvCw/view?usp=sharing",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:14,title:"Overlord",titleTl:"Overlord",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:932,desc:"A player trapped as an undead builds an empire in a new world.",descTl:"Isang manlalarong naipit bilang patay na nilalang na bumuo ng sariling kaharian.",img:"https://upload.wikimedia.org/wikipedia/en/0/05/Overlord_II.jpg",linkEnVol1:"https://drive.google.com/file/d/1bs60nEBwsChN9jY4-9q4Nv_gOXJLf9fM/view?usp=sharing",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:15,title:"Konosuba: God's Blessing on This Wonderful World",titleTl:"Konosuba: Pagpapala sa Kahanga-hangang Mundong Ito",year:"2013",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.6,totalVotes:812,desc:"Hilarious adventures of Kazuma and his useless goddess Aqua.",descTl:"Nakakatawang pakikipagsapalaran ni Kazuma at ng walang silbing diyosang si Aqua.",img:"https://upload.wikimedia.org/wikipedia/en/3/3e/Kono_Subarashii_Sekai_ni_Shukufuku_o%21_light_novel_volume_1_cover.jpg",linkEnVol1:"https://drive.google.com/file/d/1qzxZixtCD4YR2ivOEje2JsyfSe8vA3v3/view?usp=sharing",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:16,title:"Sword Art Online",titleTl:"Sword Art Online",year:"2009",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.5,totalVotes:1023,desc:"Players trapped in a VR game where dying means death in real life.",descTl:"Mga manlalarong naipit sa laro kung saan ang kamatayan sa laro ay kamatayan din sa totoo.",img:"https://upload.wikimedia.org/wikipedia/en/3/3e/Sword_Art_Online_light_novel_volume_1_cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:17,title:"No Game No Life",titleTl:"Walang Laro Walang Buhay",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:765,desc:"Genius siblings conquer a world ruled entirely by games.",descTl:"Matalinong magkapatid na sumakop sa mundong laro ang batas.",img:"https://upload.wikimedia.org/wikipedia/en/c/cd/No_Game_No_Life_light_novel_vol_1.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:18,title:"Fate/Stay Night",titleTl:"Fate/Stay Night",year:"2004",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.4,totalVotes:543,desc:"Seven mages fight for the Holy Grail that grants any wish.",descTl:"Pitong salamangkero na naglalaban para sa Banal na Kopa.",img:"https://upload.wikimedia.org/wikipedia/en/d/d4/Fate-stay_night.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:19,title:"Chainsaw Man: Buddy Stories",titleTl:"Tao na Lagari: Mga Kwento ng Magkaibigan",year:"2021",type:"Light Novel",lang:"EN / TL",category:["trending","new","all"],rating:4.8,totalVotes:1432,desc:"Side stories of Denji, Power, and Aki hunting devils together.",descTl:"Mga kwento nina Denji, Power, at Aki habang nanghuhuli ng demonyo.",img:"https://upload.wikimedia.org/wikipedia/en/2/24/Chainsawman.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:20,title:"Hunter x Hunter: The Journey",titleTl:"Mangangaso x Mangangaso: Ang Paglalakbay",year:"2001",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.6,totalVotes:891,desc:"Gon Freecss takes the dangerous Hunter Exam to find his father.",descTl:"Sumali si Gon sa mapanganib na pagsusulit para hanapin ang kanyang ama.",img:"https://upload.wikimedia.org/wikipedia/en/e/e8/Hunter_%C3%97_Hunter_vol._1.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:21,title:"Fullmetal Alchemist: The Land of Sand",titleTl:"Buong Metal na Alkemista: Lupain ng Buhangin",year:"2003",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:678,desc:"Edward and Alphonse Elric search for a way to restore their bodies.",descTl:"Naghahanap sina Edward at Alphonse ng paraan para maibalik ang kanilang katawan.",img:"https://upload.wikimedia.org/wikipedia/en/9/9d/Fullmetal123.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:22,title:"Dragon Ball: The Legend",titleTl:"Dragon Ball: Ang Alamat",year:"1986",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.5,totalVotes:987,desc:"Follow Goku from childhood to becoming the strongest warrior.",descTl:"Sundan si Goku mula pagkabata hanggang maging pinakamalakas.",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4RqUW0UcMDuAwflpzfMmfkCtgkXa-Ufu1lq8iCf1YMxxgtJ-OGh-XDH3Yqi5JFXI1RJiW&s=10",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:23,title:"Your Name. Light Novel",titleTl:"Ang Iyong Pangalan. Nobela",year:"2016",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:1654,desc:"Taki and Mitsuha mysteriously swap bodies across Japan.",descTl:"Biglang nagpapalitan ng katawan sina Taki at Mitsuha.",img:"https://upload.wikimedia.org/wikipedia/en/2/24/Your_Name_%28novel%29_cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:24,title:"Weathering With You Light Novel",titleTl:"Pagbabago ng Panahon Nobela",year:"2019",type:"Light Novel",lang:"EN / TL",category:["new","all"],rating:4.8,totalVotes:1211,desc:"Hodaka meets Hina, a girl who can control the weather.",descTl:"Nakilala ni Hodaka si Hina na may kakayahang kontrolin ang panahon.",img:"https://upload.wikimedia.org/wikipedia/en/6/66/Weathering_with_You_Poster.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:25,title:"Tokyo Revengers: A Letter from Keisuke Baji",titleTl:"Mga Tagapaghiganti ng Tokyo: Liham mula kay Baji",year:"2021",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.7,totalVotes:1034,desc:"Untold story of Baji and the early days of Tokyo Manji Gang.",descTl:"Kwento ni Baji at kung paano nabuo ang Tokyo Manji Gang.",img:"https://upload.wikimedia.org/wikipedia/en/b/b1/Tokyo_Revengers_volume_1_cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:26,title:"Violet Evergarden",titleTl:"Violet Evergarden",year:"2015",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:1789,desc:"Former weapon Violet writes letters to understand the meaning of 'I love you'.",descTl:"Dati ay sandata, ngayon ay nagsusulat ng liham para alamin ang kahulugan ng pag-ibig.",img:"https://upload.wikimedia.org/wikipedia/en/b/be/Violet_Evergarden_light_novel_volume_1_cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:27,title:"Steins;Gate",titleTl:"Steins;Gate",year:"2009",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.6,totalVotes:856,desc:"Okabe invents time travel and must fix its terrible consequences.",descTl:"Nakaimbento si Okabe ng paraan sa oras at kailangang ayusin ang epekto nito.",img:"https://upload.wikimedia.org/wikipedia/en/e/e4/Steins%3BGate_cover_art.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:28,title:"The Seven Deadly Sins: Seven Days",titleTl:"Ang Pitong Nakamamatay na Kasalanan: Pitong Araw",year:"2014",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.5,totalVotes:643,desc:"Side stories expanding the world of the legendary knights.",descTl:"Mga karagdagang kwento tungkol sa mga maalamat na kawal.",img:"https://upload.wikimedia.org/wikipedia/en/e/e1/The_Seven_Deadly_Sins_2014_TV_series.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:29,title:"Fairy Tail: The Phoenix Priestess",titleTl:"Buntot ng Diwata: Ang Pari ng Ibong Adarna",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.4,totalVotes:532,desc:"Magical adventure with Natsu, Lucy, and the Fairy Tail guild.",descTl:"Mahiwagang pakikipagsapalaran kasama sina Natsu at Lucy.",img:"https://upload.wikimedia.org/wikipedia/en/e/e1/FairyTail-Volume_1_Cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:30,title:"One Punch Man: A Hero Nobody Knows",titleTl:"Isang Suntok na Tao: Bayaning Walang Nakakakilala",year:"2015",type:"Light Novel",lang:"EN / TL",category:["trending","all"],rating:4.7,totalVotes:1121,desc:"Saitama defeats any enemy with one punch but seeks a real challenge.",descTl:"Talo ni Saitama ang lahat sa isang suntok lang, naghahanap ng totoong kalaban.",img:"https://upload.wikimedia.org/wikipedia/en/c/c3/OnePunchMan_manga_cover.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:31,title:"Dr. Stone: Rebirth of Civilization",titleTl:"Dr. Stone: Muling Pagsilang ng Sibilisasyon",year:"2019",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.8,totalVotes:1345,desc:"Senku rebuilds human civilization from zero using only science.",descTl:"Muling itinayo ni Senku ang sibilisasyon gamit lang ang agham.",img:"https://upload.wikimedia.org/wikipedia/en/2/29/Doctor_stone.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:32,title:"Blue Exorcist: The Movie Novel",titleTl:"Asul na Ekzorista: Nobela ng Pelikula",year:"2012",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.5,totalVotes:678,desc:"Rin Okumura, son of Satan, chooses to become an exorcist.",descTl:"Anak ni Satanas si Rin ngunit pinili niyang maging tagapagpalayas ng demonyo.",img:"https://upload.wikimedia.org/wikipedia/en/6/62/Blue_Exorcist_vol_1.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:33,title:"Noragami: Stray God Stories",titleTl:"Noragami: Mga Kwento ng Ligaw na Diyos",year:"2013",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.6,totalVotes:765,desc:"Minor god Yato dreams of being worshipped by millions.",descTl:"Maliit na diyos na si Yato na gustong kilalanin ng marami.",img:"https://upload.wikimedia.org/wikipedia/en/b/bc/Noragami_1.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:34,title:"Bungo Stray Dogs: Untold Stories",titleTl:"Mga Aso sa Kalye: Mga Hindi Nasabing Kwento",year:"2016",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:892,desc:"Agency members with supernatural powers solve dangerous cases.",descTl:"Mga miyembro ng ahensya na may kakaibang kakayahan na lumulutas ng krimen.",img:"https://upload.wikimedia.org/wikipedia/en/f/f8/Bung%C5%8D_Stray_Dogs_volume_1.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:35,title:"Fire Force: The Hero’s Tale",titleTl:"Puwersa ng Apoy: Kwento ng Bayani",year:"2017",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.5,totalVotes:723,desc:"Shinra joins the Fire Force to stop people turning into monsters.",descTl:"Sumali si Shinra para pigilan ang pagiging halimaw ng mga tao.",img:"https://upload.wikimedia.org/wikipedia/en/0/06/Fire_Force%2C_Volume_1.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:36,title:"Mob Psycho 100: The First Step",titleTl:"Mob Psycho 100: Ang Unang Hakbang",year:"2018",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.8,totalVotes:1098,desc:"Mob has immense psychic power but chooses kindness over strength.",descTl:"Napakalakas ng isip ni Mob pero kabutihan ang pinili niya.",img:"https://upload.wikimedia.org/wikipedia/en/4/4b/Mob_Psycho_100_manga_vol_1.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:37,title:"Vinland Saga: The True Warrior",titleTl:"Kwento ng Vinland: Ang Tunay na Mandirigma",year:"2013",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.9,totalVotes:1456,desc:"Thorfinn goes from vengeful Viking to a man seeking peace.",descTl:"Mula sa paghihiganti, naghanap ng kapayapaan si Thorfinn.",img:"https://upload.wikimedia.org/wikipedia/en/8/8c/Vinland_Saga_key_visual.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:38,title:"Berserk: The Flame Dragon Knight",titleTl:"Berserk: Ang Kabalyero ng Apoy na Dragon",year:"2017",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.6,totalVotes:876,desc:"Dark tale of struggle and will to keep moving forward against fate.",descTl:"Madilim na kwento ng pakikipaglaban sa tadhana.",img:"https://upload.wikimedia.org/wikipedia/en/4/4a/Berserk_vol01.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:39,title:"A Silent Voice Light Novel",titleTl:"Tahimik na Tinig Nobela",year:"2014",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.8,totalVotes:1234,desc:"Shoya seeks redemption and friendship after bullying Shoko.",descTl:"Paghahanap ng kapatawaran matapos ang pang-aapi.",img:"https://upload.wikimedia.org/wikipedia/en/6/6c/Koe_no_Katachi%2C_Volume_1.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:40,title:"Toradora!",titleTl:"Toradora!",year:"2006",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:987,desc:"Ryuji and Taiga help each other confess but fall in love instead.",descTl:"Tumulong sa isa’t isa pero sila pala ang nagkagustuhan.",img:"https://upload.wikimedia.org/wikipedia/en/c/cd/Toradora%21_light_novel_volume_1_cover.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:41,title:"Sakura Wars: The Beginning",titleTl:"Sakura Wars: Ang Simula",year:"1996",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.4,totalVotes:543,desc:"Spirit-powered women defend Tokyo using combat and stage performance.",descTl:"Mga kababaihang may kapangyarihan na nagtatanggol sa Tokyo.",img:"https://upload.wikimedia.org/wikipedia/en/3/3e/Sakura_Wars_3_cover_art.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:42,title:"Accel World",titleTl:"Accel World",year:"2009",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.5,totalVotes:678,desc:"Haruyuki finds escape in games until he meets Kuroyukihime.",descTl:"Nakahanap ng aliw sa laro hanggang makilala niya si Kuroyukihime.",img:"https://upload.wikimedia.org/wikipedia/en/d/dd/Accel_World_cover.png",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"},
-    {id:43,title:"Goblin Slayer",titleTl:"Tagapatay ng Goblin",year:"2016",type:"Light Novel",lang:"EN / TL",category:["all"],rating:4.7,totalVotes:943,desc:"A warrior dedicates his life to eradicating all goblins.",descTl:"Inalay ang buhay para lipulin ang lahat ng goblin.",img:"https://m.media-amazon.com/images/I/81bfb0Nzx3L._UF1000,1000_QL80_.jpg",linkEnVol1:"#",linkEnVol2:"#",linkEnVol3:"#",linkEnVol4:"#",linkEnVol5:"#",linkEnVol6:"#",linkTlVol1:"#",linkTlVol2:"#",linkTlVol3:"#",linkTlVol4:"#",linkTlVol5:"#",linkTlVol6:"#"}
-];
-// ==============================================
-// 🟢 DITO NA MAGSISIMULA ANG CODE — TAMA NA ANG PAGKAKASUNOD
-// ==============================================
-let currentLang = 'en';
-let selectedAnime = null;
-let currentUser = null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-// ==============================================
-// ✅ ILAGAY MO ANG IYONG BUONG animeData DITO SA IBABA
-// ==============================================
-// let animeData = [ ... ilagay mo dito ang listahan ng anime ... ];
+    <!-- ✅ GOOGLE SEARCH CONSOLE VERIFICATION CODE -->
+    <meta name="google-site-verification" content="HiCmMfvIWY0b5Cbb8ygGfeut9IbA0tZq-s_l23oRYes" />
 
-// === DEFAULT NA KABUUAN ===
-const DEFAULT_TOTAL_PAGEVIEWS = 33707;
-const DEFAULT_TOTAL_DOWNLOADS = 77414;
-const DONATION_INTERVAL_MINUTES = 10;
+    <!-- ✅ SEO TITLE, DESCRIPTION AT KEYWORDS -->
+    <title>Anime Ebooks Hub | Free Light Novels & Anime Stories - English & Tagalog</title>
+    <meta name="description" content="Download thousands of free anime light novels and ebooks in English and Tagalog. Read popular anime stories like Demon Slayer, Jujutsu Kaisen, One Piece, and more!">
+    <meta name="keywords" content="anime ebook, anime light novel, free anime novel download, tagalog anime story, english light novel, manga novel, free anime books">
 
-const randomDonors = [
-    { email: 'bran******@gmail.com', amount: '1$' },
-    { email: 'anne****@gmail.com', amount: '1$' },
-    { email: 'book*****@gmail.com', amount: '1$' },
-    { email: 'redo*****@gmail.com', amount: '2$' },
-    { email: 'jedr*******@gmail.com', amount: '1$' },
-    { email: 'jerr*****@gmail.com', amount: '1$' },
-    { email: 'rhea********@gmail.com', amount: '3$' },
-    { email: 'renn******@gmail.com', amount: '1$' },
-    { email: 'lot0***@gmail.com', amount: '1$' },
-    { email: 'pedr***********@gmail.com', amount: '2$' },
-    { email: 'jean***@gmail.com', amount: '1$' },
-    { email: 'hele*****@gmail.com', amount: '2$' },
-    { email: 'brya*********@gmail.com', amount: '1$' },
-    { email: 'mrry*****@gmail.com', amount: '1$' },
-    { email: 'spee************@gmail.com', amount: '1$' },
-    { email: 'chas******@gmail.com', amount: '2$' },
-    { email: 'luna*****@gmail.com', amount: '2$' },
-    { email: 'ar4r*******@gmail.com', amount: '1$' },
-    { email: 'alce**********@gmail.com', amount: '1$' },
-    { email: 'albe******@gmail.com', amount: '1$' },
-    { email: 'vinc******@gmail.com', amount: '2$' },
-    { email: 'r1ta*********@gmail.com', amount: '1$' },
-    { email: 'arj0*******@gmail.com', amount: '2$' },
-    { email: 'zyel*********@gmail.com', amount: '10$' },
-    { email: 'aler************@gmail.com', amount: '2$' },
-    { email: 'raul*********@gmail.com', amount: '2$' },
-    { email: 'step*******@gmail.com', amount: '2$' },
-    { email: 'less*****@gmail.com', amount: '1$' },
-    { email: 'jayr*********@gmail.com', amount: '3$' },
-    { email: 'benn*****@gmail.com', amount: '3$' },
-    { email: 'kunn********@gmail.com', amount: '2$' },
-    { email: 'rent*******@gmail.com', amount: '3$' },
-    { email: 'faus**********@gmail.com', amount: '2$' },
-    { email: 'brad*****@gmail.com', amount: '1$' },
-    { email: 'becj****@gmail.com', amount: '2$' },
-    { email: 'rick*********@gmail.com', amount: '2$' },
-    { email: 'meno*******@gmail.com', amount: '2$' },
-    { email: 'donn**********@gmail.com', amount: '1$' },
-    { email: 'boss*************@gmail.com', amount: '2$' },
-    { email: 'youk*****@gmail.com', amount: '2$' },
-    { email: 'liza*********@gmail.com', amount: '1$' },
-    { email: 'cris******@gmail.com', amount: '1$' },
-    { email: 'alle*****@gmail.com', amount: '2$' },
-    { email: 'erne*********@gmail.com', amount: '1$' },
-    { email: 'marv******@gmail.com', amount: '1$' },
-    { email: 'clar******@gmail.com', amount: '1$' },
-    { email: 'axce*********@gmail.com', amount: '1$' },
-    { email: 'carl*******@gmail.com', amount: '1$' },
-    { email: 'l152*****@gmail.com', amount: '2$' },
-    { email: 'robb***@gmail.com', amount: '1$' },
-    { email: 'bren********@gmail.com', amount: '2$' },
-    { email: 'shei*****@gmail.com', amount: '2$' },
-    { email: 'shen*******@gmail.com', amount: '1$' },
-    { email: 'nanc**********@gmail.com', amount: '1$' },
-    { email: 'josh*****@gmail.com', amount: '1$' },
-    { email: 'josi***@gmail.com', amount: '2$' },
-    { email: 'jhos***@gmail.com', amount: '1$' },
-    { email: 'henr*******@gmail.com', amount: '1$' }
-];
-let lastRandomIndex = -1;
-let hasRealDonation = false;
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:;base64,=">
 
-// === FIREBASE REFERENCES ===
-let fbDb = null;
-let fbOnlineRef = null;
-let fbStatsRef = null;
-let fbCountryRef = null;
-let myOnlineKey = null;
+    <!-- ✅ ADSENSE VERIFICATION CODE -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9751978607085609"
+     crossorigin="anonymous"></script>
 
-// === FLAG PARA HINDI UMULIT ANG BILANG NG BANSA SA ISANG BISITA ===
-let alreadyCountedCountry = false;
-let realOnlineCount = 0;
-// ✅ HINDI NA MAGIGING 0 — NAKASET NA AGAD ANG SAKLAW
-let baseMin = 332;
-let baseMax = 800;
+    <!-- ✅ GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-const langText = {
-    en: {
-        heroTitle:"Your Favorite Anime Light Novels & Ebooks", heroDesc:"Download thousands of anime light novels and ebooks for free",
-        trendingTitle:"🔥 Trending Now", newTitle:"✨ New Released", allTitle:"📚 All Anime Ebooks",
-        searchPlaceholder:"Search anime ebooks...", downloadEn:"🇬🇧 English Version", downloadTl:"🇵🇭 Tagalog Version",
-        ratingLabel:"Rating:", voteLabel:"Vote this ebook:"
-    },
-    tl: {
-        heroTitle:"Ang Iyong Mga Paboritong Nobela at Ebook", heroDesc:"Mag-download ng libo-libong anime nobela at ebook nang libre",
-        trendingTitle:"🔥 Pinakasikat Ngayon", newTitle:"✨ Mga Bagong Labas", allTitle:"📚 Lahat ng Anime Ebook",
-        searchPlaceholder:"Maghanap ng anime ebook...", downloadEn:"🇬🇧 Bersyong Ingles", downloadTl:"🇵🇭 Bersyong Tagalog",
-        ratingLabel:"Marka:", voteLabel:"Bigyan ng marka ang nobelang ito:"
-    }
-};
+    <!-- ✅ FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
 
-// === FLAG NG MGA BANSA AT FLAG ICON ===
-const countryFlags = {
-    "Philippines": "🇵🇭",
-    "Japan": "🇯🇵",
-    "United States": "🇺🇸",
-    "Canada": "🇨🇦",
-    "Indonesia": "🇮🇩",
-    "Malaysia": "🇲🇾",
-    "Singapore": "🇸🇬",
-    "Australia": "🇦🇺",
-    "Vietnam": "🇻🇳",
-    "Thailand": "🇹🇭",
-    "Other": "🌍"
-};
+    <!-- ✅ DONATION SCROLLING TICKER - NASA PINAKA-ITAAS -->
+    <div id="donationTicker" class="donation-ticker" style="display: none;">
+        <div class="ticker-text">💖 Thank you for supporting us — you inspire us to keep sharing amazing anime ebooks! 💖</div>
+    </div>
 
-function isValidEmail(email) {
-    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-}
+    <nav class="navbar">
+        <div class="nav-left">
+            <h1 class="logo">ANIME<span>BOOKS</span></h1>
+            <ul class="nav-links">
+                <li class="nav-item active" data-section="home">Home</li>
+                <li class="nav-item" data-section="trending">Trending</li>
+                <li class="nav-item" data-section="new">New Released</li>
+                <li class="nav-item" data-section="all">All Anime</li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <span class="users-online">🟢 Users Online: <strong id="onlineCount">0</strong></span>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search anime ebooks...">
+                <i class="fas fa-search"></i>
+            </div>
+            <button id="signinBtn" class="nav-btn">Sign In</button>
+            <button id="signupBtn" class="nav-btn">Sign Up</button>
+            <span id="userDisplay" class="user-name" style="display:none;"></span>
+            <button id="logoutBtn" class="nav-btn" style="display:none;">Logout</button>
+            <select id="langSelect">
+                <option value="en">English</option>
+                <option value="tl">Tagalog</option>
+            </select>
+        </div>
+    </nav>
 
-function updateLanguage() {
-    const heroTitleEl = document.querySelector('.hero-title');
-    const heroDescEl = document.querySelector('.hero-subtitle');
-    const searchEl = document.getElementById('searchInput');
-    if(heroTitleEl) heroTitleEl.innerText = langText[currentLang].heroTitle;
-    if(heroDescEl) heroDescEl.innerText = langText[currentLang].heroDesc;
-    if(searchEl) searchEl.placeholder = langText[currentLang].searchPlaceholder;
-    Object.keys(langText[currentLang]).forEach(key => {
-        const el = document.getElementById(key);
-        if(el) el.innerText = langText[currentLang][key];
-    });
-}
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Your Favorite Anime Light Novels & Ebooks</h1>
+            <p class="hero-subtitle">Download thousands of anime light novels and ebooks for free</p>
+            <div class="hero-buttons">
+                <button class="hero-btn play-btn" onclick="document.querySelector('.main-wrapper').scrollIntoView({behavior:'smooth'})">📖 Browse Now</button>
+                <button id="learnMoreBtn" class="hero-btn info-btn">ℹ️ Learn More</button>
+            </div>
+        </div>
+    </section>
 
-function getRatingPercent(rating) { return Math.round((rating / 5) * 100); }
-function renderStars(rating) {
-    return Array.from({length:5}, (_,i) => `<span class="star ${i < Math.round(rating) ? 'active' : ''}">★</span>`).join('');
-}
+    <div class="main-wrapper">
+        <div class="container">
+            <section class="section">
+                <div class="section-header"><h2 id="trendingTitle">🔥 Trending Now</h2></div>
+                <div class="card-row" id="trendingRow"></div>
+            </section>
+            <section class="section">
+                <div class="section-header"><h2 id="newTitle">✨ New Released</h2></div>
+                <div class="card-row" id="newRow"></div>
+            </section>
+            <section class="section">
+                <div class="section-header"><h2 id="allTitle">📚 All Anime Ebooks</h2></div>
+                <div class="card-row" id="allRow"></div>
+            </section>
+        </div>
+    </div>
 
-function loadSavedStats() {
-    if (typeof animeData === 'undefined') return;
-    const savedStats = JSON.parse(localStorage.getItem('animeStats') || '{}');
-    animeData.forEach(anime => {
-        if(savedStats[anime.id]) {
-            anime.totalVotes = savedStats[anime.id].totalVotes;
-            anime.rating = savedStats[anime.id].rating;
-        }
-    });
-}
+    <!-- ✅ SUPPORT & VISITORS SECTION -->
+    <section class="support-section">
+        <div class="support-box">
+            <h3>Support Us</h3>
+            <p>Support us to inspire and create more anime ebooks, stories, and content for everyone!</p>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=hmzurbito@gmail.com&item_name=Support Anime Ebooks Hub" target="_blank" rel="noopener noreferrer" class="paypal-link">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="Donate with PayPal" class="paypal-logo">
+            </a>
+        </div>
 
-function closeAllModals() {
-    ['infoModal','signinModal','signupModal','forgotPassModal'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
-    document.body.style.overflow = 'auto';
-}
+        <div class="visitors-box">
+            <div class="visitors-header">
+                <h4>Visitors</h4>
+                <button id="toggleVisitors" class="toggle-btn">Show Countries ▼</button>
+            </div>
+            <div id="visitorsList" class="visitor-list">
+    <div class="visitor-item"><span class="flag">🇵🇭</span><span>Philippines — 11,352</span></div>
+    <div class="visitor-item"><span class="flag">🇯🇵</span><span>Japan — 3,565</span></div>
+    <div class="visitor-item"><span class="flag">🇺🇸</span><span>United States — 9,884</span></div>
+    <div class="visitor-item"><span class="flag">🇨🇦</span><span>Canada — 3,231</span></div>
+    <div class="visitor-item"><span class="flag">🇮🇩</span><span>Indonesia — 3,005</span></div>
+    <div class="visitor-item"><span class="flag">🇲🇾</span><span>Malaysia — 859</span></div>
+    <div class="visitor-item"><span class="flag">🇸🇬</span><span>Singapore — 1,308</span></div>
+    <div class="visitor-item"><span class="flag">🇦🇺</span><span>Australia — 239</span></div>
+    <div class="visitor-item"><span class="flag">🇻🇳</span><span>Vietnam — 127</span></div>
+    <div class="visitor-item"><span class="flag">🇹🇭</span><span>Thailand — 137</span></div>
+    <div class="visitor-item"><span class="flag">🌐</span><span>Other Countries — 2,541</span></div>
+</div>
+            <div class="pageviews">Pageviews: <span id="pageviewCount">33,707</span></div>
+            <div class="download-count">Downloads: <span id="downloadCount">77,414</span></div>
+        </div>
+    </section>
 
-// ✅ I-UPDATE ANG PAGEVIEWS SA FIREBASE
-async function updatePageviews() {
-    if(!fbStatsRef) return;
-    const snap = await fbStatsRef.child('pageviews').once('value');
-    let count = snap.val() || DEFAULT_TOTAL_PAGEVIEWS;
-    count++;
-    await fbStatsRef.child('pageviews').set(count);
-    document.getElementById('pageviewCount').innerText = count.toLocaleString();
-}
-
-// ✅ I-UPDATE ANG DOWNLOADS SA FIREBASE
-async function updateDownloads() {
-    if(!fbStatsRef) return;
-    const snap = await fbStatsRef.child('downloads').once('value');
-    let count = snap.val() || DEFAULT_TOTAL_DOWNLOADS;
-    count++;
-    await fbStatsRef.child('downloads').set(count);
-    document.getElementById('downloadCount').innerText = count.toLocaleString();
-}
-
-// ✅ I-DETECT ANG BANSA NG BISITA AT DAGDAGAN ANG BILANG
-async function countVisitorByCountry() {
-    if(!fbCountryRef || alreadyCountedCountry) return;
-    try {
-        const res = await fetch('https://ipapi.co/json/');
-        const data = await res.json();
-        let country = data.country_name || 'Other';
-        if(!countryFlags[country]) country = 'Other';
-        const snap = await fbCountryRef.child(country).once('value');
-        let count = snap.val() || 0;
-        count++;
-        await fbCountryRef.child(country).set(count);
-        alreadyCountedCountry = true;
-        renderVisitorList();
-    } catch (err) {
-        const snap = await fbCountryRef.child('Other').once('value');
-        let count = snap.val() || 0;
-        count++;
-        await fbCountryRef.child('Other').set(count);
-        alreadyCountedCountry = true;
-        renderVisitorList();
-    }
-}
-
-// ✅ IPAKITA ANG LISTAHAN NG MGA BANSA AT BILANG
-function renderVisitorList(data = null) {
-    const listEl = document.getElementById('visitorsList');
-    if(!listEl) return;
-    const countries = data || countryFlags;
-    listEl.innerHTML = '';
-    const sorted = Object.entries(countries).sort((a,b) => b[1] - a[1]);
-    sorted.forEach(([name, count]) => {
-        const flag = countryFlags[name] || '🌍';
-        const item = document.createElement('div');
-        item.className = 'visitor-item';
-        item.innerHTML = `<span>${flag} ${name}</span><span>${count.toLocaleString()}</span>`;
-        listEl.appendChild(item);
-    });
-}
-
-// ✅ I-INITIALIZE ANG MGA DEFAULT NA BILANG NG BANSA
-async function initCountryStats() {
-    if(!fbCountryRef) return;
-    const defaults = {
-        "Philippines": 11352,
-        "Japan": 3565,
-        "United States": 9884,
-        "Canada": 3231,
-        "Indonesia": 3005,
-        "Malaysia": 859,
-        "Singapore": 1308,
-        "Australia": 239,
-        "Vietnam": 127,
-        "Thailand": 137,
-        "Other": 0
-    };
-    const snap = await fbCountryRef.once('value');
-    if(!snap.exists()) {
-        await fbCountryRef.set(defaults);
-    }
-    fbCountryRef.on('value', snap => {
-        renderVisitorList(snap.val() || defaults);
-    });
-}
-
-// ✅ I-RENDER ANG MGA CARD
-function renderCards(data) {
-    if (typeof animeData === 'undefined') return;
-    const list = data || animeData;
-    ['trending','new','all'].forEach(cat => {
-        const row = document.getElementById(`${cat}Row`);
-        if(!row) return;
-        row.innerHTML = '';
-        list.filter(a => a.category.includes(cat)).forEach(anime => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <img src="${anime.img}" alt="${currentLang==='en'?anime.title:anime.titleTl}" loading="lazy">
-                <div class="card-info">
-                    <h3>${currentLang==='en'?anime.title:anime.titleTl}</h3>
-                    <p>${anime.year} • ${anime.type}</p>
-                    <div class="card-rating">${renderStars(anime.rating)} ${getRatingPercent(anime.rating)}% (${anime.totalVotes})</div>
+    <!-- ✅ MODALS - WALANG NAKATIGIL NA DOWNLOAD BUTTONS DITO -->
+    <div id="infoModal" class="modal">
+        <span class="close-btn">&times;</span>
+        <div class="modal-content">
+            <div class="modal-left"><img id="modalImg" src="" alt=""></div>
+            <div class="modal-right">
+                <h2 id="modalTitle"></h2>
+                <div class="meta"><span id="modalYear"></span> • <span id="modalType"></span> • <span id="modalLang"></span></div>
+                <div class="rating-area"><span id="modalRatingStars"></span> <span id="modalRatingPercent"></span> <span id="modalVotes"></span></div>
+                <p id="modalDesc"></p>
+                <p id="ratingLabel">Rating:</p>
+                <div class="vote-area">
+                    <p id="voteLabel">Vote this ebook:</p>
+                    <span class="vote-star" data-vote="1">★</span>
+                    <span class="vote-star" data-vote="2">★</span>
+                    <span class="vote-star" data-vote="3">★</span>
+                    <span class="vote-star" data-vote="4">★</span>
+                    <span class="vote-star" data-vote="5">★</span>
                 </div>
-            `;
-            card.onclick = () => { selectedAnime = anime; openModal(anime); };
-            row.appendChild(card);
-        });
-    });
-}
+                <!-- ✅ DITO NA LANG ILALAGAY NG JS ANG BUTTONS KUNG MAY ANIME NA BINUKSAN -->
+                <div id="dynamicDownloadSection" style="margin-top:20px;"></div>
+            </div>
+        </div>
+    </div>
 
-// ✅ MODAL AT DOWNLOADS
-function openModal(anime) {
-    const modal = document.getElementById('infoModal');
-    if(!modal) return;
-    closeAllModals();
-    document.getElementById('modalImg').src = anime.img;
-    document.getElementById('modalTitle').innerText = currentLang==='en'?anime.title:anime.titleTl;
-    document.getElementById('modalYear').innerText = anime.year;
-    document.getElementById('modalType').innerText = anime.type;
-    document.getElementById('modalLang').innerText = anime.lang;
-    document.getElementById('modalDesc').innerHTML = `${currentLang==='en'?anime.desc:anime.descTl}<br><br><strong>${currentLang==='en'?'Tagalog':'Ingles'}:</strong> ${currentLang==='en'?anime.descTl:anime.desc}`;
-    document.getElementById('modalRatingPercent').innerText = `${getRatingPercent(anime.rating)}%`;
-    document.getElementById('modalRatingStars').innerHTML = renderStars(anime.rating);
-    document.getElementById('modalVotes').innerText = `${anime.totalVotes} votes`;
+    <div id="signinModal" class="modal">
+        <div class="modal-content auth-modal">
+            <span class="close-sign">&times;</span>
+            <h2>Sign In</h2>
+            <button id="googleSignInBtn" class="auth-btn google-btn">
+                <span class="auth-icon">G</span> Sign in with Google
+            </button>
+            <div class="divider-text">or</div>
+            <input type="text" id="siUser" placeholder="Email Address" required>
+            <div class="pass-wrapper">
+                <input type="password" id="siPass" placeholder="Password" required>
+                <span class="eye-btn">👁</span>
+            </div>
+            <button id="doSignIn" class="submit-btn">Sign In</button>
+            <div id="siError" class="error-msg" style="display:none;"></div>
+            <p class="forgot-link"><a id="forgotPassLink">Forgot password?</a></p>
+            <p class="switch-text">New to AnimeBooks? <a id="goSignup">Sign up now</a></p>
+        </div>
+    </div>
 
-    const downloadSection = document.getElementById('dynamicDownloadSection');
-    downloadSection.innerHTML = `
-        <button id="showEnVol" class="download-btn">${langText[currentLang].downloadEn}</button>
-        <button id="showTlVol" class="download-btn">${langText[currentLang].downloadTl}</button>
-        <div id="volumeListContainer" style="margin-top:15px; display:none;"></div>
-    `;
+    <div id="signupModal" class="modal">
+        <div class="modal-content auth-modal">
+            <span class="close-su">&times;</span>
+            <h2>Create Account</h2>
+            <button id="googleSignUpBtn" class="auth-btn google-btn">
+                <span class="auth-icon">G</span> Sign up with Google
+            </button>
+            <div class="divider-text">or</div>
+            <input type="email" id="suEmail" placeholder="Email Address" required>
+            <div class="pass-wrapper">
+                <input type="password" id="suPass" placeholder="Password" required>
+                <div class="pass-wrapper">
+                    <input type="password" id="suConfirmPass" placeholder="Confirm Password" required>
+                    <span class="eye-btn">👁</span>
+                </div>
+            </div>
+            <button id="doSignUp" class="submit-btn">Sign Up</button>
+            <div id="suError" class="error-msg" style="display:none;"></div>
+            <p class="switch-text">Already have an account? <a id="goSignin">Sign in</a></p>
+        </div>
+    </div>
 
-    document.getElementById('showEnVol').onclick = () => {
-        if (!currentUser) {
-            closeAllModals();
-            document.getElementById('signinModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            showError("⚠️ Kailangan munang mag-sign in para makapag-download!");
-            return;
-        }
-        document.getElementById('volumeListContainer').style.display = 'grid';
-        let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`;
-        if(anime.linkEnVol1 && anime.linkEnVol1 !== '#') volHtml += `<a href="${anime.linkEnVol1}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 1</a>`;
-        if(anime.linkEnVol2 && anime.linkEnVol2 !== '#') volHtml += `<a href="${anime.linkEnVol2}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 2</a>`;
-        if(anime.linkEnVol3 && anime.linkEnVol3 !== '#') volHtml += `<a href="${anime.linkEnVol3}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 3</a>`;
-        if(anime.linkEnVol4 && anime.linkEnVol4 !== '#') volHtml += `<a href="${anime.linkEnVol4}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 4</a>`;
-        if(anime.linkEnVol5 && anime.linkEnVol5 !== '#') volHtml += `<a href="${anime.linkEnVol5}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 5</a>`;
-        if(anime.linkEnVol6 && anime.linkEnVol6 !== '#') volHtml += `<a href="${anime.linkEnVol6}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 6</a>`;
-        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇬🇧 English Volumes:</h4>`) volHtml += `<p style="color:#888; font-size:14px;">No English volumes available yet.</p>`;
-        document.getElementById('volumeListContainer').innerHTML = volHtml;
-    };
+    <div id="forgotPassModal" class="modal">
+        <div class="modal-content auth-modal">
+            <span class="close-fp">&times;</span>
+            <h2>Reset Password</h2>
+            <p style="color:#aaa; font-size:14px; text-align:center; margin-bottom:15px;">Enter the email address you used to sign up. We will send you a link to create a new password.</p>
+            <input type="email" id="fpEmail" placeholder="Email Address" required>
+            <button id="doSendReset" class="submit-btn">Send Reset Link</button>
+            <div id="fpError" class="error-msg" style="display:none;"></div>
+            <p class="switch-text">Back to <a id="backToSignin">Sign In</a></p>
+        </div>
+    </div>
 
-    document.getElementById('showTlVol').onclick = () => {
-        if (!currentUser) {
-            closeAllModals();
-            document.getElementById('signinModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            showError("⚠️ Kailangan munang mag-sign in para makapag-download!");
-            return;
-        }
-        document.getElementById('volumeListContainer').style.display = 'grid';
-        let volHtml = `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`;
-        if(anime.linkTlVol1 && anime.linkTlVol1 !== '#') volHtml += `<a href="${anime.linkTlVol1}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 1</a>`;
-        if(anime.linkTlVol2 && anime.linkTlVol2 !== '#') volHtml += `<a href="${anime.linkTlVol2}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 2</a>`;
-        if(anime.linkTlVol3 && anime.linkTlVol3 !== '#') volHtml += `<a href="${anime.linkTlVol3}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 3</a>`;
-        if(anime.linkTlVol4 && anime.linkTlVol4 !== '#') volHtml += `<a href="${anime.linkTlVol4}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 4</a>`;
-        if(anime.linkTlVol5 && anime.linkTlVol5 !== '#') volHtml += `<a href="${anime.linkTlVol5}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 5</a>`;
-        if(anime.linkTlVol6 && anime.linkTlVol6 !== '#') volHtml += `<a href="${anime.linkTlVol6}" target="_blank" class="download-btn" onclick="updateDownloads()">📄 Volume 6</a>`;
-        if(volHtml === `<h4 style="margin:5px 0; color:#ddd;">🇵🇭 Tagalog Volumes:</h4>`) volHtml += `<p style="color:#888; font-size:14px;">No Tagalog volumes available yet.</p>`;
-        document.getElementById('volumeListContainer').innerHTML = volHtml;
-    };
+    <!-- ✅ FIREBASE SCRIPTS - KOMPLETO NA DATABASE, AUTH AT APP -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-    const voteArea = document.querySelector('.vote-area');
-    voteArea.style.display = 'block';
-    const userId = currentUser ? currentUser.uid : null;
-    const savedVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
-    const userVote = userId && savedVotes[userId] ? savedVotes[userId][anime.id] : null;
+    <script>
+        const firebaseConfig = {
+    apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
+    authDomain: "nime-ebooks-hub.firebaseapp.com",
+    databaseURL: "https://nime-ebooks-hub-default-rtdb.asia-southeast1.firebasedatabase.app/", // ✅ IDINAGDAG AT TAMA NA
+    projectId: "nime-ebooks-hub",
+    storageBucket: "nime-ebooks-hub.firebasestorage.app",
+    messagingSenderId: "1012318695931",
+    appId: "1:1012318695931:web:e6d2c4a0094cdb57e51b5e",
+    measurementId: "G-24D3NDFMW3"
+	};
 
-    document.querySelectorAll('.vote-star').forEach((star, idx) => {
-        star.style.pointerEvents = userVote ? 'none' : 'auto';
-        star.style.color = userVote ? (idx < userVote ? '#ffc107' : '#444') : '#444';
-        star.onclick = () => {
-            if(!currentUser) { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; return; }
-            if(savedVotes[userId] && savedVotes[userId][anime.id]) { showError("You have already voted for this ebook!"); return; }
-            const vote = parseInt(star.dataset.vote);
-            anime.totalVotes++;
-            anime.rating = parseFloat(((anime.rating*(anime.totalVotes-1)+vote)/anime.totalVotes).toFixed(1));
-            if(!savedVotes[userId]) savedVotes[userId] = {};
-            savedVotes[userId][anime.id] = vote;
-            localStorage.setItem('userVotes', JSON.stringify(savedVotes));
-            localStorage.setItem('animeStats', JSON.stringify(animeData.reduce((o,a)=>{o[a.id]={totalVotes:a.totalVotes,rating:a.rating};return o;},{})));
-            openModal(anime); renderCards();
-        };
-    });
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
 
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function updateLoginUI(user) {
-    currentUser = user;
-    document.getElementById('signinBtn').style.display = user ? 'none' : 'inline-block';
-    document.getElementById('signupBtn').style.display = user ? 'none' : 'inline-block';
-    document.getElementById('logoutBtn').style.display = user ? 'inline-block' : 'none';
-    document.getElementById('userDisplay').style.display = user ? 'inline-block' : 'none';
-    document.getElementById('userDisplay').innerText = user ? `👤 ${user.email}` : '';
-}
-
-function showError(message) {
-    const suErr = document.getElementById('suError');
-    const siErr = document.getElementById('siError');
-    if(suErr){ suErr.innerText=message; suErr.style.display='block'; }
-    if(siErr){ siErr.innerText=message; siErr.style.display='block'; }
-    setTimeout(()=>{if(suErr)suErr.style.display='none';if(siErr)siErr.style.display='none';},5000);
-}
-
-const heroBackgrounds = [
-    'https://images3.alphacoders.com/130/thumb-1920-1302159.jpg',
-    'https://images6.alphacoders.com/510/thumb-1920-510155.png',
-    'https://images4.alphacoders.com/139/thumb-1920-1396583.jpg',
-    'https://images3.alphacoders.com/119/thumb-1920-1195019.png',
-    'https://images2.alphacoders.com/135/thumb-1920-1356991.jpeg',
-    'https://images3.alphacoders.com/936/thumb-1920-936371.jpg',
-    'https://images8.alphacoders.com/140/1409912.png'
-];
-function setRandomHeroBackground(){
-    const img = heroBackgrounds[Math.floor(Math.random()*heroBackgrounds.length)];
-    const h = document.querySelector('.hero'); if(h) h.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.15)), url('${img}')`;
-}
-
-// === DONATION TICKER ===
-function showDonationTicker(email, amount = "1$", isReal = false) {
-    const donationTicker = document.getElementById('donationTicker');
-    const tickerText = donationTicker.querySelector('.ticker-text');
-    if(!donationTicker || !tickerText) return;
-    const maskedEmail = email.replace(/(.{3}).*(@.*)/, '$1*******$2');
-    const prefix = isReal ? '💖 DONATION RECEIVED! ' : '💖 THANK YOU! ';
-    tickerText.innerText = `${prefix} ${maskedEmail} donated ${amount}! Thank you for your support! 💖`;
-    donationTicker.style.display = 'block';
-    tickerText.style.animation = 'none';
-    setTimeout(() => tickerText.style.animation = 'scrollTicker 12s linear forwards', 10);
-    setTimeout(() => donationTicker.style.display = 'none', 12000);
-}
-function showRandomDonor() {
-    let randomIndex;
-    do { randomIndex = Math.floor(Math.random() * randomDonors.length); } while (randomIndex === lastRandomIndex && randomDonors.length > 1);
-    lastRandomIndex = randomIndex;
-    showDonationTicker(randomDonors[randomIndex].email, randomDonors[randomIndex].amount, false);
-}
-function showRealDonor(email, amount) {
-    hasRealDonation = true;
-    setTimeout(() => showDonationTicker(email, amount, true), 500);
-}
-function canShowDonationNow() {
-    const lastShown = parseInt(localStorage.getItem('lastDonationShown') || 0);
-    return (Date.now() - lastShown) >= DONATION_INTERVAL_MINUTES * 60000;
-}
-function updateLastShownTime() { localStorage.setItem('lastDonationShown', Date.now()); }
-
-// ✅ SIGURADONG HINDI NA MAGIGING 0 — KAHIT WALANG FIREBASE
-function showOnlineDisplay() {
-    // Kahit anong mangyari, nasa 332-800 + totoong bilang
-    const randomBase = Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin;
-    const total = randomBase + realOnlineCount;
-    const el = document.getElementById('onlineCount');
-    if(el) el.innerText = total;
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    // ✅ AGAD NA IPAPAKITA ANG BILANG — HINDI NA MAGHIHINTAY SA FIREBASE
-    showOnlineDisplay();
-    setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
-
-    // ✅ KUNIN ANG FIREBASE DB
-    const app = window.firebaseApp;
-    if(app) {
-        fbDb = window.firebaseDatabase(app);
-        fbOnlineRef = fbDb.ref('online');
-        fbStatsRef = fbDb.ref('stats');
-        fbCountryRef = fbDb.ref('visitorsByCountry');
-
-        // ✅ I-ADD ANG SARILI SA ONLINE LIST
-        myOnlineKey = fbOnlineRef.push(true).key;
-        fbOnlineRef.child(myOnlineKey).onDisconnect().remove();
-
-        // ✅ KUNG MERON SA FIREBASE, PAPALITAN ANG SAKLAW — KUNG WALA, GAMITIN ANG DEFAULT
-        fbOnlineRef.child('min_base').on('value', s => { if(s.exists()) { baseMin = s.val(); showOnlineDisplay(); } });
-        fbOnlineRef.child('max_base').on('value', s => { if(s.exists()) { baseMax = s.val(); showOnlineDisplay(); } });
-
-        // ✅ BILANGIN ANG TOTOONG ONLINE (HUWAG ISAMA ANG min/max)
-        fbOnlineRef.on('value', snap => {
-            const allData = snap.val() || {};
-            const activeKeys = Object.keys(allData).filter(k => k !== 'min_base' && k !== 'max_base');
-            realOnlineCount = activeKeys.length;
-            showOnlineDisplay();
-        });
-
-        // ✅ I-INITIALIZE ANG PAGEVIEWS, DOWNLOADS AT BANSA
-        const statsSnap = await fbStatsRef.once('value');
-        if(!statsSnap.exists()) {
-            await fbStatsRef.set({
-                pageviews: DEFAULT_TOTAL_PAGEVIEWS,
-                downloads: DEFAULT_TOTAL_DOWNLOADS
-            });
-        }
-
-        // ✅ I-INITIALIZE ANG LISTAHAN NG BANSA
-        await initCountryStats();
-
-        // ✅ BASAHIN AT I-UPDATE ANG PAGEVIEW
-        updatePageviews();
-
-        // ✅ IPAKITA ANG KASALUKUYANG BILANG NG DOWNLOADS
-        fbStatsRef.child('downloads').on('value', snap => {
-            document.getElementById('downloadCount').innerText = (snap.val() || DEFAULT_TOTAL_DOWNLOADS).toLocaleString();
-        });
-
-        // ✅ BILANGIN ANG BANSA NG KASALUKUYANG BISITA
-        countVisitorByCountry();
-    }
-
-    if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
-    setInterval(() => { if(!hasRealDonation && canShowDonationNow()) { showRandomDonor(); updateLastShownTime(); } }, 60000);
-
-    document.getElementById('toggleVisitors').addEventListener('click', () => {
-        const list = document.getElementById('visitorsList');
-        const btn = document.getElementById('toggleVisitors');
-        list.style.display = list.style.display === 'none' ? 'grid' : 'none';
-        btn.innerText = list.style.display === 'grid' ? 'Hide Countries ▲' : 'Show Countries ▼';
-    });
-
-    loadSavedStats(); setRandomHeroBackground(); renderCards(); updateLanguage();
-
-    const auth = window.firebaseAuth;
-    const { signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } = window.firebaseMethods;
-    const provider = window.firebaseProvider;
-    onAuthStateChanged(auth, updateLoginUI);
-
-    document.getElementById('signinBtn').onclick = () => { closeAllModals(); document.getElementById('signinModal').classList.add('active'); document.body.style.overflow='hidden'; };
-    document.getElementById('signupBtn').onclick = () => { closeAllModals(); document.getElementById('signupModal').classList.add('active'); document.body.style.overflow='hidden'; };
-    document.getElementById('goSignup').onclick = () => { document.getElementById('signinModal').classList.remove('active'); document.getElementById('signupModal').classList.add('active'); };
-    document.getElementById('goSignin').onclick = () => { document.getElementById('signupModal').classList.remove('active'); document.getElementById('signinModal').classList.add('active'); };
-    document.getElementById('forgotPassLink').onclick = () => { document.getElementById('signinModal').classList.remove('active'); document.getElementById('forgotPassModal').classList.add('active'); };
-    document.getElementById('backToSignin').onclick = () => { document.getElementById('forgotPassModal').classList.remove('active'); document.getElementById('signinModal').classList.add('active'); };
-
-    document.querySelectorAll('.close-btn, .close-sign, .close-su, .close-fp').forEach(btn=>btn.onclick=closeAllModals);
-
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            const section = this.dataset.section;
-            if (section === 'home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                const targetRow = document.getElementById(`${section}Row`);
-                if (targetRow) {
-                    targetRow.parentElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        });
-    });
-
-    document.getElementById('learnMoreBtn').onclick = (e) => {
-        e.preventDefault(); closeAllModals(); document.getElementById('infoModal').classList.add('active'); document.body.style.overflow='hidden';
-        document.getElementById('modalImg').src='https://images3.alphacoders.com/130/thumb-1920-1302159.jpg';
-        document.getElementById('modalTitle').innerText='About Anime Ebooks Hub';
-        document.getElementById('modalYear').innerText=''; document.getElementById('modalType').innerText=''; document.getElementById('modalLang').innerText='';
-        document.getElementById('modalDesc').innerText=`✅ Download all light novels and ebooks for free\n✅ Available in English and Tagalog\n✅ You can rate and vote for your favorites\n✅ Safe, fast, and easy to use\n✅ New titles added regularly\n\nEverything is made for anime and story lovers — completely free, no hassle!`;
-        document.getElementById('modalRatingStars').innerHTML=''; document.getElementById('modalRatingPercent').innerText=''; document.getElementById('modalVotes').innerText='';
-        document.getElementById('dynamicDownloadSection').innerHTML=''; document.querySelector('.vote-area').style.display='none';
-    };
-
-    document.getElementById('searchInput').oninput = (e) => {
-        if (typeof animeData === 'undefined') return;
-        const q = e.target.value.toLowerCase().trim();
-        renderCards(q ? animeData.filter(a=>a.title.toLowerCase().includes(q)||(a.titleTl&&a.titleTl.toLowerCase().includes(q))) : null);
-    };
-
-    document.getElementById('langSelect').onchange = (e) => { currentLang=e.target.value; updateLanguage(); renderCards(); };
-
-    document.getElementById('googleSignInBtn').onclick = () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    document.getElementById('googleSignUpBtn').onclick = () => signInWithPopup(auth,provider).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    document.getElementById('doSignUp').onclick = () => {
-        const e = document.getElementById('suEmail').value.trim(), p = document.getElementById('suPass').value, c = document.getElementById('suConfirmPass').value;
-        if(!e||!p||!c) return showError("Please fill all fields!");
-        if(!isValidEmail(e)) return showError("Invalid email!");
-        if(p!==c) return showError("Passwords do not match!");
-        createUserWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(showError);
-    };
-    document.getElementById('doSignIn').onclick = () => {
-        const e = document.getElementById('siUser').value.trim(), p = document.getElementById('siPass').value;
-        if(!e||!p) return showError("Enter email and password!");
-        if(!isValidEmail(e)) return showError("Invalid email or password!");
-        signInWithEmailAndPassword(auth,e,p).then(r=>{updateLoginUI(r.user);closeAllModals();}).catch(()=>showError("Invalid email or password!"));
-    };
-    document.getElementById('doSendReset').onclick = async () => {
-        const em = document.getElementById('fpEmail').value.trim(), err = document.getElementById('fpError');
-        if(!em){ err.style.display='block'; err.textContent='Enter email address.'; return; }
-        if(!isValidEmail(em)){ err.style.display='block'; err.textContent='Invalid email.'; return; }
-        try{ await sendPasswordResetEmail(auth,em); alert(`✅ Reset link sent to:\n${em}`); closeAllModals(); }
-        catch(e){ err.style.display='block'; err.textContent = e.code==='auth/user-not-found'?'No account found.' : e.message; }
-    };
-    document.getElementById('logoutBtn').onclick = () => signOut(auth).then(()=>updateLoginUI(null)).catch(showError);
-
-    const donateBtn = document.querySelector('.paypal-link');
-    if(donateBtn) donateBtn.onclick = () => setTimeout(()=>showRealDonor('hmzurbito@gmail.com','5$'),1500);
-
-    window.onclick = (e) => { if(['infoModal','signinModal','signupModal','forgotPassModal'].includes(e.target.id)) closeAllModals(); };
-});
+        // ✅ IDINAGDAG ANG KULANG NA DATABASE CONNECTION
+        window.firebaseApp = firebase.app();
+        window.firebaseAuth = auth;
+        window.firebaseProvider = provider;
+        window.firebaseDatabase = firebase.database;
+        window.firebaseMethods = {
+            signInWithPopup: (authInst, prov) => authInst.signInWithPopup(prov),
+            createUserWithEmailAndPassword: (authInst, email, pass) => authInst.createUserWithEmailAndPassword(email, pass),
+            signInWithEmailAndPassword: (authInst, email, pass) => authInst.signInWithEmailAndPassword(email, pass),
+            onAuthStateChanged: (authInst, callback) => authInst.onAuthStateChanged(callback),
+            signOut: (authInst) => authInst.signOut(),
+            sendPasswordResetEmail: (authInst, email) => authInst.sendPasswordResetEmail(email)
+			 };
+    </script>
+	
+    <script src="script.js"></script>
+</body>
+</html>
