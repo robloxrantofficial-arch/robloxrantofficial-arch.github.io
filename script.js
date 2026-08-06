@@ -520,9 +520,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // ✅ BILANGIN ANG BANSA NG KASALUKUYANG BISITA
         countVisitorByCountry();
 
-        // ✅ IPASIMULA ANG RANDOM ONLINE UPDATE
-        showOnlineDisplay();
-        setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
+       // ✅ IPASIMULA ANG RANDOM ONLINE UPDATE
+// Agad na ipakita kahit hindi pa tumugon ang Firebase
+showOnlineDisplay();
+// Siguraduhing laging nag-iiba bawat ilang segundo
+setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
     }
 
     if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
