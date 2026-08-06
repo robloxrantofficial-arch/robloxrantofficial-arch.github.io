@@ -136,6 +136,7 @@ let myOnlineKey = null;
 // === FLAG PARA HINDI UMULIT ANG BILANG NG BANSA SA ISANG BISITA ===
 let alreadyCountedCountry = false;
 let realOnlineCount = 0;
+// ✅ HINDI NA MAGIGING 0 — NAKASET NA AGAD ANG SAKLAW
 let baseMin = 332;
 let baseMax = 800;
 
@@ -466,8 +467,9 @@ function canShowDonationNow() {
 }
 function updateLastShownTime() { localStorage.setItem('lastDonationShown', Date.now()); }
 
-// ✅ ONLINE DISPLAY: MAY RANDOM + TOTOONG BILANG
+// ✅ SIGURADONG HINDI NA MAGIGING 0 — KAHIT WALANG FIREBASE
 function showOnlineDisplay() {
+    // Kahit anong mangyari, nasa 332-800 + totoong bilang
     const randomBase = Math.floor(Math.random() * (baseMax - baseMin + 1)) + baseMin;
     const total = randomBase + realOnlineCount;
     const el = document.getElementById('onlineCount');
@@ -475,6 +477,10 @@ function showOnlineDisplay() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // ✅ AGAD NA IPAPAKITA ANG BILANG — HINDI NA MAGHIHINTAY SA FIREBASE
+    showOnlineDisplay();
+    setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
+
     // ✅ KUNIN ANG FIREBASE DB
     const app = window.firebaseApp;
     if(app) {
@@ -487,9 +493,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         myOnlineKey = fbOnlineRef.push(true).key;
         fbOnlineRef.child(myOnlineKey).onDisconnect().remove();
 
-        // ✅ KUNIN ANG SAKLAW MULA SA FIREBASE
-        fbOnlineRef.child('min_base').on('value', s => { if(s.exists()) baseMin = s.val(); showOnlineDisplay(); });
-        fbOnlineRef.child('max_base').on('value', s => { if(s.exists()) baseMax = s.val(); showOnlineDisplay(); });
+        // ✅ KUNG MERON SA FIREBASE, PAPALITAN ANG SAKLAW — KUNG WALA, GAMITIN ANG DEFAULT
+        fbOnlineRef.child('min_base').on('value', s => { if(s.exists()) { baseMin = s.val(); showOnlineDisplay(); } });
+        fbOnlineRef.child('max_base').on('value', s => { if(s.exists()) { baseMax = s.val(); showOnlineDisplay(); } });
 
         // ✅ BILANGIN ANG TOTOONG ONLINE (HUWAG ISAMA ANG min/max)
         fbOnlineRef.on('value', snap => {
@@ -521,10 +527,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // ✅ BILANGIN ANG BANSA NG KASALUKUYANG BISITA
         countVisitorByCountry();
-
-        // ✅ IPASIMULA AGAD ANG RANDOM ONLINE UPDATE
-        showOnlineDisplay();
-        setInterval(showOnlineDisplay, 3000 + Math.floor(Math.random() * 2000));
     }
 
     if(!hasRealDonation && canShowDonationNow()) setTimeout(showRandomDonor, 2000);
