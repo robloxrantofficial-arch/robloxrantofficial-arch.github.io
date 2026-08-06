@@ -208,14 +208,15 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
-            authDomain: "nime-ebooks-hub.firebaseapp.com",
-            projectId: "nime-ebooks-hub",
-            storageBucket: "nime-ebooks-hub.firebasestorage.app",
-            messagingSenderId: "1012318695931",
-            appId: "1:1012318695931:web:e6d2c4a0094cdb57e51b5e",
-            measurementId: "G-24D3NDFMW3"
-        };
+    apiKey: "AIzaSyBel4luRdoQUSbCM7ue5U6PkxTkXxrQOko",
+    authDomain: "nime-ebooks-hub.firebaseapp.com",
+    databaseURL: "https://nime-ebooks-hub-default-rtdb.asia-southeast1.firebasedatabase.app/", // ✅ IDINAGDAG AT TAMA NA
+    projectId: "nime-ebooks-hub",
+    storageBucket: "nime-ebooks-hub.firebasestorage.app",
+    messagingSenderId: "1012318695931",
+    appId: "1:1012318695931:web:e6d2c4a0094cdb57e51b5e",
+    measurementId: "G-24D3NDFMW3"
+};
 
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
